@@ -1,0 +1,29 @@
+
+
+@media (min-width: 767px) {
+.metalerg {
+   background-size: 100%;
+}
+}
+
+.metalerg {
+  background-image: url('images/metalerg.png');
+  height: inherit;
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 50%;
+}
+
+.metalerg-mini {
+  background-image: url('images/metalerg.png');
+  float: left;
+  height: inherit;
+  width: inherit;
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+  background-size: 210px;
+}
+
+.logo-top {
+  background-color: #FFFFFF !important;
+}

@@ -47,6 +47,7 @@
         h1
           | Bieżące parametry
       section.content
+        current-parameters
     footer.main-footer
       .pull-right.hidden-xs
         | Smart boiler control system
@@ -55,11 +56,11 @@
 </template>
 
 <script>
-import Hello from './components/Hello'
+import CurrentParameters from './components/current-parameters'
 
 export default {
   components: {
-    Hello
+    CurrentParameters
   }
 }
 </script>

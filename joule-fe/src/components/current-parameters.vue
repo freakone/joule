@@ -41,31 +41,31 @@
 
   .row
     .col-md-10
-      .col-md-2
+      .col-md-2.col-xs-6
         .box.box-primary
           .box-header.with-border
             h3.box-title Fan 1
           .box-body
             knob#first
-      .col-md-2
+      .col-md-2.col-xs-6
         .box.box-primary
           .box-header.with-border
             h3.box-title Fan 2
           .box-body
             knob#second
-      .col-md-2
+      .col-md-2.col-xs-6
         .box.box-primary
           .box-header.with-border
             h3.box-title Fan 3
           .box-body
             knob#third
-      .col-md-2
+      .col-md-2.col-xs-6
         .box.box-primary
           .box-header.with-border
             h3.box-title Fan 4
           .box-body
             knob#fourth
-      .col-md-2
+      .col-md-2.col-xs-6
         .box.box-primary
           .box-header.with-border
             h3.box-title Fan 5

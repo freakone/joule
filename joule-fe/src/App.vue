@@ -1,68 +1,60 @@
 <template lang="jade">
-  #app
-    header.main-header
-      a.logo.logo-top(href='index.html')
-        span.logo-mini.metalerg-mini
-        span.logo-lg.metalerg
-      nav.navbar.navbar-static-top(role='navigation')
-        a.sidebar-toggle(href='#', data-toggle='offcanvas', role='button')
-          span.sr-only Toggle navigation
-        .navbar-header.hidden-xs
-          span.navbar-brand Joule
-        .navbar-custom-menu
-          ul.nav.navbar-nav
-            li.dropdown.user.user-menu
-              a.dropdown-toggle(href='#', data-toggle='dropdown')
-                | Grzegorz Skrzypczak
-              ul.dropdown-menu
-                li.user-header
-                  p
-                    | Grzegorz Skrzypczak
-                    small Administrator
-                li.user-footer
-                  .pull-right
-                    a.btn.btn-default.btn-flat(href='#') Sign out
-    aside.main-sidebar
-      section.sidebar
-        ul.sidebar-menu
-          li.header MENU
-          li.active
-            a(href='#')
-              i.fa.ion-ios-pulse-strong
-              span Bieżące parametry
-           li.active
-            a(href='#')
-              i.fa.ion-thermometer
-              span Temperatury
-          li.active
-            a(href='#')
-              i.fa.ion-wrench
-              span Sterowanie
-          li.active
-            a(href='#')
-              i.fa.ion-ios-gear
-              span Ustawienia
-    .content-wrapper
-      section.content-header
-        h1
-          | Bieżące parametry
-      section.content
-        current-parameters
-    footer.main-footer
-      .pull-right.hidden-xs
-        | Smart boiler control system
-      strong Copyright © 2016 Synergia.
-      |  All rights reserved.
+  header.main-header
+    a.logo.logo-top(href='index.html')
+      span.logo-mini.metalerg-mini
+      span.logo-lg.metalerg
+    nav.navbar.navbar-static-top(role='navigation')
+      a.sidebar-toggle(href='#', data-toggle='offcanvas', role='button')
+        span.sr-only Toggle navigation
+      .navbar-header.hidden-xs
+        span.navbar-brand Joule
+      .navbar-custom-menu
+        ul.nav.navbar-nav
+          li.dropdown.user.user-menu
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              | Grzegorz Skrzypczak
+            ul.dropdown-menu
+              li.user-header
+                p
+                  | Grzegorz Skrzypczak
+                  small Administrator
+              li.user-footer
+                .pull-right
+                  a.btn.btn-default.btn-flat(href='#') Sign out
+  aside.main-sidebar
+    section.sidebar
+      ul.sidebar-menu
+        li.header MENU
+        li.active
+          a(v-link="{ path: '/parameters'}")
+            i.fa.ion-ios-pulse-strong
+            span Bieżące parametry
+         li.active
+          a(v-link="{ path: '/temperatures'}")
+            i.fa.ion-thermometer
+            span Temperatury
+        li.active
+          a(href='#')
+            i.fa.ion-wrench
+            span Sterowanie
+        li.active
+          a(href='#')
+            i.fa.ion-ios-gear
+            span Ustawienia
+  .content-wrapper
+    section.content-header
+      h1
+        | Bieżące parametry
+    section.content
+      router-view
+  footer.main-footer
+    .pull-right.hidden-xs
+      | Smart boiler control system
+    strong Copyright © 2016 Synergia.
+    |  All rights reserved.
 </template>
 
 <script>
-import CurrentParameters from './components/current-parameters'
-
-export default {
-  components: {
-    CurrentParameters
-  }
-}
 </script>
 
 <style lang="sass">

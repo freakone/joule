@@ -1,9 +1,12 @@
+import VueMdl from 'vue-mdl'
 import Vue from 'vue'
 import App from './App'
 import VueCharts from 'vue-charts'
 import Router from 'vue-router'
 import CurrentParameters from './components/current-parameters'
 import Temperatures from './components/temperatures'
+import Control from './components/control'
+import Settings from './components/settings'
 
 require('expose?$!expose?jQuery!jquery')
 require('jquery-ui')
@@ -12,6 +15,7 @@ require('assets/admin-lte/js/app.js')
 
 Vue.use(VueCharts)
 Vue.use(Router)
+Vue.use(VueMdl)
 
 var router = new Router({
   history: false,
@@ -26,6 +30,14 @@ router.map({
   '/temperatures': {
     name: 'temperaturesHistory',
     component: Temperatures
+  },
+  '/control': {
+    name: 'control',
+    component: Control
+  },
+  '/settings': {
+    name: 'settings',
+    component: Settings
   }
 })
 

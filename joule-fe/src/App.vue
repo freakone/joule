@@ -1,4 +1,5 @@
 <template lang="jade">
+div
   header.main-header
     a.logo.logo-top(href='index.html')
       span.logo-mini.metalerg-mini
@@ -25,28 +26,24 @@
     section.sidebar
       ul.sidebar-menu
         li.header MENU
-        li.active
-          a(v-link="{ path: '/parameters'}")
+        li(v-link-active)
+          a(v-link="{ path: '/parameters', activeClass: 'active'}")
             i.fa.ion-ios-pulse-strong
             span Bieżące parametry
-         li.active
-          a(v-link="{ path: '/temperatures'}")
+        li(v-link-active)
+          a(v-link="{ path: '/temperatures', activeClass: 'active'}")
             i.fa.ion-thermometer
             span Temperatury
-        li.active
-          a(href='#')
+        li(v-link-active)
+          a(v-link="{ path: '/control', activeClass: 'active'}")
             i.fa.ion-wrench
             span Sterowanie
-        li.active
-          a(href='#')
+        li(v-link-active)
+          a(v-link="{ path: '/settings', activeClass: 'active'}")
             i.fa.ion-ios-gear
             span Ustawienia
   .content-wrapper
-    section.content-header
-      h1
-        | Bieżące parametry
-    section.content
-      router-view
+    router-view
   footer.main-footer
     .pull-right.hidden-xs
       | Smart boiler control system

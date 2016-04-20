@@ -1,76 +1,80 @@
 <template lang="jade">
-  .row
-    .col-md-10
-      .col-md-6
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Temperatura 1
-          .box-body
-            vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
+  section.content-header
+    h1
+      | Bieżące parametry
+  section.content
+    .row
+      .col-md-10
+        .col-md-6
+          .box.box-primary
+            .box-header.with-border
+              h3.box-title Temperatura 1
+            .box-body
+              vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
 
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Temperatura 2
-          .box-body
-            vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
+          .box.box-primary
+            .box-header.with-border
+              h3.box-title Temperatura 2
+            .box-body
+              vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
 
-      .col-md-6
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Temperatura 3
-          .box-body
-            vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
+        .col-md-6
+          .box.box-primary
+            .box-header.with-border
+              h3.box-title Temperatura 3
+            .box-body
+              vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
 
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Temperatura 4
-          .box-body
-            vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
-    .col-md-2
-      .row
-        .info-box
-          span.info-box-icon.bg-red
-          .info-box-content
-            span.info-box-text Pompa 1
-      .row
-        .info-box
-          span.info-box-icon.bg-green
-          .info-box-content
-            span.info-box-text Pompa 2
+          .box.box-primary
+            .box-header.with-border
+              h3.box-title Temperatura 4
+            .box-body
+              vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
+      .col-md-2
+        .row
+          .info-box
+            span.info-box-icon.bg-red
+            .info-box-content
+              span.info-box-text Pompa 1
+        .row
+          .info-box
+            span.info-box-icon.bg-green
+            .info-box-content
+              span.info-box-text Pompa 2
 
 
-  .row
-    .col-md-10
-      .col-md-2.col-xs-6
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Fan 1
-          .box-body
-            knob#first
-      .col-md-2.col-xs-6
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Fan 2
-          .box-body
-            knob#second
-      .col-md-2.col-xs-6
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Fan 3
-          .box-body
-            knob#third
-      .col-md-2.col-xs-6
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Fan 4
-          .box-body
-            knob#fourth
-      .col-md-2.col-xs-6
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Fan 5
-          .box-body
-            knob#fifth
+    .row
+      .col-md-10
+        .col-md-2.col-xs-6
+          .box.box-primary
+            .box-header.with-border
+              h3.box-title Fan 1
+            .box-body
+              knob#first
+        .col-md-2.col-xs-6
+          .box.box-primary
+            .box-header.with-border
+              h3.box-title Fan 2
+            .box-body
+              knob#second
+        .col-md-2.col-xs-6
+          .box.box-primary
+            .box-header.with-border
+              h3.box-title Fan 3
+            .box-body
+              knob#third
+        .col-md-2.col-xs-6
+          .box.box-primary
+            .box-header.with-border
+              h3.box-title Fan 4
+            .box-body
+              knob#fourth
+        .col-md-2.col-xs-6
+          .box.box-primary
+            .box-header.with-border
+              h3.box-title Fan 5
+            .box-body
+              knob#fifth
 </template>
 
 <script>

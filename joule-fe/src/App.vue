@@ -1,5 +1,5 @@
 <template lang="jade">
-div
+.wrapper
   header.main-header
     a.logo.logo-top(href='index.html')
       span.logo-mini.metalerg-mini

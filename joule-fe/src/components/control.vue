@@ -4,6 +4,9 @@
       | Sterowanie
   section.content
     .row
+      .alert.alert-danger.text-center
+        | Sterowanie ręczne
+    .row
       .col-md-3
         .box.box-primary
           .box-header.with-border

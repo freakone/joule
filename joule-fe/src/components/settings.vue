@@ -36,7 +36,7 @@
               .col-xs-12
                 input.form-control(type="text" placeholder="Nazwa czujnika")
             .row
-              &nbsp;
+              | &nbsp;
             .row
                 .col-xs-2
                   | Minimum

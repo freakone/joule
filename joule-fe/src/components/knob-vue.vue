@@ -1,5 +1,5 @@
 <template lang="jade">
-  div(id="knob-{{ id }}")
+  div(id="knob-{{ id }}" disabled)
 </template>
 
 <script>

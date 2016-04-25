@@ -1,16 +1,17 @@
 import {
-  ADD_TEMPERATURES
+  ADD_TEMPERATURES,
+  SELECT_TEMPERATURE
 } from '../mutation-types'
 
-const initDataset = [{
-  backgroundColor: 'rgba(220,220,220,0.9)',
-  borderColor: 'rgba(220,220,220,1)',
-  borderWidth: 1,
-  hoverBackgroundColor: 'rgba(220,220,220,0.5)',
-  hoverBorderColor: 'rgba(220,220,220,1)',
-  data: [1, 2, 3],
-  yAxisID: 'y-axis-0'
-}]
+// const initDataset = [{
+//   backgroundColor: 'rgba(220,220,220,0.9)',
+//   borderColor: 'rgba(220,220,220,1)',
+//   borderWidth: 1,
+//   hoverBackgroundColor: 'rgba(220,220,220,0.5)',
+//   hoverBorderColor: 'rgba(220,220,220,1)',
+//   data: [],
+//   yAxisID: 'y-axis-0'
+// }]
 
 const state = {
   items: [
@@ -19,16 +20,17 @@ const state = {
       name: 'temp1',
       labels: [],
       options: {},
-      datasets: initDataset
+      datasets: [{}]
     },
     {
       id: 2,
       name: 'temp 55',
       labels: [],
       options: {},
-      datasets: initDataset
+      datasets: [{}]
     }
-  ]
+  ],
+  selectedSensor: {}
 }
 
 // mutations
@@ -38,6 +40,11 @@ const mutations = {
     if (record) {
       record.datasets.data.push(value)
     }
+  },
+  [SELECT_TEMPERATURE] (state, itemId) {
+    state.selectedSensor = state.items.find(p => p.id === itemId)
+    state.selectedSensor.labels = ['1', '2', 'as', 'asd', 'asd']
+    state.selectedSensor.datasets[0].data = [1, 2, 3, 4, 5]
   }
 }
 

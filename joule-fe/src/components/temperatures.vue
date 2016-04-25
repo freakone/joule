@@ -7,52 +7,52 @@
       .col-md-12
         .box.box-primary
           .box-header.with-border
-            h3.box-title Temperatura 1
+            h3.box-title
+              select.form-control(v-model="temperatureSelectionId" v-on:change="selectTemperature(temperatureSelectionId)")
+                option(v-for="temp in temperatureSensors", :value="temp.id")
+                  | {{ temp.name }}
             .box-tools
-              mdl-switch(:checked.sync="checked") Live
+              mdl-switch(:checked.sync="liveChecked") Live
           .box-body
             div(v-show="!checked")
-              vue-datetime.picker(value="Początek")
-              vue-datetime.picker(value="Koniec")
+              datetime.picker(value="Początek")
+              datetime.picker(value="Koniec")
               button.btn.btn-default.btn-flat Eksportuj
-            vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
+            .row &nbsp;
+            .div
+            line-chart(:responsive="true",:labels="selectedSensor.labels",:datasets="selectedSensor.datasets",:options="selectedSensor.options")
 
 </template>
 
 <script>
+import { LineChart } from 'vue-chart.js'
+import Datetime from 'vue-datetimepicker'
+
+import { selectTemperature } from '../vuex/actions'
+import { temperatureSensors, selectedSensor } from '../vuex/getters'
+
 export default {
   components: {
-    'vue-datetime': require('vue-datetimepicker')
+    Datetime,
+    LineChart
+  },
+  vuex: {
+    getters: {
+      temperatureSensors: temperatureSensors,
+      selectedSensor: selectedSensor
+    },
+    actions: {
+      selectTemperature
+    }
   },
   data () {
     return {
-      checked: false,
-      columns: [{
-        'type': 'number',
-        'label': 'Timestamp'
-      },
-      {
-        'type': 'number',
-        'label': '*C'
-      }],
-      rows: [
-        [123456, 0],
-        [123457, 100],
-        [123458, 200]
-      ],
-      options: {
-        hAxis: {
-          title: 'Timestamp'
-        },
-        vAxis: {
-          title: 'Temperature',
-          minValue: 0,
-          maxValue: 1000
-        },
-        height: 600,
-        curveType: 'function'
-      }
+      temperatureSelectionId: 1,
+      liveChecked: false
     }
+  },
+  ready () {
+
   }
 }
 </script>

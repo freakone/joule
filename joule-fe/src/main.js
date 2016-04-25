@@ -2,6 +2,8 @@ import VueMdl from 'vue-mdl'
 import Vue from 'vue'
 import App from './App'
 import VueCharts from 'vue-charts'
+import { sync } from 'vuex-router-sync'
+import store from './vuex/store'
 import Router from 'vue-router'
 import CurrentParameters from './components/current-parameters'
 import Temperatures from './components/temperatures'
@@ -18,9 +20,10 @@ Vue.use(Router)
 Vue.use(VueMdl)
 
 var router = new Router({
-  history: false,
-  hashbang: true
+  history: false
 })
+
+sync(store, router)
 
 router.map({
   '/parameters': {
@@ -50,8 +53,3 @@ router.redirect({
 })
 
 router.start(App, '#app')
-/*eslint-disable */
-// new Vue({
-//   el: 'body',
-//   components: { App }
-// })

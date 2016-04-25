@@ -5,111 +5,48 @@
   section.content
     .row
       .col-md-10
-        .col-md-6
+        .col-md-6(v-for="temp in temperatureSensors")
           .box.box-primary
             .box-header.with-border
-              h3.box-title Temperatura 1
+              h3.box-title {{ temp.name }}
             .box-body
-              vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
-
-          .box.box-primary
-            .box-header.with-border
-              h3.box-title Temperatura 2
-            .box-body
-              vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
-
-        .col-md-6
-          .box.box-primary
-            .box-header.with-border
-              h3.box-title Temperatura 3
-            .box-body
-              vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
-
-          .box.box-primary
-            .box-header.with-border
-              h3.box-title Temperatura 4
-            .box-body
-              vue-chart(:chart-type="LineChart", :columns="columns", :rows="rows", :options="options")
+              line-chart(:responsive="true",:labels="temp.labels",:datasets="temp.datasets",:options="temp.options")
       .col-md-2
-        .row
+        .row(v-for="do in digitalOutputs")
           .info-box
-            span.info-box-icon.bg-red
+            span.info-box-icon(:class="{ 'bg-red' : !do.value, 'bg-green' : do.value }")
             .info-box-content
-              span.info-box-text Pompa 1
-        .row
-          .info-box
-            span.info-box-icon.bg-green
-            .info-box-content
-              span.info-box-text Pompa 2
-
+              span.info-box-text {{ do.name }}
 
     .row
       .col-md-10
-        .col-md-2.col-xs-6
+        .col-md-2.col-xs-6(v-for="input in analogInputs")
           .box.box-primary
             .box-header.with-border
-              h3.box-title Fan 1
+              h3.box-title {{ input.name }}
             .box-body
-              knob#first
-        .col-md-2.col-xs-6
-          .box.box-primary
-            .box-header.with-border
-              h3.box-title Fan 2
-            .box-body
-              knob#second
-        .col-md-2.col-xs-6
-          .box.box-primary
-            .box-header.with-border
-              h3.box-title Fan 3
-            .box-body
-              knob#third
-        .col-md-2.col-xs-6
-          .box.box-primary
-            .box-header.with-border
-              h3.box-title Fan 4
-            .box-body
-              knob#fourth
-        .col-md-2.col-xs-6
-          .box.box-primary
-            .box-header.with-border
-              h3.box-title Fan 5
-            .box-body
-              knob#fifth
+              knob(:id="input.id")
 </template>
 
 <script>
 import Knob from './knob-vue'
+import { LineChart } from 'vue-chart.js'
+import { analogInputs } from '../vuex/getters'
+import { temperatureSensors } from '../vuex/getters'
+import { digitalOutputs } from '../vuex/getters'
+
 export default {
   components: {
-    Knob
+    Knob,
+    LineChart
   },
-  data () {
-    return {
-      columns: [{
-        'type': 'number',
-        'label': 'Timestamp'
-      },
-      {
-        'type': 'number',
-        'label': '*C'
-      }],
-      rows: [
-        [123456, 0],
-        [123457, 100],
-        [123458, 200]
-      ],
-      options: {
-        hAxis: {
-          title: 'Timestamp'
-        },
-        vAxis: {
-          title: 'Temperature',
-          minValue: 0,
-          maxValue: 1000
-        },
-        height: 200,
-        curveType: 'function'
-      }
+  vuex: {
+    getters: {
+      analogInputs: analogInputs,
+      temperatureSensors: temperatureSensors,
+      digitalOutputs: digitalOutputs
+    },
+    actions: {
     }
   }
 }

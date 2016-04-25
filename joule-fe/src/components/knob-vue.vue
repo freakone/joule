@@ -1,14 +1,15 @@
 <template lang="jade">
-  div(id="knob-{{ id }}" disabled)
+  div(id="knob-{{ id }}")
 </template>
 
 <script>
 import Knob from 'knob'
+var knob = ''
 
 export default {
   props: ['id'],
   ready () {
-    var knob = Knob({
+    knob = Knob({
       label: 'knob-' + this.id,
       value: 60,
       angleOffset: -125,

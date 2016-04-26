@@ -20,14 +20,14 @@ const state = {
       name: 'temp1',
       labels: [],
       options: {},
-      datasets: [{}]
+      datasets: []
     },
     {
       id: 2,
       name: 'temp 55',
       labels: [],
       options: {},
-      datasets: [{}]
+      datasets: []
     }
   ],
   selectedSensor: {}
@@ -44,7 +44,7 @@ const mutations = {
   [SELECT_TEMPERATURE] (state, itemId) {
     state.selectedSensor = state.items.find(p => p.id === itemId)
     state.selectedSensor.labels = ['1', '2', 'as', 'asd', 'asd']
-    state.selectedSensor.datasets[0].data = [1, 2, 3, 4, 5]
+    state.selectedSensor.datasets[0] = { data: [1, 2, 3, 4, 5] }
   }
 }
 

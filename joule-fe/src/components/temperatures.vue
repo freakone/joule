@@ -44,12 +44,11 @@ export default {
   },
   methods: {
     onStartDatetimeChanged: function (newStart) {
-      console.log('asd')
-      var endPicker = this.$ref.endPicker.control
+      var endPicker = this.$refs.endPicker.control
       endPicker.minDate(newStart)
     },
     onEndDatetimeChanged: function (newEnd) {
-      var startPicker = this.$.startPicker.control
+      var startPicker = this.$refs.startPicker.control
       startPicker.maxDate(newEnd)
     }
   },

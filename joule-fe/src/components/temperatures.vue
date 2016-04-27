@@ -15,18 +15,18 @@
               mdl-switch(:checked.sync="liveChecked") Live
           .box-body
             div.form-group(v-show="!liveChecked")
-              label.col-sm-1.control-label(for="start-picker")
+              label.col-sm-1.control-label
                 | Start:
               .col-sm-4
-                vue-datetime-picker(v-ref:start-picker, model="{{@ startDatetime }}", :on-change="onStartDatetimeChanged")
-              label.col-sm-1.control-label(for="end-picker")
+                vue-datetime-picker(v-ref:start-picker, :model.sync="startDatetime", :on-change="onStartDatetimeChanged")
+              label.col-sm-1.control-label
                 | Koniec:
               .col-sm-4
-                vue-datetime-picker(v-ref:end-picker, model="{{@ endDatetime }}")
+                vue-datetime-picker(v-ref:end-picker,:model.sync="endDatetime", :on-change="onEndDatetimeChanged")
               button.btn.btn-default.btn-flat.col-sm-2 Eksportuj
             .row &nbsp;
             div
-              line-chart(:responsive="true",:labels="selectedSensor.labels",:datasets="selectedSensor.datasets",:options="selectedSensor.options")
+              line-chart(:height="100", :responsive="true",:labels="selectedSensor.labels",:datasets="selectedSensor.datasets",:options="selectedSensor.options")
 
 </template>
 
@@ -37,7 +37,6 @@ import { selectTemperature } from '../vuex/actions'
 import { temperatureSensors, selectedSensor } from '../vuex/getters'
 
 export default {
-  inherit: true,
   components: {
     'vue-datetime-picker': require('vue-datetime-picker/src/vue-datetime-picker.js'),
     LineChart
@@ -65,12 +64,9 @@ export default {
     var moment = require('moment')
     return {
       liveChecked: false,
-      startDatetime: moment(),
+      startDatetime: moment().subtract(7, 'days'),
       endDatetime: null
     }
-  },
-  created () {
-    // selectTemperature(1)
   }
 }
 </script>

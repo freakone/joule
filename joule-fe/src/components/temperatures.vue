@@ -18,11 +18,11 @@
               label.col-sm-1.control-label
                 | Start:
               .col-sm-4
-                vue-datetime-picker(v-ref:start-picker, :model.sync="startDatetime", :on-change="onStartDatetimeChanged")
+                vue-datetime-picker(v-ref:start-picker, :model.sync="startDatetime", :on-change="onStartDatetimeChanged", type="date")
               label.col-sm-1.control-label
                 | Koniec:
               .col-sm-4
-                vue-datetime-picker(v-ref:end-picker,:model.sync="endDatetime", :on-change="onEndDatetimeChanged")
+                vue-datetime-picker(v-ref:end-picker,:model.sync="endDatetime", :on-change="onEndDatetimeChanged", type="date")
               button.btn.btn-default.btn-flat.col-sm-2 Eksportuj
             .row &nbsp;
             div
@@ -32,7 +32,7 @@
 
 <script>
 import { LineChart } from 'vue-chart.js'
-
+import moment from 'moment'
 import { selectTemperature } from '../vuex/actions'
 import { temperatureSensors, selectedSensor } from '../vuex/getters'
 
@@ -61,9 +61,8 @@ export default {
     }
   },
   data () {
-    var moment = require('moment')
     return {
-      liveChecked: false,
+      liveChecked: true,
       startDatetime: moment().subtract(7, 'days'),
       endDatetime: null
     }
@@ -72,20 +71,13 @@ export default {
 </script>
 
 <style>
-
   .box-tools {
     right: 60px !important;
-  }
-  .picker {
-    max-width: 100px;
   }
   .box-center {
     position:absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
-  .picker>input {
-    text-align: center;
   }
 </style>

@@ -1,4 +1,4 @@
-export const analogInputs = state => {
+export const analogOutputs = state => {
   return state.analog.items
 }
 

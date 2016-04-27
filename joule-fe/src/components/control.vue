@@ -7,58 +7,43 @@
       .alert.alert-danger.text-center
         | Sterowanie ręczne
     .row
-      .col-md-3
+      .col-lg-3.col-md-6(v-for="output in digitalOutputs")
         .box.box-primary
           .box-header.with-border
-            h3.box-title Pompa 1
+            h3.box-title {{output.name}}
             .box-tools
-              mdl-switch(:checked.sync="checked")
+              mdl-switch(:checked="output.value", :id="output.id", @change="setDigitalOutput")
+      .col-lg-3.col-md-6(v-for="output in analogOutputs")
         .box.box-primary
           .box-header.with-border
-            h3.box-title Pompa 2
-            .box-tools
-              mdl-switch(:checked.sync="checked")
-      .col-md-3
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Wentylator 1
+            h3.box-title {{output.name}}
             .box-slider
-              mdl-slider(:value.sync="amount" min="0" max="100")
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Wentylator 2
-            .box-slider
-              mdl-slider(:value.sync="amount" min="0" max="100")
-
-       .col-md-3
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Pompa 3
-            .box-tools
-              mdl-switch(:checked.sync="checked")
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Pompa 4
-            .box-tools
-              mdl-switch(:checked.sync="checked")
-      .col-md-3
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Wentylator 3
-            .box-slider
-              mdl-slider(:value.sync="amount" min="0" max="100")
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title Wentylator 4
-            .box-slider
-              mdl-slider(:value.sync="amount" min="0" max="100")
-
-
-
+              mdl-slider(:value="output.value", :id="output.id", @change="setAnalogOutput" min="0" max="100")
 
 </template>
 
 <script>
+import { digitalOutputs, analogOutputs } from '../vuex/getters'
+import { setAnalogValue, setDigitalValue } from '../vuex/actions'
+
+export default {
+  vuex: {
+    getters: {
+      analogOutputs: analogOutputs,
+      digitalOutputs: digitalOutputs
+    },
+    actions: {
+      setAnalogOutput: setAnalogValue,
+      setDigitalOutput: setDigitalValue
+    }
+  },
+  data () {
+    return {
+      amounts: null,
+      checked: false
+    }
+  }
+}
 </script>
 
 <style scoped>

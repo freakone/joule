@@ -20,20 +20,18 @@
 
     .row
       .col-md-10
-        .col-md-2.col-xs-6(v-for="input in analogInputs")
+        .col-md-3.col-xs-6(v-for="output in analogOutputs")
           .box.box-primary
             .box-header.with-border
-              h3.box-title {{ input.name }}
+              h3.box-title {{ output.name }}
             .box-body
-              knob(:id="input.id")
+              knob(:id="output.id")
 </template>
 
 <script>
 import Knob from './knob-vue'
 import { LineChart } from 'vue-chart.js'
-import { analogInputs } from '../vuex/getters'
-import { temperatureSensors } from '../vuex/getters'
-import { digitalOutputs } from '../vuex/getters'
+import { temperatureSensors, digitalOutputs, analogOutputs } from '../vuex/getters'
 
 export default {
   components: {
@@ -42,7 +40,7 @@ export default {
   },
   vuex: {
     getters: {
-      analogInputs: analogInputs,
+      analogOutputs: analogOutputs,
       temperatureSensors: temperatureSensors,
       digitalOutputs: digitalOutputs
     },

@@ -1,4 +1,3 @@
-import VueMdl from 'vue-mdl'
 import Vue from 'vue'
 import App from './App'
 import VueCharts from 'vue-charts'
@@ -18,10 +17,11 @@ require('assets/moment-with-locales.min.js')
 require('assets/moment-timezone-with-data.min.js')
 require('assets/bootstrap-datetimepicker.min.js')
 require('assets/bootstrap-datetimepicker.css')
+var VueMdl = require('assets/vue-mdl.min.js')
 
 Vue.use(VueCharts)
 Vue.use(Router)
-Vue.use(VueMdl)
+Vue.use(VueMdl.default)
 
 var router = new Router({
   history: false

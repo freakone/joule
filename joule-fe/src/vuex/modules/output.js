@@ -1,5 +1,5 @@
 import {
-  GET_OUTPUTS
+  UPDATE_OUTPUTS
 } from '../mutation-types'
 
 const state = {
@@ -24,8 +24,14 @@ const state = {
 
 // mutations
 const mutations = {
-  [GET_OUTPUTS] (state, items) {
-    state.items.push(items)
+  [UPDATE_OUTPUTS] (state, itemId, value) {
+    const record = state.items.find(p => p.id === itemId)
+    console.log(itemId)
+    console.log(value)
+    if (record) {
+      console.log('asd')
+      record.value = value
+    }
   }
 }
 

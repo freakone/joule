@@ -1,6 +1,9 @@
 import {
   ADD_TEMPERATURES,
-  SELECT_TEMPERATURE
+  SELECT_TEMPERATURE,
+  UPDATE_TEMPERATURE_NAME,
+  UPDATE_TEMPERATURE_MINIMUM,
+  UPDATE_TEMPERATURE_MAXIMUM
 } from '../mutation-types'
 
 // const initDataset = [{
@@ -18,6 +21,9 @@ const state = {
     {
       id: 1,
       name: 'temp1',
+      currentValue: 25,
+      limitMin: 4,
+      limitMax: 30,
       labels: [],
       options: {},
       datasets: []
@@ -25,9 +31,12 @@ const state = {
     {
       id: 2,
       name: 'temp 55',
-      labels: [],
+      currentValue: 230,
+      limitMin: 200,
+      limitMax: 300,
+      labels: ['1', '2', 'as', 'asd', 'asd'],
       options: {},
-      datasets: []
+      datasets: [{ data: [1, 2, 3, 4, 5] }]
     }
   ],
   selectedSensor: {}
@@ -36,15 +45,31 @@ const state = {
 // mutations
 const mutations = {
   [ADD_TEMPERATURES] (state, itemId, value) {
-    const record = state.added.find(p => p.id === itemId)
+    const record = state.items.find(p => p.id === itemId)
     if (record) {
       record.datasets.data.push(value)
     }
   },
   [SELECT_TEMPERATURE] (state, itemId) {
     state.selectedSensor = state.items.find(p => p.id === itemId)
-    state.selectedSensor.labels = ['1', '2', 'as', 'asd', 'asd']
-    state.selectedSensor.datasets[0] = { data: [1, 2, 3, 4, 5] }
+  },
+  [UPDATE_TEMPERATURE_NAME] (state, itemId, value) {
+    const record = state.items.find(p => p.id === itemId)
+    if (record) {
+      record.name = value
+    }
+  },
+  [UPDATE_TEMPERATURE_MINIMUM] (state, itemId, value) {
+    const record = state.items.find(p => p.id === itemId)
+    if (record) {
+      record.limitMin = value
+    }
+  },
+  [UPDATE_TEMPERATURE_MAXIMUM] (state, itemId, value) {
+    const record = state.items.find(p => p.id === itemId)
+    if (record) {
+      record.limitMax = value
+    }
   }
 }
 

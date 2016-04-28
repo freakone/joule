@@ -5,6 +5,7 @@ import createLogger from 'vuex/logger'
 import analog from './modules/analog'
 import temperature from './modules/temperature'
 import output from './modules/output'
+import general from './modules/general'
 
 Vue.use(Vuex)
 Vue.config.debug = true
@@ -15,7 +16,8 @@ export default new Vuex.Store({
   modules: {
     analog,
     temperature,
-    output
+    output,
+    general
   },
   strict: debug,
   middlewares: debug ? [createLogger()] : []

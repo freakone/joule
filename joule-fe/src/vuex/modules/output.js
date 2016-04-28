@@ -26,10 +26,7 @@ const state = {
 const mutations = {
   [UPDATE_OUTPUTS] (state, itemId, value) {
     const record = state.items.find(p => p.id === itemId)
-    console.log(itemId)
-    console.log(value)
     if (record) {
-      console.log('asd')
       record.value = value
     }
   }

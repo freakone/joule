@@ -16,3 +16,7 @@ export const selectedSensor = state => {
 export const digitalOutputs = state => {
   return state.output.items
 }
+
+export const generalSettings = state => {
+  return state.general
+}

@@ -8,7 +8,7 @@
       a.sidebar-toggle(href='#', data-toggle='offcanvas', role='button')
         span.sr-only Toggle navigation
       .navbar-header.hidden-xs
-        span.navbar-brand Joule
+        span.navbar-brand Joule - {{ generalSettings.name }}
       .navbar-custom-menu
         ul.nav.navbar-nav
           li.dropdown.user.user-menu
@@ -53,8 +53,15 @@
 
 <script>
 import store from './vuex/store'
+import { generalSettings } from './vuex/getters'
+
 export default {
-  store
+  store,
+  vuex: {
+    getters: {
+      generalSettings: generalSettings
+    }
+  }
 }
 </script>
 

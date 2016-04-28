@@ -4,22 +4,30 @@
 
 <script>
 import Knob from 'knob'
-var knob = ''
 
 export default {
   props: ['id'],
   ready () {
-    knob = Knob({
+    var options = {
       label: 'knob-' + this.id,
       value: 60,
       angleOffset: -125,
       angleArc: 360,
       min: 0,
       max: 100,
-      width: 145,
+      width: document.getElementById('knob-' + this.id).offsetWidth,
       readOnly: true
-    })
-    document.getElementById('knob-' + this.id).appendChild(knob)
+    }
+    var el = document.getElementById('knob-' + this.id)
+    var id = this.id
+    el.appendChild(Knob(options))
+
+    window.addEventListener('resize', function (event) {
+      options.width = document.getElementById('knob-' + id).offsetWidth
+      var newKnob = Knob(options)
+      el.replaceChild(newKnob, el.childNodes[0])
+    }
+    )
   }
 }
 </script>

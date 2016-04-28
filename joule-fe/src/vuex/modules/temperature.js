@@ -6,16 +6,6 @@ import {
   UPDATE_TEMPERATURE_MAXIMUM
 } from '../mutation-types'
 
-// const initDataset = [{
-//   backgroundColor: 'rgba(220,220,220,0.9)',
-//   borderColor: 'rgba(220,220,220,1)',
-//   borderWidth: 1,
-//   hoverBackgroundColor: 'rgba(220,220,220,0.5)',
-//   hoverBorderColor: 'rgba(220,220,220,1)',
-//   data: [],
-//   yAxisID: 'y-axis-0'
-// }]
-
 const state = {
   items: [
     {
@@ -24,9 +14,9 @@ const state = {
       currentValue: 25,
       limitMin: 4,
       limitMax: 30,
-      labels: [],
+      labels: ['1', '2', 'as', 'asd', 'asd'],
       options: {},
-      datasets: []
+      datasets: [{ data: [5, 2, 3, 4, 3] }]
     },
     {
       id: 2,

@@ -45,7 +45,7 @@
   .content-wrapper
     router-view
   footer.main-footer
-    .pull-right.hidden-xs
+    .footer-right.hidden-xs
       | Smart boiler control system
     strong Copyright © 2016 Synergia.
     |  All rights reserved.
@@ -83,7 +83,6 @@ export default {
     background-position-x: 50%
     background-position-y: 50%
 
-
   .metalerg-mini
     background-image: url('assets/metalerg.png')
     float: left
@@ -98,4 +97,22 @@ export default {
 
   .navbar-nav>.user-menu>.dropdown-menu>li.user-header
     height: 100%
+
+  .wrapper
+    position: inherit
+
+  .main-footer
+    position: absolute
+    bottom: 0
+    width: 100%
+
+  .footer-right
+    position: absolute
+    right: 0
+    transform: translateX(-150%)
+
+  .wrapper
+    position: fixed;
+    height: 100%;
+    width: 100%
 </style>

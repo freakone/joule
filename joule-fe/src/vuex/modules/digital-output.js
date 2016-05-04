@@ -1,5 +1,6 @@
 import {
-  UPDATE_OUTPUTS
+  UPDATE_OUTPUTS,
+  UPDATE_DIGITAL_NAME
 } from '../mutation-types'
 
 const state = {
@@ -28,6 +29,12 @@ const mutations = {
     const record = state.items.find(p => p.id === itemId)
     if (record) {
       record.value = value
+    }
+  },
+  [UPDATE_DIGITAL_NAME] (state, itemId, value) {
+    const record = state.items.find(p => p.id === itemId)
+    if (record) {
+      record.name = value
     }
   }
 }

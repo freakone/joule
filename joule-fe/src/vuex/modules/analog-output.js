@@ -1,6 +1,7 @@
 import {
   GET_ANALOG,
-  UPDATE_ANALOG
+  UPDATE_ANALOG,
+  UPDATE_ANALOG_NAME
 } from '../mutation-types'
 
 const state = {
@@ -23,6 +24,12 @@ const mutations = {
     const record = state.items.find(p => p.id === itemId)
     if (record) {
       record.value = value
+    }
+  },
+  [UPDATE_ANALOG_NAME] (state, itemId, value) {
+    const record = state.items.find(p => p.id === itemId)
+    if (record) {
+      record.name = value
     }
   },
   [GET_ANALOG] (state, items) {

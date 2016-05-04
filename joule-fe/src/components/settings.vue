@@ -19,12 +19,12 @@
               .col-xs-3
                 | Wyjście cyfrowe {{$index+1}}
               .col-xs-9
-                input.form-control(type="text", :value="output.name", @change="updateAnalogOutputName")
+                input.form-control(type="text", :value="output.name", :id="output.id", @change="updateDigitalOutputName")
             .row(v-for="output in analogOutputs")
               .col-xs-3
                 | Wyjście analogowe {{$index+1}}
               .col-xs-9
-                input.form-control(type="text", :value="output.name", @change="updateDigitalOutputName")
+                input.form-control(type="text", :value="output.name", :id="output.id", @change="updateAnalogOutputName")
 
     .row
       .col-md-3(v-for="item in temperatureSensors")

@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createLogger from 'vuex/logger'
 
-import analog from './modules/analog'
+import analog from './modules/analog-output'
 import temperature from './modules/temperature'
-import output from './modules/output'
+import output from './modules/digital-output'
 import general from './modules/general'
 
 Vue.use(Vuex)

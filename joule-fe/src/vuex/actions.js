@@ -17,11 +17,11 @@ export const updateName = ({ dispatch }, e) => {
 }
 
 export const updateAnalogOutputName = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_ANALOG_NAME, e.target.value)
+  dispatch(types.UPDATE_ANALOG_NAME, parseInt(e.target.id), e.target.value)
 }
 
 export const updateDigitalOutputName = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_DIGITAL_NAME, e.target.value)
+  dispatch(types.UPDATE_DIGITAL_NAME, parseInt(e.target.id), e.target.value)
 }
 
 export const updateTemperatureSensorName = ({ dispatch }, e) => {

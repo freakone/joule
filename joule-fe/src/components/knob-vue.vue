@@ -23,9 +23,12 @@ export default {
     el.appendChild(Knob(options))
 
     window.addEventListener('resize', function (event) {
-      options.width = document.getElementById('knob-' + id).offsetWidth
-      var newKnob = Knob(options)
-      el.replaceChild(newKnob, el.childNodes[0])
+      var knobDiv = document.getElementById('knob-' + id)
+      if (knobDiv) {
+        options.width = knobDiv.offsetWidth
+        var newKnob = Knob(options)
+        el.replaceChild(newKnob, el.childNodes[0])
+      }
     }
     )
   }

@@ -115,4 +115,9 @@ export default {
     position: fixed;
     height: 100%;
     width: 100%
+
+  .content-wrapper
+    height: 100%
+    overflow-y: auto;
+    min-height: 10% !important
 </style>

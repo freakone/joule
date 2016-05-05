@@ -24,7 +24,7 @@
 
 <script>
 import { digitalOutputs, analogOutputs } from '../vuex/getters'
-import { setAnalogValue, setDigitalValue } from '../vuex/actions'
+import { updateAnalogValue, updateDigitalValue } from '../vuex/actions'
 
 export default {
   vuex: {
@@ -33,8 +33,8 @@ export default {
       digitalOutputs: digitalOutputs
     },
     actions: {
-      setAnalogOutput: setAnalogValue,
-      setDigitalOutput: setDigitalValue
+      setAnalogOutput: updateAnalogValue,
+      setDigitalOutput: updateDigitalValue
     }
   },
   data () {

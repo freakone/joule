@@ -20,3 +20,8 @@ export const digitalOutputs = state => {
 export const generalSettings = state => {
   return state.general
 }
+
+export const loadingModal = state => {
+  return state.general.loading
+}
+

@@ -1,14 +1,30 @@
 import * as types from './mutation-types'
+import api from '../api/api'
+
+export const updateLoading = ({ dispatch }, value) => {
+  dispatch(types.UPDATE_LOADING, value)
+}
+
+export const getInitialState = ({dispatch}) => {
+  dispatch(types.UPDATE_LOADING, true)
+  api.getInitialState(state => {
+    dispatch(types.RECEIVE_DIGITAL_OUTPUTS, state.digital_outputs)
+    dispatch(types.RECEIVE_ANALOG_OUTPUTS, state.analog_outputs)
+    dispatch(types.RECEIVE_TEMPERATURE_INPUTS, state.temperature_inputs)
+    dispatch(types.UPDATE_NAME, state.name)
+    dispatch(types.UPDATE_LOADING, false)
+  })
+}
 
 export const selectTemperature = ({ dispatch }, e) => {
   dispatch(types.SELECT_TEMPERATURE, parseInt(e.target.options[e.target.selectedIndex].value))
 }
 
-export const setAnalogValue = ({ dispatch }, e) => {
+export const updateAnalogValue = ({ dispatch }, e) => {
   dispatch(types.UPDATE_ANALOG, parseInt(e.target.id), parseInt(e.target.value))
 }
 
-export const setDigitalValue = ({ dispatch }, e) => {
+export const updateDigitalValue = ({ dispatch }, e) => {
   dispatch(types.UPDATE_OUTPUTS, parseInt(e.target.id), e.target.checked)
 }
 

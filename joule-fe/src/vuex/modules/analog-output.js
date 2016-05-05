@@ -1,24 +1,13 @@
 import {
-  GET_ANALOG,
+  RECEIVE_ANALOG_OUTPUTS,
   UPDATE_ANALOG,
   UPDATE_ANALOG_NAME
 } from '../mutation-types'
 
 const state = {
-  items: [
-    {
-      id: 1,
-      value: 25,
-      name: 'test1'
-    },
-    {
-      id: 2,
-      value: 60,
-      name: 'test asdf'
-    }]
+  items: []
 }
 
-// mutations
 const mutations = {
   [UPDATE_ANALOG] (state, itemId, value) {
     const record = state.items.find(p => p.id === itemId)
@@ -32,8 +21,8 @@ const mutations = {
       record.name = value
     }
   },
-  [GET_ANALOG] (state, items) {
-    state.items.push(items)
+  [RECEIVE_ANALOG_OUTPUTS] (state, items) {
+    state.items = items
   }
 }
 

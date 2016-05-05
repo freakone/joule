@@ -44,9 +44,10 @@
             span Ustawienia
   .content-wrapper
     router-view
+  .loading-wrapper(v-show="generalSettings.loading")
+    bounce-loader
+    p Wczytywanie danych...
   footer.main-footer
-    .footer-right.hidden-xs
-      | Smart boiler control system
     strong Copyright © 2016 Synergia.
     |  All rights reserved.
 </template>
@@ -54,13 +55,24 @@
 <script>
 import store from './vuex/store'
 import { generalSettings } from './vuex/getters'
+import { getInitialState } from './vuex/actions'
+import BounceLoader from 'vue-spinner/src/BounceLoader'
 
 export default {
+  components: {
+    BounceLoader
+  },
   store,
   vuex: {
     getters: {
       generalSettings: generalSettings
+    },
+    actions: {
+      getInitialState
     }
+  },
+  created () {
+    this.getInitialState()
   }
 }
 </script>
@@ -102,14 +114,9 @@ export default {
     position: inherit
 
   .main-footer
-    position: absolute
+    position: fixed
     bottom: 0
     width: 100%
-
-  .footer-right
-    position: absolute
-    right: 0
-    transform: translateX(-150%)
 
   .wrapper
     position: fixed;
@@ -120,4 +127,32 @@ export default {
     height: 100%
     overflow-y: auto;
     min-height: 10% !important
+
+  .info-box-icon
+    width: 30px
+
+  .info-box-content
+    margin-left: 30px !important
+
+  .loading-wrapper
+    position: fixed
+    z-index: 2000
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background-color: rgb(0,0,0)
+    background-color: rgba(0,0,0,0.9)
+    color: rgb(255, 255, 255)
+
+    div, p
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%)
+      font-size: 30px
+
+    p
+      padding-top: 50px
 </style>

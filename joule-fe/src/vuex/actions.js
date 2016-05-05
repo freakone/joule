@@ -12,6 +12,7 @@ export const getInitialState = ({dispatch}) => {
     dispatch(types.RECEIVE_ANALOG_OUTPUTS, state.analog_outputs)
     dispatch(types.RECEIVE_TEMPERATURE_INPUTS, state.temperature_inputs)
     dispatch(types.UPDATE_NAME, state.name)
+    dispatch(types.UPDATE_MANUAL_MODE, state.manual_mode)
     dispatch(types.UPDATE_LOADING, false)
   })
 }
@@ -30,6 +31,10 @@ export const updateDigitalValue = ({ dispatch }, e) => {
 
 export const updateName = ({ dispatch }, e) => {
   dispatch(types.UPDATE_NAME, e.target.value)
+}
+
+export const updateManualMode = ({ dispatch }, value) => {
+  dispatch(types.UPDATE_MANUAL_MODE, value)
 }
 
 export const updateAnalogOutputName = ({ dispatch }, e) => {

@@ -50,7 +50,8 @@ const _mocked_init = {
       datasets: [{ data: [1, 2, 3, 4, 5] }]
     }
   ],
-  name: 'BCU666'
+  name: 'BCU666',
+  manual_mode: true
 }
 
 export default {

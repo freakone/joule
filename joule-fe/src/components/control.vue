@@ -4,9 +4,11 @@
       | Sterowanie
   section.content
     .row
-      .alert.alert-danger.text-center
+      .alert.alert-danger.text-center(v-if="generalSettings.manual_mode")
         | Sterowanie ręczne
-    .row
+      .alert.alert-success.text-center(v-else)
+        | Sterowanie automatyczne
+    .row(v-show="generalSettings.manual_mode")
       .col-lg-3.col-md-6(v-for="output in digitalOutputs")
         .box.box-primary
           .box-header.with-border
@@ -23,14 +25,15 @@
 </template>
 
 <script>
-import { digitalOutputs, analogOutputs } from '../vuex/getters'
+import { digitalOutputs, analogOutputs, generalSettings } from '../vuex/getters'
 import { updateAnalogValue, updateDigitalValue } from '../vuex/actions'
 
 export default {
   vuex: {
     getters: {
       analogOutputs: analogOutputs,
-      digitalOutputs: digitalOutputs
+      digitalOutputs: digitalOutputs,
+      generalSettings: generalSettings
     },
     actions: {
       setAnalogOutput: updateAnalogValue,

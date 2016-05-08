@@ -1,22 +1,9 @@
-from autobahn.asyncio.websocket import WebSocketServerProtocol, \
-    WebSocketServerFactory
+def protocol_init(sio):
 
-class JouleProtocol(WebSocketServerProtocol):
+    @sio.on('connect', namespace='/msgbus')
+    def test_connect(sid, environ):
+        sio.emit('connected', room=sid, namespace='/msgbus')
 
-    def onConnect(self, request):
-        print("Client connecting: {0}".format(request.peer))
-
-    def onOpen(self):
-        print("WebSocket connection open.")
-
-    def onMessage(self, payload, isBinary):
-        if isBinary:
-            print("Binary message received: {0} bytes".format(len(payload)))
-        else:
-            print("Text message received: {0}".format(payload.decode('utf8')))
-
-        # echo back message verbatim
-        self.sendMessage(payload, isBinary)
-
-    def onClose(self, wasClean, code, reason):
-        print("WebSocket connection closed: {0}".format(reason))
+    @sio.on('pinging', namespace='/msgbus')
+    def test_message(sid, message):
+        sio.emit('msg', message, room=sid, namespace='/msgbus')

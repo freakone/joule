@@ -54,8 +54,24 @@ const _mocked_init = {
   manual_mode: true
 }
 
+var io = require('socket.io-client')
+var socket = io('http://localhost:5000/msgbus')
+
 export default {
   getInitialState (cb) {
     setTimeout(() => cb(_mocked_init), 2000)
+  },
+  connectWs () {
+    socket.on('connected', () => {
+      console.log("I'm connected")
+    })
+
+    socket.on('msg', (msg) => {
+      console.log(msg)
+    })
+
+    setInterval(function () {
+      socket.emit('pinging', 'pong')
+    }, 2000)
   }
 }

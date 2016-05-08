@@ -5,6 +5,10 @@ export const updateLoading = ({ dispatch }, value) => {
   dispatch(types.UPDATE_LOADING, value)
 }
 
+export const connectWs = ({dispatch}) => {
+  api.connectWs()
+}
+
 export const getInitialState = ({dispatch}) => {
   dispatch(types.UPDATE_LOADING, true)
   api.getInitialState(state => {

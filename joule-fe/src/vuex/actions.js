@@ -1,24 +1,16 @@
 import * as types from './mutation-types'
-import api from '../api/api'
 
 export const updateLoading = ({ dispatch }, value) => {
   dispatch(types.UPDATE_LOADING, value)
 }
 
-export const connectWs = ({dispatch}) => {
-  api.connectWs()
-}
-
-export const getInitialState = ({dispatch}) => {
-  dispatch(types.UPDATE_LOADING, true)
-  api.getInitialState(state => {
-    dispatch(types.RECEIVE_DIGITAL_OUTPUTS, state.digital_outputs)
-    dispatch(types.RECEIVE_ANALOG_OUTPUTS, state.analog_outputs)
-    dispatch(types.RECEIVE_TEMPERATURE_INPUTS, state.temperature_inputs)
-    dispatch(types.UPDATE_NAME, state.name)
-    dispatch(types.UPDATE_MANUAL_MODE, state.manual_mode)
-    dispatch(types.UPDATE_LOADING, false)
-  })
+export const getInitialState = ({dispatch}, state) => {
+  dispatch(types.RECEIVE_DIGITAL_OUTPUTS, state.digital_outputs)
+  dispatch(types.RECEIVE_ANALOG_OUTPUTS, state.analog_outputs)
+  dispatch(types.RECEIVE_TEMPERATURE_INPUTS, state.temperature_inputs)
+  dispatch(types.UPDATE_NAME, state.name)
+  dispatch(types.UPDATE_MANUAL_MODE, state.manual_mode)
+  dispatch(types.UPDATE_LOADING, false)
 }
 
 export const selectTemperature = ({ dispatch }, e) => {

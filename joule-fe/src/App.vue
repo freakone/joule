@@ -55,8 +55,9 @@
 <script>
 import store from './vuex/store'
 import { generalSettings } from './vuex/getters'
-import { getInitialState, connectWs } from './vuex/actions'
+import { getInitialState } from './vuex/actions'
 import BounceLoader from 'vue-spinner/src/BounceLoader'
+import api from './api/api'
 
 export default {
   components: {
@@ -68,13 +69,11 @@ export default {
       generalSettings: generalSettings
     },
     actions: {
-      getInitialState,
-      connectWs
+      getInitialState
     }
   },
   created () {
-    this.connectWs()
-    this.getInitialState()
+    api.initialize(this.$store)
   }
 }
 </script>

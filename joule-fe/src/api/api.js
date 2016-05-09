@@ -55,23 +55,22 @@ const _mocked_init = {
 }
 
 var io = require('socket.io-client')
-var socket = io('http://localhost:5000/msgbus')
+import { getInitialState } from '../vuex/actions'
 
 export default {
   getInitialState (cb) {
     setTimeout(() => cb(_mocked_init), 2000)
   },
-  connectWs () {
+  initialize (store) {
+    var socket = io('http://localhost:5000/msgbus')
+
     socket.on('connected', () => {
       console.log("I'm connected")
     })
 
-    socket.on('msg', (msg) => {
-      console.log(msg)
+    socket.on('init', (data) => {
+      console.log(data)
+      getInitialState(store, data)
     })
-
-    setInterval(function () {
-      socket.emit('pinging', 'pong')
-    }, 2000)
   }
 }

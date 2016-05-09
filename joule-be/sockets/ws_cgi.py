@@ -17,7 +17,7 @@ class wscgi(object):
     sio = socketio.Server(logger=True, async_mode='eventlet')
     app = Flask(__name__)
     app.wsgi_app = socketio.Middleware(sio, app.wsgi_app)
-    app.config['SECRET_KEY'] = 'secret!'
+    app.config['SECRET_KEY'] = 'blablablab'
 
     import protocol
     protocol.protocol_init(sio, self.actions)

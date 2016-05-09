@@ -14,5 +14,4 @@ def protocol_init(sio, actions):
 
     @sio.on('set_digital', namespace='/msgbus')
     def test_message(sid, data):
-        print data
         actions.set_output(data['id'], data['value'])

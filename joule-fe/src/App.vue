@@ -55,7 +55,6 @@
 <script>
 import store from './vuex/store'
 import { generalSettings } from './vuex/getters'
-import { getInitialState } from './vuex/actions'
 import BounceLoader from 'vue-spinner/src/BounceLoader'
 import api from './api/api'
 
@@ -69,7 +68,6 @@ export default {
       generalSettings: generalSettings
     },
     actions: {
-      getInitialState
     }
   },
   created () {

@@ -7,7 +7,7 @@ import {
 const state = {
   name: 'BCU-600',
   loading: false,
-  manual_mode: false
+  manual_mode: true
 }
 
 // mutations

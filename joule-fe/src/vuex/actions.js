@@ -1,7 +1,12 @@
 import * as types from './mutation-types'
+import api from '../api/api'
 
 export const updateLoading = ({ dispatch }, value) => {
   dispatch(types.UPDATE_LOADING, value)
+}
+
+export const setInitialState = ({dispatch}, state) => {
+  dispatch(types.RECEIVE_DIGITAL_OUTPUTS, state)
 }
 
 export const getInitialState = ({dispatch}, state) => {
@@ -22,7 +27,10 @@ export const updateAnalogValue = ({ dispatch }, e) => {
 }
 
 export const updateDigitalValue = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_OUTPUTS, parseInt(e.target.id), e.target.checked)
+  var id = parseInt(e.target.id)
+  var value = e.target.checked
+  dispatch(types.UPDATE_OUTPUTS, id, value)
+  api.setDigitalValue(id, value)
 }
 
 export const updateName = ({ dispatch }, e) => {

@@ -5,8 +5,9 @@ import socketio
 import eventlet
 eventlet.monkey_patch()
 
-class wscgi:
-  def __init__(self):
+class wscgi(object):
+  def __init__(self, actions):
+    self.actions = actions
     self.th_server = Thread(target=self.start_server)
     self.th_server.setDaemon(True)
     self.th_server.start()
@@ -19,7 +20,7 @@ class wscgi:
     app.config['SECRET_KEY'] = 'secret!'
 
     import protocol
-    protocol.protocol_init(sio)
+    protocol.protocol_init(sio, self.actions)
 
     eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
 

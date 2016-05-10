@@ -6,11 +6,11 @@
 import Knob from 'knob'
 
 export default {
-  props: ['id'],
+  props: ['id', 'actual_value'],
   ready () {
     var options = {
       label: 'knob-' + this.id,
-      value: 60,
+      value: this.actual_value,
       angleOffset: -125,
       angleArc: 360,
       min: 0,

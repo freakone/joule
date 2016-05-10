@@ -56,7 +56,7 @@
 
 var io = require('socket.io-client')
 var socket = ''
-import { setInitialState } from '../vuex/actions'
+import { initDigitalOutputs, initJowenta } from '../vuex/actions'
 
 export default {
   setDigitalValue (id, value) {
@@ -69,9 +69,12 @@ export default {
       console.log("I'm connected")
     })
 
-    socket.on('init', (data) => {
-      console.log(data)
-      setInitialState(store, data)
+    socket.on('digital_output_init', (data) => {
+      initDigitalOutputs(store, data)
+    })
+
+    socket.on('jowenta_init', (data) => {
+      initJowenta(store, data)
     })
   }
 }

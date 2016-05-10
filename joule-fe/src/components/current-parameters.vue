@@ -25,7 +25,7 @@
             .box-header.with-border
               h3.box-title {{ output.name }}
             .box-body
-              knob(:id="output.id")
+              knob(:id="output.id", :actual_value="output.actual_value")
 </template>
 
 <script>

@@ -5,13 +5,15 @@ export const updateLoading = ({ dispatch }, value) => {
   dispatch(types.UPDATE_LOADING, value)
 }
 
-export const setInitialState = ({dispatch}, state) => {
+export const initDigitalOutputs = ({dispatch}, state) => {
   dispatch(types.RECEIVE_DIGITAL_OUTPUTS, state)
 }
 
+export const initJowenta = ({dispatch}, state) => {
+  dispatch(types.RECEIVE_ANALOG_OUTPUTS, state)
+}
+
 export const getInitialState = ({dispatch}, state) => {
-  dispatch(types.RECEIVE_DIGITAL_OUTPUTS, state.digital_outputs)
-  dispatch(types.RECEIVE_ANALOG_OUTPUTS, state.analog_outputs)
   dispatch(types.RECEIVE_TEMPERATURE_INPUTS, state.temperature_inputs)
   dispatch(types.UPDATE_NAME, state.name)
   dispatch(types.UPDATE_MANUAL_MODE, state.manual_mode)

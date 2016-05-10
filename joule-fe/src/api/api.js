@@ -56,7 +56,7 @@
 
 var io = require('socket.io-client')
 var socket = ''
-import { initDigitalOutputs, initJowenta } from '../vuex/actions'
+import * as actions from '../vuex/actions'
 
 export default {
   setDigitalValue (id, value) {
@@ -70,11 +70,15 @@ export default {
     })
 
     socket.on('digital_output_init', (data) => {
-      initDigitalOutputs(store, data)
+      actions.initDigitalOutputs(store, data)
     })
 
     socket.on('jowenta_init', (data) => {
-      initJowenta(store, data)
+      actions.initJowenta(store, data)
+    })
+
+    socket.on('jowenta_changed', (data) => {
+      actions.updateAnalogActualValue(store, data)
     })
   }
 }

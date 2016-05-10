@@ -7,6 +7,19 @@ import Knob from 'knob'
 
 export default {
   props: ['id', 'actual_value'],
+  data () {
+    return {
+      knob: null
+    }
+  },
+  watch: {
+    actual_value: 'updateKnobValue'
+  },
+  methods: {
+    updateKnobValue: function () {
+      this.knob.setValue(this.actual_value)
+    }
+  },
   ready () {
     var options = {
       label: 'knob-' + this.id,
@@ -20,17 +33,17 @@ export default {
     }
     var el = document.getElementById('knob-' + this.id)
     var id = this.id
-    el.appendChild(Knob(options))
+    this.knob = Knob(options)
+    el.appendChild(this.knob)
 
     window.addEventListener('resize', function (event) {
       var knobDiv = document.getElementById('knob-' + id)
       if (knobDiv) {
         options.width = knobDiv.offsetWidth
-        var newKnob = Knob(options)
-        el.replaceChild(newKnob, el.childNodes[0])
+        this.knob = Knob(options)
+        el.replaceChild(this.knob, el.childNodes[0])
       }
-    }
-    )
+    })
   }
 }
 </script>

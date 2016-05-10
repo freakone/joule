@@ -3,29 +3,30 @@
     h1
       | Bieżące parametry
   section.content
-    .row
-      .col-md-10
+
+    .col-md-10
+      .row
         .col-md-6(v-for="temp in temperatureSensors")
           .box.box-primary
             .box-header.with-border
               h3.box-title {{ temp.name }}
             .box-body
               line-chart(:responsive="true",:labels="temp.labels",:datasets="temp.datasets",:options="temp.options")
-      .col-md-2
-        .row(v-for="do in digitalOutputs")
-          .info-box
-            span.info-box-icon(:class="{ 'bg-red' : !do.value, 'bg-green' : do.value }")
-            .info-box-content
-              span.info-box-text {{ do.name }}
-
-    .row
-      .col-md-10
+      .row
         .col-md-3.col-xs-6(v-for="output in analogOutputs")
           .box.box-primary
             .box-header.with-border
               h3.box-title {{ output.name }}
             .box-body
               knob(:id="output.id", :actual_value="output.actual_value")
+    .col-md-2
+      .row(v-for="do in digitalOutputs")
+        .info-box
+          span.info-box-icon(:class="{ 'bg-red' : !do.value, 'bg-green' : do.value }")
+          .info-box-content
+            span.info-box-text {{ do.name }}
+
+
 </template>
 
 <script>

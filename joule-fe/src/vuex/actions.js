@@ -24,6 +24,10 @@ export const selectTemperature = ({ dispatch }, e) => {
   dispatch(types.SELECT_TEMPERATURE, parseInt(e.target.options[e.target.selectedIndex].value))
 }
 
+export const updateAnalogActualValue = ({dispatch}, state) => {
+  dispatch(types.UPDATE_ANALOG_ACTUAL_VALUE, state.id, state.actual_value)
+}
+
 export const updateAnalogValue = ({ dispatch }, e) => {
   dispatch(types.UPDATE_ANALOG, parseInt(e.target.id), parseInt(e.target.value))
 }

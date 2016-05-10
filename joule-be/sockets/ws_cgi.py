@@ -4,23 +4,27 @@ from flask import Flask, render_template
 import socketio
 import eventlet
 eventlet.monkey_patch()
+import protocol
 
 class wscgi(object):
   def __init__(self, actions):
     self.actions = actions
+    self.sio = None
+
     self.th_server = Thread(target=self.start_server)
     self.th_server.setDaemon(True)
     self.th_server.start()
 
-  def start_server(self):
+    actions.set_jowenta_cb(self.jowenta_changed)
 
-    sio = socketio.Server(logger=True, async_mode='eventlet')
+  def start_server(self):
+    self.sio = socketio.Server(logger=True, async_mode='eventlet')
     app = Flask(__name__)
-    app.wsgi_app = socketio.Middleware(sio, app.wsgi_app)
+    app.wsgi_app = socketio.Middleware(self.sio, app.wsgi_app)
     app.config['SECRET_KEY'] = 'blablablab'
 
-    import protocol
-    protocol.protocol_init(sio, self.actions)
-
+    protocol.protocol_init(self.sio, self.actions)
     eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
 
+  def jowenta_changed(self, jowenta):
+    self.sio.emit('jowenta_changed', jowenta, namespace='/msgbus')

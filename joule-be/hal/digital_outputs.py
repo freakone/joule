@@ -8,8 +8,8 @@ class JouleDigitalOutputs(ModuleMixin):
     super(ModuleMixin, self).__init__()
 
     #map of pins
-    self.map = self.load_map('digital_outputs.map', do_map.DIGITAL_OUTPUTS)
-
+    # self.map = self.load_map('digital_outputs.map', do_map.DIGITAL_OUTPUTS)
+    self.map = do_map.DIGITAL_OUTPUTS
     #get unique mcp addresses
     unique_addresses = set(map(lambda x: x['address'], do_map.DIGITAL_OUTPUTS))
     self.gpio_modules = {}
@@ -21,7 +21,7 @@ class JouleDigitalOutputs(ModuleMixin):
     self.init_ports()
 
   def init_ports(self):
-    for output in do_map.DIGITAL_OUTPUTS:
+    for output in self.map:
       self.gpio_modules[output['address']].setup(output['index'], GPIO.OUT)
       self.gpio_modules[output['address']].output(output['index'], GPIO.LOW)
       output['value'] = False
@@ -31,7 +31,7 @@ class JouleDigitalOutputs(ModuleMixin):
     if type(value) is not bool:
       raise RuntimeError('Value must be boolean!')
 
-    output = filter(lambda out: out['id'] == id, do_map.DIGITAL_OUTPUTS)
+    output = filter(lambda out: out['id'] == id, self.map)
     if len(output) == 1:
       output = output[0]
       self.gpio_modules[output['address']].output(output['index'], value)

@@ -26,7 +26,7 @@
               button.btn.btn-default.btn-flat.col-sm-2 Eksportuj
             .row &nbsp;
             div
-              line-chart(:height="100", :responsive="true",:labels="selectedSensor.labels",:datasets="selectedSensor.datasets",:options="selectedSensor.options")
+              line-chart(:height="100", :responsive="true",:labels="selectedSensor.labels",:datasets="selectedSensor.datasets")
 
 </template>
 

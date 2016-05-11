@@ -19,7 +19,9 @@ const mutations = {
   [ADD_TEMPERATURE] (state, itemId, value) {
     const record = state.items.find(p => p.id === itemId)
     if (record) {
-      record.datasets.data.push(value)
+      record.labels.push(Date.now().toString())
+      record.datasets[0].data.push(value)
+      record.currentValue = value
     }
   },
   [SELECT_TEMPERATURE] (state, itemId) {

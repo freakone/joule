@@ -7,6 +7,10 @@ export const temperatureSensors = state => {
 }
 
 export const selectedSensor = state => {
+  if (state.temperature.items.length === 0) {
+    return {id: 0, datasets: [{data: []}], labels: []}
+  }
+
   if (Object.keys(state.temperature.selectedSensor).length === 0) {
     return state.temperature.items[0]
   }

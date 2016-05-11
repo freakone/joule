@@ -9,11 +9,11 @@
         .col-md-6(v-for="temp in temperatureSensors")
           .box.box-primary
             .box-header.with-border
-              h3.box-title {{ temp.name }}
+              h3.box-title {{ temp.name }} [{{temp.currentValue}}*C]
             .box-body
-              line-chart(:responsive="true",:labels="temp.labels",:datasets="temp.datasets",:options="temp.options")
+              line-chart(:responsive="true",:labels="temp.labels",:datasets="temp.datasets")
       .row
-        .col-md-3.col-xs-6(v-for="output in analogOutputs")
+        .col-md-4.col-xs-6(v-for="output in analogOutputs")
           .box.box-primary
             .box-header.with-border
               h3.box-title {{ output.name }}

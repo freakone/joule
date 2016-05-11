@@ -32,5 +32,13 @@ export default {
     socket.on('digital_input_changed', (data) => {
       actions.updateDigitalInput(store, data)
     })
+
+    socket.on('temperature_init', (data) => {
+      actions.initTemperature(store, data)
+    })
+
+    socket.on('temperature_changed', (data) => {
+      actions.addTemperature(store, data)
+    })
   }
 }

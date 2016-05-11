@@ -34,6 +34,32 @@ export const updateDigitalInputName = ({ dispatch }, e) => {
   dispatch(types.UPDATE_DIGITAL_INPUT_NAME, parseInt(e.target.id), e.target.value)
 }
 
+// TEMPERATURE
+
+export const updateTemperatureSensorName = ({ dispatch }, e) => {
+  dispatch(types.UPDATE_TEMPERATURE_NAME, parseInt(e.target.id), e.target.value)
+}
+
+export const updateTemperatureMinimum = ({ dispatch }, e) => {
+  dispatch(types.UPDATE_TEMPERATURE_MINIMUM, parseInt(e.target.id), parseInt(e.target.value))
+}
+
+export const updateTemperatureMaximum = ({ dispatch }, e) => {
+  dispatch(types.UPDATE_TEMPERATURE_MAXIMUM, parseInt(e.target.id), parseInt(e.target.value))
+}
+
+export const selectTemperature = ({ dispatch }, e) => {
+  dispatch(types.SELECT_TEMPERATURE, parseInt(e.target.options[e.target.selectedIndex].value))
+}
+
+export const initTemperature = ({ dispatch }, data) => {
+  dispatch(types.RECEIVE_TEMPERATURE_INPUTS, data)
+}
+
+export const addTemperature = ({ dispatch }, data) => {
+  dispatch(types.ADD_TEMPERATURE, data.id, data.currentValue)
+}
+
 //
 export const initJowenta = ({dispatch}, state) => {
   dispatch(types.RECEIVE_ANALOG_OUTPUTS, state)
@@ -44,10 +70,6 @@ export const getInitialState = ({dispatch}, state) => {
   dispatch(types.UPDATE_NAME, state.name)
   dispatch(types.UPDATE_MANUAL_MODE, state.manual_mode)
   dispatch(types.UPDATE_LOADING, false)
-}
-
-export const selectTemperature = ({ dispatch }, e) => {
-  dispatch(types.SELECT_TEMPERATURE, parseInt(e.target.options[e.target.selectedIndex].value))
 }
 
 export const updateAnalogActualValue = ({dispatch}, state) => {
@@ -70,14 +92,3 @@ export const updateAnalogOutputName = ({ dispatch }, e) => {
   dispatch(types.UPDATE_ANALOG_NAME, parseInt(e.target.id), e.target.value)
 }
 
-export const updateTemperatureSensorName = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_TEMPERATURE_NAME, parseInt(e.target.id), e.target.value)
-}
-
-export const updateTemperatureMinimum = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_TEMPERATURE_MINIMUM, parseInt(e.target.id), parseInt(e.target.value))
-}
-
-export const updateTemperatureMaximum = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_TEMPERATURE_MAXIMUM, parseInt(e.target.id), parseInt(e.target.value))
-}

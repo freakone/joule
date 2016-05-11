@@ -17,6 +17,7 @@ class wscgi(object):
 
     actions.set_jowenta_cb(self.jowenta_changed)
     actions.set_dinput_cb(self.dinput_changed)
+    actions.set_temperature_cb(self.temperature_changed)
 
   def start_server(self):
     self.sio = socketio.Server(logger=True, async_mode='eventlet')
@@ -32,3 +33,6 @@ class wscgi(object):
 
   def dinput_changed(self, dinput):
     self.sio.emit('digital_input_changed', dinput, namespace='/msgbus')
+
+  def temperature_changed(self, temperature):
+    self.sio.emit('temperature_changed', temperature, namespace='/msgbus')

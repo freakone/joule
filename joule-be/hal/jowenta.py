@@ -10,7 +10,6 @@ class JouleJowenta(ModuleMixin):
 
     # self.map = self.load_map('analog_inputs.map', ai_map.ANALOG_INPUTS)
     self.map = j_map.JOWENTA
-    self.cb = []
 
     for m in analog_inputs.map:
       self.ainput_changed(m)
@@ -31,16 +30,6 @@ class JouleJowenta(ModuleMixin):
       jowenta = jowenta[0]
       jowenta['actual_value'] = value
       self.cb_call(jowenta)
-
-  def set_cb(self, cb):
-    self.cb.append(cb)
-
-  def cb_call(self, jowenta):
-    for cb in self.cb:
-      try:
-        cb(jowenta)
-      except Exception as e:
-        print e
 
   def regulation_loop(self):
     while True:

@@ -27,7 +27,6 @@ class JouleDigitalOutputs(ModuleMixin):
       output['value'] = False
 
   def set_output(self, id, value):
-
     if type(value) is not bool:
       raise RuntimeError('Value must be boolean!')
 

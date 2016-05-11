@@ -7,14 +7,21 @@ from hal.jowenta import JouleJowenta
 from hal.actions import JouleActions
 from hal.digital_inputs import JouleDigitalInputs
 from hal.temperature import JouleTemperature
+import RPi.GPIO as GPIO
 
 import logging
 
 if __name__ == '__main__':
   # logging.basicConfig(level=logging.DEBUG)
-  outputs = JouleDigitalOutputs()
+  GPIO.setmode(GPIO.BCM)
+  GPIO.setup(17, GPIO.OUT)
+  GPIO.output(17, GPIO.HIGH)
+  time.sleep(0.5)
+  GPIO.output(17, GPIO.LOW)
+
   ainputs = JouleAnalogInputs()
   dinputs = JouleDigitalInputs()
+  outputs = JouleDigitalOutputs()
   jowenta = JouleJowenta(ainputs)
   temperature = JouleTemperature()
 

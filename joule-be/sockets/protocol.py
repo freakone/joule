@@ -7,7 +7,7 @@ def protocol_init(sio, actions):
         sio.emit('connected', room=sid, namespace='/msgbus')
         sio.emit('digital_output_init', actions.digital_outputs.map, room=sid, namespace='/msgbus')
         sio.emit('jowenta_init', actions.jowenta.map, room=sid, namespace='/msgbus')
-
+        sio.emit('digital_input_init', actions.digital_inputs.map, room=sid, namespace='/msgbus')
 
     @sio.on('set_digital', namespace='/msgbus')
     def test_message(sid, data):

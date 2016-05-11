@@ -1,59 +1,3 @@
-// const _mocked_init = {
-//   digital_outputs: [
-//     {
-//       id: 1,
-//       value: true,
-//       name: 'pompa 1'
-//     },
-//     {
-//       id: 2,
-//       value: true,
-//       name: 'podajnik 1'
-//     },
-//     {
-//       id: 3,
-//       value: false,
-//       name: 'podajnik 2'
-//     }
-//   ],
-//   analog_outputs: [
-//     {
-//       id: 1,
-//       value: 25,
-//       name: 'jowenta dolot'
-//     },
-//     {
-//       id: 2,
-//       value: 60,
-//       name: 'jowenta wylot'
-//     }
-//   ],
-//   temperature_inputs: [
-//     {
-//       id: 1,
-//       name: 'temperatura palenisko',
-//       currentValue: 25,
-//       limitMin: 4,
-//       limitMax: 30,
-//       labels: ['1', '2', 'as', 'asd', 'asd'],
-//       options: {},
-//       datasets: [{ data: [5, 2, 3, 4, 3] }]
-//     },
-//     {
-//       id: 2,
-//       name: 'temperatura plaszcza',
-//       currentValue: 230,
-//       limitMin: 200,
-//       limitMax: 300,
-//       labels: ['1', '2', 'as', 'asd', 'asd'],
-//       options: {},
-//       datasets: [{ data: [1, 2, 3, 4, 5] }]
-//     }
-//   ],
-//   name: 'BCU666',
-//   manual_mode: true
-// }
-
 var io = require('socket.io-client')
 var socket = ''
 import * as actions from '../vuex/actions'
@@ -79,6 +23,14 @@ export default {
 
     socket.on('jowenta_changed', (data) => {
       actions.updateAnalogActualValue(store, data)
+    })
+
+    socket.on('digital_input_init', (data) => {
+      actions.initDigitalInputs(store, data)
+    })
+
+    socket.on('digital_input_changed', (data) => {
+      actions.updateDigitalInput(store, data)
     })
   }
 }

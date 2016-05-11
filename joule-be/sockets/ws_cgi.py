@@ -16,6 +16,7 @@ class wscgi(object):
     self.th_server.start()
 
     actions.set_jowenta_cb(self.jowenta_changed)
+    actions.set_dinput_cb(self.dinput_changed)
 
   def start_server(self):
     self.sio = socketio.Server(logger=True, async_mode='eventlet')
@@ -28,3 +29,6 @@ class wscgi(object):
 
   def jowenta_changed(self, jowenta):
     self.sio.emit('jowenta_changed', jowenta, namespace='/msgbus')
+
+  def dinput_changed(self, dinput):
+    self.sio.emit('digital_input_changed', dinput, namespace='/msgbus')

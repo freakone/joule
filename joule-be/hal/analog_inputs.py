@@ -9,13 +9,12 @@ from math import fabs
 
 class JouleAnalogInputs(ModuleMixin):
   def __init__(self):
-    super(ModuleMixin, self).__init__()
+    super(JouleAnalogInputs, self).__init__()
 
     # self.map = self.load_map('analog_inputs.map', ai_map.ANALOG_INPUTS)
     self.map = ai_map.ANALOG_INPUTS
     self.bus = smbus.SMBus(1)
     self.adcs = []
-    self.cb = []
 
     for ai in self.map:
       self.adcs.append(MCP342x(self.bus, ai['address'], channel=ai['index'], resolution=12))
@@ -23,16 +22,6 @@ class JouleAnalogInputs(ModuleMixin):
     self.th_run = Thread(target=self.measure_loop)
     self.th_run.setDaemon(True)
     self.th_run.start()
-
-  def set_cb(self, cb):
-    self.cb.append(cb)
-
-  def cb_call(self, analog_input):
-    for cb in self.cb:
-      try:
-        cb(analog_input)
-      except Exception as e:
-        print e
 
   def measure_loop(self):
     while True:

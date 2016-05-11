@@ -4,7 +4,7 @@
       | Bieżące parametry
   section.content
 
-    .col-md-10
+    .col-md-8
       .row
         .col-md-6(v-for="temp in temperatureSensors")
           .box.box-primary
@@ -20,6 +20,12 @@
             .box-body
               knob(:id="output.id", :actual_value="output.actual_value")
     .col-md-2
+      .row(v-for="di in digitalInputs")
+        .info-box
+          span.info-box-icon(:class="{ 'bg-red' : di.value, 'bg-green' : !di.value }")
+          .info-box-content
+            span.info-box-text {{ di.name }}
+     .col-md-2
       .row(v-for="do in digitalOutputs")
         .info-box
           span.info-box-icon(:class="{ 'bg-red' : !do.value, 'bg-green' : do.value }")
@@ -32,7 +38,7 @@
 <script>
 import Knob from './knob-vue'
 import { LineChart } from 'vue-chart.js'
-import { temperatureSensors, digitalOutputs, analogOutputs } from '../vuex/getters'
+import { temperatureSensors, digitalOutputs, analogOutputs, digitalInputs } from '../vuex/getters'
 
 export default {
   components: {
@@ -43,7 +49,8 @@ export default {
     getters: {
       analogOutputs: analogOutputs,
       temperatureSensors: temperatureSensors,
-      digitalOutputs: digitalOutputs
+      digitalOutputs: digitalOutputs,
+      digitalInputs: digitalInputs
     },
     actions: {
     }
@@ -53,14 +60,15 @@ export default {
 
 <style scoped>
   .info-box-icon {
-    height: 40px;
+    height: 20px;
   }
 
   .info-box {
-    min-height: 40px;
+    min-height: 20px;
+    margin-bottom: 5px;
   }
 
   .info-box-content {
-    padding: 10px;
+    padding: 0px 10px;
   }
 </style>

@@ -5,13 +5,13 @@ import hal.lib.GPIO as GPIO
 
 class JouleDigitalOutputs(ModuleMixin):
   def __init__(self):
-    super(ModuleMixin, self).__init__()
+    super(JouleDigitalOutputs, self).__init__()
 
     #map of pins
     # self.map = self.load_map('digital_outputs.map', do_map.DIGITAL_OUTPUTS)
     self.map = do_map.DIGITAL_OUTPUTS
     #get unique mcp addresses
-    unique_addresses = set(map(lambda x: x['address'], do_map.DIGITAL_OUTPUTS))
+    unique_addresses = set(map(lambda x: x['address'], self.map))
     self.gpio_modules = {}
 
     #init modules

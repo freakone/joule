@@ -6,6 +6,7 @@ import analog from './modules/analog-output'
 import temperature from './modules/temperature'
 import output from './modules/digital-output'
 import general from './modules/general'
+import dinput from './modules/digital-input'
 
 Vue.use(Vuex)
 Vue.config.debug = true
@@ -17,7 +18,8 @@ export default new Vuex.Store({
     analog,
     temperature,
     output,
-    general
+    general,
+    dinput
   },
   strict: debug,
   middlewares: debug ? [createLogger()] : []

@@ -1,18 +1,29 @@
-import globals.state
+import globals.state as state
 import pickle
 
 class ModuleMixin(object):
   def __init__(self):
     self.status = state.INITIALIZATION
-    self.cb = None
+    self.status_cb = None
     self.error_code = 0
+    self.cb = []
+
+  def set_cb(self, cb):
+    self.cb.append(cb)
+
+  def cb_call(self, *args):
+    for cb in self.cb:
+      try:
+        cb(*args)
+      except Exception as e:
+        print e
 
   def set_status_cb(self, cb):
-    self.cb = cb
+    self.status_cb = cb
 
   def set_status(self, status):
     self.status = status
-    self.cb(status, self.error_code)
+    self.status_cb(status, self.error_code)
 
   def get_status(self):
     return self.status

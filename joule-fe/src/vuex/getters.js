@@ -17,6 +17,10 @@ export const digitalOutputs = state => {
   return state.output.items
 }
 
+export const digitalInputs = state => {
+  return state.dinput.items
+}
+
 export const generalSettings = state => {
   return state.general
 }

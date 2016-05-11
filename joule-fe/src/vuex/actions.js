@@ -5,10 +5,36 @@ export const updateLoading = ({ dispatch }, value) => {
   dispatch(types.UPDATE_LOADING, value)
 }
 
+// DIGITAL OUTPUTS
 export const initDigitalOutputs = ({dispatch}, state) => {
   dispatch(types.RECEIVE_DIGITAL_OUTPUTS, state)
 }
 
+export const updateDigitalValue = ({ dispatch }, e) => {
+  var id = parseInt(e.target.id)
+  var value = e.target.checked
+  dispatch(types.UPDATE_OUTPUTS, id, value)
+  api.setDigitalValue(id, value)
+}
+
+export const updateDigitalOutputName = ({ dispatch }, e) => {
+  dispatch(types.UPDATE_DIGITAL_NAME, parseInt(e.target.id), e.target.value)
+}
+
+// DIGITAL INPUTS
+export const initDigitalInputs = ({dispatch}, state) => {
+  dispatch(types.RECEIVE_DIGITAL_INPUTS, state)
+}
+
+export const updateDigitalInput = ({dispatch}, state) => {
+  dispatch(types.UPDATE_DIGITAL_INPUT, state.id, state.value)
+}
+
+export const updateDigitalInputName = ({ dispatch }, e) => {
+  dispatch(types.UPDATE_DIGITAL_INPUT_NAME, parseInt(e.target.id), e.target.value)
+}
+
+//
 export const initJowenta = ({dispatch}, state) => {
   dispatch(types.RECEIVE_ANALOG_OUTPUTS, state)
 }
@@ -32,13 +58,6 @@ export const updateAnalogValue = ({ dispatch }, e) => {
   dispatch(types.UPDATE_ANALOG, parseInt(e.target.id), parseInt(e.target.value))
 }
 
-export const updateDigitalValue = ({ dispatch }, e) => {
-  var id = parseInt(e.target.id)
-  var value = e.target.checked
-  dispatch(types.UPDATE_OUTPUTS, id, value)
-  api.setDigitalValue(id, value)
-}
-
 export const updateName = ({ dispatch }, e) => {
   dispatch(types.UPDATE_NAME, e.target.value)
 }
@@ -49,10 +68,6 @@ export const updateManualMode = ({ dispatch }, value) => {
 
 export const updateAnalogOutputName = ({ dispatch }, e) => {
   dispatch(types.UPDATE_ANALOG_NAME, parseInt(e.target.id), e.target.value)
-}
-
-export const updateDigitalOutputName = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_DIGITAL_NAME, parseInt(e.target.id), e.target.value)
 }
 
 export const updateTemperatureSensorName = ({ dispatch }, e) => {

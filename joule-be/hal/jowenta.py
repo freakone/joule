@@ -6,11 +6,14 @@ from math import fabs
 
 class JouleJowenta(ModuleMixin):
   def __init__(self, analog_inputs):
-    super(ModuleMixin, self).__init__()
+    super(JouleJowenta, self).__init__()
 
     # self.map = self.load_map('analog_inputs.map', ai_map.ANALOG_INPUTS)
     self.map = j_map.JOWENTA
     self.cb = []
+
+    for m in analog_inputs.map:
+      self.ainput_changed(m)
 
     analog_inputs.set_cb(self.ainput_changed)
 

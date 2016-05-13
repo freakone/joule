@@ -11,7 +11,7 @@
             .box-header.with-border
               h3.box-title {{ temp.name }} [{{temp.currentValue}}*C]
             .box-body
-              line-chart(:responsive="true",:labels="temp.labels",:datasets="temp.datasets")
+               line-chart(:responsive='true', :labels='temp.labels', :datasets='temp.datasets')
       .row
         .col-md-4.col-xs-6(v-for="output in analogOutputs")
           .box.box-primary

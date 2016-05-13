@@ -12,6 +12,8 @@ const state = {
   selectedSensor: {}
 }
 
+var dateFormat = require('dateformat')
+
 const mutations = {
   [RECEIVE_TEMPERATURE_INPUTS] (state, items) {
     state.items = items
@@ -19,8 +21,11 @@ const mutations = {
   [ADD_TEMPERATURE] (state, itemId, value) {
     const record = state.items.find(p => p.id === itemId)
     if (record) {
-      record.labels.push(Date.now().toString())
-      record.datasets[0].data.push(value)
+      var label = dateFormat(Date.now(), 'HH:MM:ss')
+      record.labels.push(label)
+      var new_dataset = [{data: record.datasets[0].data}]
+      new_dataset[0].data.push(value)
+      record.datasets = new_dataset
       record.currentValue = value
     }
   },

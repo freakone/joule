@@ -66,7 +66,6 @@ export const initJowenta = ({dispatch}, state) => {
 }
 
 export const getInitialState = ({dispatch}, state) => {
-  dispatch(types.RECEIVE_TEMPERATURE_INPUTS, state.temperature_inputs)
   dispatch(types.UPDATE_NAME, state.name)
   dispatch(types.UPDATE_MANUAL_MODE, state.manual_mode)
   dispatch(types.UPDATE_LOADING, false)

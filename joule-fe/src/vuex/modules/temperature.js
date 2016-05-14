@@ -23,7 +23,7 @@ const mutations = {
     if (record) {
       var label = dateFormat(Date.now(), 'HH:MM:ss')
       record.labels.push(label)
-      var new_dataset = [{data: record.datasets[0].data}]
+      var new_dataset = record.datasets.slice()
       new_dataset[0].data.push(value)
       record.datasets = new_dataset
       record.currentValue = value

@@ -7,6 +7,10 @@ TEMPERATURE = [
    'limitMin': 4,
    'limitMax': 30,
    'labels': [],
-   'datasets': [{ 'data': [] }]
+   'datasets': [{
+      'backgroundColor': 'rgba(221,75,57,0.6)',
+      'borderColor': "rgba(220,75,57,1)",
+      'data': []
+    }]
   },
 ]

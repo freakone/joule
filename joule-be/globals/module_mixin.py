@@ -23,7 +23,7 @@ class ModuleMixin(object):
 
   def set_status(self, status):
     self.status = status
-    self.status_cb(status, self.error_code)
+    self.status_cb(self)
 
   def get_status(self):
     return self.status

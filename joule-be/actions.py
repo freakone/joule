@@ -52,3 +52,11 @@ class JouleActions(object):
         cb(digital_outputs.map)
       except Exception as e:
         print "cb error", e
+
+  def toggle_output(self, id):
+    self.digital_outputs.toggle_output(id, value)
+    for cb in self.output_cb:
+      try:
+        cb(digital_outputs.map)
+      except Exception as e:
+        print "cb error", e

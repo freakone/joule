@@ -7,6 +7,8 @@ from hal.jowenta import JouleJowenta
 from hal.actions import JouleActions
 from hal.digital_inputs import JouleDigitalInputs
 from hal.temperature import JouleTemperature
+from hal.status_leds import JouleLeds
+from state import JouleState
 import RPi.GPIO as GPIO
 
 import logging
@@ -26,6 +28,9 @@ if __name__ == '__main__':
   temperature = JouleTemperature()
 
   actions = JouleActions(outputs, jowenta, dinputs, temperature)
+  leds = JouleLeds(actions)
+  state = JouleState(leds, dinputs, [ainputs, dinputs, outputs, jowenta, temperature])
+
   ws = wscgi(actions)
 
   while True:

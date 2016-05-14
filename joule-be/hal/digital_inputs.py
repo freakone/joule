@@ -31,6 +31,11 @@ class JouleDigitalInputs(ModuleMixin):
       self.gpio_modules[dinput['address']].setup(dinput['index'], GPIO.IN)
       dinput['value'] = False
 
+  def input_state(self, id):
+    dinput = filter(lambda dinput: dinput['id'] == id, self.map)
+    if len(dinput) == 1:
+      return dinput[0]['value']
+
   def measure_loop(self):
     while True:
       try:

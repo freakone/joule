@@ -10,3 +10,10 @@ DIGITAL_INPUTS = [
 {'id': 10, 'address' : 0x27, 'index': 8, 'name': 'grzyb no', 'value': False},
 {'id': 11, 'address' : 0x27, 'index': 9, 'name': 'grzyb nc', 'value': False}
 ]
+
+AUTO_MODE = 6
+MANUAL_MODE = 7
+BUTTON_RIGH = 8
+BUTTON_LEFT = 9
+EMERGENCY_NO = 10
+EMERGENCY_NC = 11

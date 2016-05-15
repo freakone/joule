@@ -22,7 +22,7 @@ class JouleAnalogInputs(ModuleMixin):
     self.th_run = Thread(target=self.measure_loop)
     self.th_run.setDaemon(True)
     self.th_run.start()
-    m.set_status(state.OK)
+    self.set_status(state.OK)
 
   def measure_loop(self):
     while True:

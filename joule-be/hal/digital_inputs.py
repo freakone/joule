@@ -4,6 +4,7 @@ from hal.lib.MCP230xx import MCP23017
 import hal.lib.GPIO as GPIO
 from threading import Thread
 import time
+import globals.state as state
 
 class JouleDigitalInputs(ModuleMixin):
   def __init__(self):
@@ -26,7 +27,7 @@ class JouleDigitalInputs(ModuleMixin):
     self.th_run.setDaemon(True)
     self.th_run.start()
 
-    m.set_status(state.OK)
+    self.set_status(state.OK)
 
   def init_ports(self):
     for dinput in self.map:

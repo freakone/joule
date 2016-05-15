@@ -3,6 +3,7 @@ from globals.module_mixin import ModuleMixin
 import time
 from threading import Thread
 from math import fabs
+import globals.state as state
 
 class JouleJowenta(ModuleMixin):
   def __init__(self, analog_inputs):
@@ -19,7 +20,7 @@ class JouleJowenta(ModuleMixin):
     self.th_run.setDaemon(True)
     self.th_run.start()
 
-    m.set_status(state.OK)
+    self.set_status(state.OK)
 
   def ainput_changed(self, ainput):
     value = ainput['value'] - ainput['min']

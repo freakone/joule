@@ -26,16 +26,16 @@ class ModuleMixin(object):
     self.error_counter = 0
 
   def error(self, message):
-    error_counter = error_counter + 1
+    self.error_counter = self.error_counter + 1
 
-    if error_counter > 5:
+    if self.error_counter > 5:
       self.error_message = message
       self.set_status(state.ERROR)
 
   def set_status(self, status):
     last_status = self.status
     self.status = status
-    if status_cb:
+    if self.status_cb:
       self.status_cb(self, last_status)
 
   def get_status(self):

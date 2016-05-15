@@ -2,6 +2,7 @@ import hal.maps.digital_outputs_map as do_map
 from globals.module_mixin import ModuleMixin
 from hal.lib.MCP230xx import MCP23017
 import hal.lib.GPIO as GPIO
+import globals.state as state
 
 class JouleDigitalOutputs(ModuleMixin):
   def __init__(self):
@@ -18,7 +19,7 @@ class JouleDigitalOutputs(ModuleMixin):
       self.gpio_modules[addr] = MCP23017(address=addr)
 
     self.init_ports()
-    m.set_status(state.OK)
+    self.set_status(state.OK)
 
   def init_ports(self):
     for output in self.map:

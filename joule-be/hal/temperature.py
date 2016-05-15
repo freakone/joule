@@ -5,6 +5,7 @@ from threading import Thread
 from math import fabs
 import hal.lib.minimalmodbus as modbus
 import RPi.GPIO as GPIO
+import globals.state as state
 
 class JouleTemperature(ModuleMixin):
   def __init__(self):
@@ -22,7 +23,7 @@ class JouleTemperature(ModuleMixin):
     self.th_run.setDaemon(True)
     self.th_run.start()
 
-    m.set_status(state.OK)
+    self.set_status(state.OK)
 
   def measure_loop(self):
     while True:

@@ -33,7 +33,10 @@ if __name__ == '__main__':
   state = JouleState(dinputs, [ainputs, dinputs, outputs, jowenta, temperature])
   actions = JouleActions(state, outputs, jowenta, dinputs, temperature)
   leds = JouleLeds(actions)
+
   state.set_leds(leds)
+  jowenta.set_actions(actions)
+  jowenta.set_state(state)
 
   ws = wscgi(actions)
 

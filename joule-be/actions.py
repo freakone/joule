@@ -38,8 +38,11 @@ class JouleActions(object):
   def set_state_cb(self, cb):
     self.state.set_cb(cb)
 
-# setters
+# getters
+  def get_output_state(self, id):
+    return self.digital_outputs.output_state(id)
 
+# setters
   def set_name(self, name):
     self.state.set_name(name)
 
@@ -60,8 +63,9 @@ class JouleActions(object):
       print "outputs change forbidden during automatic mode"
       return
 
-    _map = self.digital_outputs.set_output(id, value)
-    self.cb_call(self.output_cb, _map)
+    if not self.get_output_state(id) == value:
+      _map = self.digital_outputs.set_output(id, value)
+      self.cb_call(self.output_cb, _map)
 
   def toggle_output(self, id):
     _map = self.digital_outputs.toggle_output(id)

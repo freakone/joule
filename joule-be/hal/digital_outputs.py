@@ -27,6 +27,11 @@ class JouleDigitalOutputs(ModuleMixin):
       self.gpio_modules[output['address']].output(output['index'], GPIO.LOW)
       output['value'] = False
 
+  def output_state(self, id):
+    doutput = filter(lambda doutput: doutput['id'] == id, self.map)
+    if len(doutput) == 1:
+      return doutput[0]['value']
+
   def set_output(self, id, value):
     try:
       if type(value) is not bool:

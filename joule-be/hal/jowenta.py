@@ -3,13 +3,15 @@ from globals.module_mixin import ModuleMixin
 import time
 from threading import Thread
 from math import fabs
-import globals.state as state
+import globals.states as state
 
 class JouleJowenta(ModuleMixin):
   def __init__(self, analog_inputs):
     super(JouleJowenta, self).__init__()
 
     self.map = self.load_map('jowenta.map', j_map.JOWENTA)
+    self.actions = None
+    self.state = None
 
     for m in analog_inputs.map:
       self.ainput_changed(m)
@@ -21,6 +23,12 @@ class JouleJowenta(ModuleMixin):
     self.th_run.start()
 
     self.set_status(state.OK)
+
+  def set_state(self, state):
+    self.state = state
+
+  def set_actions(self, actions):
+    self.actions = actions
 
   def ainput_changed(self, ainput):
     value = ainput['value'] - ainput['min']
@@ -35,7 +43,21 @@ class JouleJowenta(ModuleMixin):
 
   def regulation_loop(self):
     while True:
-      time.sleep(0.1)
+      if not self.actions == None and not self.state == None:
+        if self.state.current_state() == state.AUTO:
+          for j in self.map:
+            if fabs(j['value'] - j['actual_value']) > 5:
+              if j['value'] > j['actual_value']:
+                self.actions.set_output(j['gpio_dir'], True)
+              else:
+                self.actions.set_output(j['gpio_dir'], False)
+
+              self.actions.set_output(j['gpio_power'], True)
+            else:
+              self.actions.set_output(j['gpio_dir'], False)
+              self.actions.set_output(j['gpio_power'], False)
+
+      time.sleep(0.2)
 
   def set_name(self, id, name):
     output = filter(lambda out: out['id'] == id, self.map)

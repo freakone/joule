@@ -41,7 +41,7 @@ class JouleDigitalOutputs(ModuleMixin):
         return output
     except Exception as e:
       print "output error", e
-      self.error(e)
+      self.error(str(e))
 
   def toggle_output(self, id):
     try:
@@ -55,6 +55,12 @@ class JouleDigitalOutputs(ModuleMixin):
 
     except Exception as e:
       print "output error", e
-      self.error(e)
+      self.error(str(e))
+
+  def set_name(self, id, name):
+    output = filter(lambda out: out['id'] == id, self.map)
+    if len(output) == 1:
+      output[0]['name'] = name
+      self.save_map('digital_outputs.map', self.map)
 
 

@@ -37,6 +37,12 @@ class JouleTemperature(ModuleMixin):
         self.zero_errors()
       except Exception as e:
         print "measure error", e
-        self.error(e)
+        self.error(str(e))
 
       time.sleep(5)
+
+  def set_name(self, id, name):
+    output = filter(lambda out: out['id'] == id, self.map)
+    if len(output) == 1:
+      output[0]['name'] = name
+      self.save_map('temperature.map', self.map)

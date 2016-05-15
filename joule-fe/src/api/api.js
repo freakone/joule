@@ -6,6 +6,18 @@ export default {
   setDigitalValue (id, value) {
     socket.emit('set_digital', {id: id, value: value})
   },
+  setName (name) {
+    socket.emit('set_name', name)
+  },
+  setDigitalOuputName (id, value) {
+    socket.emit('set_digital_output_name', {id: id, value: value})
+  },
+  setTemperatureName (id, value) {
+    socket.emit('set_temperature_name', {id: id, value: value})
+  },
+  setJowentaName (id, value) {
+    socket.emit('set_jowenta_name', {id: id, value: value})
+  },
   initialize (store) {
     socket = io('http://192.168.1.105:5000/msgbus')
 

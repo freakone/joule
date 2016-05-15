@@ -2,16 +2,17 @@ import state_map
 import globals.states as state
 import hal.maps.digital_inputs_map as di_map
 import time
+from globals.module_mixin import ModuleMixin
 
-class JouleState(object):
+class JouleState(ModuleMixin):
   def __init__(self, dinputs, modules):
-    self.state_map = state_map.STATE
+    super(JouleState, self).__init__()
+    self.state_map = self.load_map('state.map', state_map.STATE)
     self.last_state = state.INITIALIZATION
     self.modules = modules
     self.digital_inputs = dinputs
     self.leds = None
     self.emergency_queue = False
-    self.cb = []
 
     for m in modules:
       m.set_status_cb(self.status_changed_cb)
@@ -19,16 +20,6 @@ class JouleState(object):
 
     self.digital_inputs.set_cb(self.di_changed)
     self.di_changed(None)
-
-  def set_cb(self, cb):
-    self.cb.append(cb)
-
-  def cb_call(self, *args):
-    for cb in self.cb:
-      try:
-        cb(*args)
-      except Exception as e:
-        print e
 
   def di_changed(self, dinput):
     if dinput and (dinput['id'] == di_map.EMERGENCY_NO or dinput['id'] == di_map.EMERGENCY_NC):
@@ -81,3 +72,7 @@ class JouleState(object):
       self.state_map['error'] = source.error_message
       self.set_current_state(state.ERROR)
       print self.state_map
+
+  def set_name(self, name):
+    self.state_map['name'] = name
+    self.save_map('state.map', self.state_map)

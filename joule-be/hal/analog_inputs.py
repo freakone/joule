@@ -37,6 +37,6 @@ class JouleAnalogInputs(ModuleMixin):
 
       except Exception as e:
         print "measure error", e
-        self.error(e)
+        self.error(str(e))
 
       time.sleep(0.1)

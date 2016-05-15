@@ -39,6 +39,19 @@ class JouleActions(object):
     self.state.set_cb(cb)
 
 # setters
+
+  def set_name(self, name):
+    self.state.set_name(name)
+
+  def set_temperature_name(self, id, name):
+    self.temperatures.set_name(id, name)
+
+  def set_digital_output_name(self, id, name):
+    self.digital_outputs.set_name(id, name)
+
+  def set_jowenta_name(self, id, name):
+    self.jowenta.set_name(id, name)
+
   def check_call_source(self, path):
     return 'sockets' in path
 

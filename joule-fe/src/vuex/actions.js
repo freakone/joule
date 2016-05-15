@@ -22,7 +22,9 @@ export const updateDigitalValue = ({ dispatch }, e) => {
 }
 
 export const updateDigitalOutputName = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_DIGITAL_NAME, parseInt(e.target.id), e.target.value)
+  var id = parseInt(e.target.id)
+  dispatch(types.UPDATE_DIGITAL_NAME, id, e.target.value)
+  api.setDigitalOuputName(id, e.target.value)
 }
 
 // DIGITAL INPUTS
@@ -39,9 +41,10 @@ export const updateDigitalInputName = ({ dispatch }, e) => {
 }
 
 // TEMPERATURE
-
 export const updateTemperatureSensorName = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_TEMPERATURE_NAME, parseInt(e.target.id), e.target.value)
+  var id = parseInt(e.target.id)
+  dispatch(types.UPDATE_TEMPERATURE_NAME, id, e.target.value)
+  api.setTemperatureName(id, e.target.value)
 }
 
 export const updateTemperatureMinimum = ({ dispatch }, e) => {
@@ -78,7 +81,9 @@ export const updateAnalogValue = ({ dispatch }, e) => {
 }
 
 export const updateAnalogOutputName = ({ dispatch }, e) => {
+  var id = parseInt(e.target.id)
   dispatch(types.UPDATE_ANALOG_NAME, parseInt(e.target.id), e.target.value)
+  api.setJowentaName(id, e.target.value)
 }
 
 // GENERAL STATE
@@ -88,6 +93,7 @@ export const updateState = ({dispatch}, state) => {
 
 export const updateName = ({ dispatch }, e) => {
   dispatch(types.UPDATE_NAME, e.target.value)
+  api.setName(e.target.value)
 }
 
 export const updateManualMode = ({ dispatch }, value) => {

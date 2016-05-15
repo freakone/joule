@@ -47,6 +47,13 @@
   .loading-wrapper(v-show="generalSettings.loading")
     bounce-loader
     p Wczytywanie danych...
+  .error-wrapper(v-show="generalSettings.safety_switch")
+    i.fa.ion-alert-circled
+    p Aplikacja zatrzymana, wyłącznik awaryjny aktywowany!
+  .error-wrapper(v-show="generalSettings.error")
+    i.fa.ion-bug
+    p Aplikacja zatrzymana, błąd modułu sterującego!
+    span {{ generalSettings.error_source }}  {{ generalSettings.error_text }}
   footer.main-footer
     strong Copyright © 2016 Synergia.
     |  All rights reserved.
@@ -154,4 +161,35 @@ export default {
 
     p
       padding-top: 50px
+
+  .error-wrapper
+    position: fixed
+    z-index: 2000
+    left: 0
+    top: 10%
+    width: 100%
+    height: 80%
+    background-color: rgba(221,75,57,0.9)
+    color: rgb(255, 255, 255)
+
+    div, p, i, span
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%)
+      font-size: 30px
+    i
+      font-size: 150px
+      transform: translate(-50%, -100%)
+    p
+      padding-top: 50px
+
+    span
+      width: 50%
+      font-size: 15px
+      text-align: center
+      word-wrap: break-word
+      padding-top: 15%
+      font-style: italic
 </style>

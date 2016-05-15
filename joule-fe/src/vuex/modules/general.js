@@ -11,7 +11,11 @@ const state = {
   name: 'BEM 852',
   mode: states.INITIALIZATION,
   loading: false,
-  manual_mode: true
+  manual_mode: false,
+  error: false,
+  error_text: '',
+  error_source: '',
+  safety_switch: false
 }
 
 // mutations
@@ -20,9 +24,13 @@ const mutations = {
     state.name = value.name
     state.mode = value.mode
     state.manual_mode = value.mode === states.MANUAL
+    state.safety_switch = value.mode === states.EMERGENCY_STOP
+    state.error = value.mode === states.ERROR
+    state.error_text = value.error
+    state.error_source = value.error_source
   },
   [UPDATE_NAME] (state, value) {
-    state.general_state.name = value
+    state.name = value
   },
   [UPDATE_LOADING] (state, value) {
     state.loading = value

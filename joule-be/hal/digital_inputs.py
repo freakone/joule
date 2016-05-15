@@ -34,7 +34,7 @@ class JouleDigitalInputs(ModuleMixin):
   def input_state(self, id):
     dinput = filter(lambda dinput: dinput['id'] == id, self.map)
     if len(dinput) == 1:
-      return dinput[0]['value']
+      return not dinput[0]['value']
 
   def measure_loop(self):
     while True:

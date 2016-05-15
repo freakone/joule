@@ -24,5 +24,5 @@ DIGITAL_OUTPUTS = [
 {'id': 23, 'address' : 0x21, 'index': 11, 'name': 'LED CZERWONY', 'value': False}
 ]
 
-LED_GREEN = 22
-LED_RED = 23
+LED_GREEN = 23
+LED_RED = 22

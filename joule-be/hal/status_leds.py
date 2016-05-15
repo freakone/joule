@@ -14,14 +14,14 @@ class JouleLeds(object):
 
   def set_blink(self, status):
     self.status = status
-    self.actions.set_output(do_map.LED_GREEN, 0)
-    self.actions.set_output(do_map.LED_RED, 0)
+    self.actions.set_output(do_map.LED_GREEN, False)
+    self.actions.set_output(do_map.LED_RED, False)
 
     if status == state.AUTO:
-      self.actions.set_output(do_map.LED_GREEN, 1)
+      self.actions.set_output(do_map.LED_GREEN, True)
 
     if status == state.ERROR:
-      self.actions.set_output(do_map.LED_RED, 1)
+      self.actions.set_output(do_map.LED_RED, True)
 
   def blinker(self):
     while True:

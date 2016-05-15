@@ -4,7 +4,7 @@ from sockets.ws_cgi import wscgi
 from hal.digital_outputs import JouleDigitalOutputs
 from hal.analog_inputs import JouleAnalogInputs
 from hal.jowenta import JouleJowenta
-from hal.actions import JouleActions
+from actions import JouleActions
 from hal.digital_inputs import JouleDigitalInputs
 from hal.temperature import JouleTemperature
 from hal.status_leds import JouleLeds

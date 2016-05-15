@@ -254,6 +254,7 @@ function _init() {
       var sidebar_height = $(".sidebar").height();
       //Set the min-height of the content and sidebar based on the
       //the height of the document.
+
       if ($("body").hasClass("fixed")) {
         $(".content-wrapper, .right-side").css('height', window_height - $('.main-footer').outerHeight());
       } else {

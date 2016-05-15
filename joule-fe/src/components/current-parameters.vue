@@ -3,7 +3,6 @@
     h1
       | Bieżące parametry
   section.content
-
     .col-md-8
       .row
         .col-md-6(v-for="temp in temperatureSensors")
@@ -13,7 +12,7 @@
             .box-body
                line-chart(:responsive='true', :labels='temp.labels', :datasets='temp.datasets')
       .row
-        .col-md-4.col-xs-6(v-for="output in analogOutputs")
+        .col-md-2.col-xs-6(v-for="output in analogOutputs")
           .box.box-primary
             .box-header.with-border
               h3.box-title {{ output.name }}

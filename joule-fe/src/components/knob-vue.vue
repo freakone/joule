@@ -28,6 +28,7 @@ export default {
       angleArc: 360,
       min: 0,
       max: 100,
+      fgColor: '#dd4b39',
       width: document.getElementById('knob-' + this.id).offsetWidth,
       readOnly: true
     }

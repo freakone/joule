@@ -130,7 +130,7 @@ export default {
     width: 100%
 
   .content-wrapper
-    height: 100%
+    height: calc(100% - 100px)
     overflow-y: auto;
     min-height: 10% !important
 

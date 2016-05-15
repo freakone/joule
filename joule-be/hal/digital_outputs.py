@@ -41,7 +41,7 @@ class JouleDigitalOutputs(ModuleMixin):
         return output
     except Exception as e:
       print "output error", e
-      self.error(e.strerror)
+      self.error(e)
 
   def toggle_output(self, id):
     try:
@@ -55,6 +55,6 @@ class JouleDigitalOutputs(ModuleMixin):
 
     except Exception as e:
       print "output error", e
-      self.error(e.strerror)
+      self.error(e)
 
 

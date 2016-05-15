@@ -17,6 +17,10 @@ export default {
       actions.initDigitalOutputs(store, data)
     })
 
+    socket.on('digital_output_changed', (data) => {
+      actions.updateDigitalValueSilently(store, data.id, data.value)
+    })
+
     socket.on('jowenta_init', (data) => {
       actions.initJowenta(store, data)
     })
@@ -41,8 +45,12 @@ export default {
       actions.addTemperature(store, data)
     })
 
-    socket.on('digital_output_changed', (data) => {
-      actions.updateDigitalValueSilently(store, data.id, data.value)
+    socket.on('state_init', (data) => {
+      actions.updateState(store, data)
+    })
+
+    socket.on('state_changed', (data) => {
+      actions.updateState(store, data)
     })
   }
 }

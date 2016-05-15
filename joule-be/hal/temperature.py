@@ -37,6 +37,6 @@ class JouleTemperature(ModuleMixin):
         self.zero_errors()
       except Exception as e:
         print "measure error", e
-        self.error(e.strerror)
+        self.error(e)
 
       time.sleep(5)

@@ -4,11 +4,13 @@
       | Sterowanie
   section.content
     .row
-      .alert.alert-danger.text-center(v-if="generalSettings.manual_mode")
+      .alert.alert-danger.text-center(v-if="generalSettings.mode == 6")
         | Sterowanie ręczne
-      .alert.alert-success.text-center(v-else)
+      .alert.alert-success.text-center(v-if="generalSettings.mode == 5")
         | Sterowanie automatyczne
-    .row(v-show="generalSettings.manual_mode")
+      .alert.alert-info.text-center(v-if="generalSettings.mode == 4")
+        | Stan spoczynkowy
+    .row(v-show="generalSettings.mode == 6")
       .col-lg-3.col-md-6(v-for="output in digitalOutputs")
         .box.box-primary
           .box-header.with-border

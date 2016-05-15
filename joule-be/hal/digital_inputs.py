@@ -54,7 +54,7 @@ class JouleDigitalInputs(ModuleMixin):
         self.zero_errors()
     except Exception as e:
       print "measure error", e
-      self.error(e.strerror)
+      self.error(e)
 
   def measure_loop(self):
     while True:

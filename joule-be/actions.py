@@ -10,15 +10,8 @@ class JouleActions(object):
     self.state = state
 
     self.output_cb = []
-    self.jowenta_cb = []
-    self.dinput_cb = []
-    self.temperature_cb = []
 
-    jowenta.set_cb(self.jowenta_changed)
-    digital_inputs.set_cb(self.di_changed)
-    temperatures.set_cb(self.temperature_changed)
 
-# callback handling
   def cb_call(self, cbs, *args):
     for cb in cbs:
       try:
@@ -29,24 +22,21 @@ class JouleActions(object):
   def set_output_cb(self, cb):
     self.output_cb.append(cb)
 
+# callback handling
+  def set_output_cb(self, cb):
+    self.output_cb.append(cb)
+
   def set_jowenta_cb(self, cb):
-    self.jowenta_cb.append(cb)
+    self.jowenta.set_cb(cb)
 
   def set_dinput_cb(self, cb):
-    self.dinput_cb.append(cb)
+    self.digital_inputs.set_cb(cb)
 
   def set_temperature_cb(self, cb):
-    self.temperature_cb.append(cb)
+    self.temperatures.set_cb(cb)
 
-# changed events
-  def jowenta_changed(self, jowenta):
-    self.cb_call(self.jowenta_cb, jowenta)
-
-  def di_changed(self, dinput):
-    self.cb_call(self.dinput_cb, dinput)
-
-  def temperature_changed(self, temperature):
-    self.cb_call(self.temperature_cb, temperature)
+  def set_state_cb(self, cb):
+    self.state.set_cb(cb)
 
 # setters
   def check_call_source(self, path):

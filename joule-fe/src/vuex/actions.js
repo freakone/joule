@@ -64,15 +64,9 @@ export const addTemperature = ({ dispatch }, data) => {
   dispatch(types.ADD_TEMPERATURE, data.id, data.currentValue)
 }
 
-//
+// JOWENTA
 export const initJowenta = ({dispatch}, state) => {
   dispatch(types.RECEIVE_ANALOG_OUTPUTS, state)
-}
-
-export const getInitialState = ({dispatch}, state) => {
-  dispatch(types.UPDATE_NAME, state.name)
-  dispatch(types.UPDATE_MANUAL_MODE, state.manual_mode)
-  dispatch(types.UPDATE_LOADING, false)
 }
 
 export const updateAnalogActualValue = ({dispatch}, state) => {
@@ -83,6 +77,15 @@ export const updateAnalogValue = ({ dispatch }, e) => {
   dispatch(types.UPDATE_ANALOG, parseInt(e.target.id), parseInt(e.target.value))
 }
 
+export const updateAnalogOutputName = ({ dispatch }, e) => {
+  dispatch(types.UPDATE_ANALOG_NAME, parseInt(e.target.id), e.target.value)
+}
+
+// GENERAL STATE
+export const updateState = ({dispatch}, state) => {
+  dispatch(types.RECEIVE_STATE, state)
+}
+
 export const updateName = ({ dispatch }, e) => {
   dispatch(types.UPDATE_NAME, e.target.value)
 }
@@ -90,8 +93,3 @@ export const updateName = ({ dispatch }, e) => {
 export const updateManualMode = ({ dispatch }, value) => {
   dispatch(types.UPDATE_MANUAL_MODE, value)
 }
-
-export const updateAnalogOutputName = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_ANALOG_NAME, parseInt(e.target.id), e.target.value)
-}
-

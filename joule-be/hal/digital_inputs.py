@@ -21,6 +21,7 @@ class JouleDigitalInputs(ModuleMixin):
       self.gpio_modules[addr] = MCP23017(address=addr)
 
     self.init_ports()
+    self.measure()
 
     self.th_run = Thread(target=self.measure_loop)
     self.th_run.setDaemon(True)
@@ -36,21 +37,23 @@ class JouleDigitalInputs(ModuleMixin):
     if len(dinput) == 1:
       return not dinput[0]['value']
 
+  def measure(self):
+    try:
+      for k, v in self.gpio_modules.iteritems():
+        single_module = filter(lambda dinput: dinput['address'] == k, self.map)
+        pins = map(lambda x: x['index'], single_module)
+        pins = self.gpio_modules[k].input_pins(pins)
+
+        for i, result in enumerate(pins):
+          if not self.map[i]['value'] == result:
+            self.map[i]['value'] = result
+            self.cb_call(self.map[i])
+
+    except Exception as e:
+      print "measure error", e
+
   def measure_loop(self):
     while True:
-      try:
-        for k, v in self.gpio_modules.iteritems():
-          single_module = filter(lambda dinput: dinput['address'] == k, self.map)
-          pins = map(lambda x: x['index'], single_module)
-          pins = self.gpio_modules[k].input_pins(pins)
-
-          for i, result in enumerate(pins):
-            if not self.map[i]['value'] == result:
-              self.map[i]['value'] = result
-              self.cb_call(self.map[i])
-
-      except Exception as e:
-        print "measure error", e
-
+      self.measure()
       time.sleep(0.1)
 

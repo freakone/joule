@@ -5,7 +5,7 @@ class ModuleMixin(object):
   def __init__(self):
     self.status = state.INITIALIZATION
     self.status_cb = None
-    self.error_code = 0
+    self.error_message = ''
     self.cb = []
 
   def set_cb(self, cb):
@@ -22,8 +22,10 @@ class ModuleMixin(object):
     self.status_cb = cb
 
   def set_status(self, status):
+    last_status = self.status
     self.status = status
-    self.status_cb(self)
+    if status_cb:
+      self.status_cb(self, last_status)
 
   def get_status(self):
     return self.status

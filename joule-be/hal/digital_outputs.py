@@ -35,6 +35,7 @@ class JouleDigitalOutputs(ModuleMixin):
       output = output[0]
       self.gpio_modules[output['address']].output(output['index'], value)
       output['value'] = value
+      return output
 
   def toggle_output(self, id):
     output = filter(lambda out: out['id'] == id, self.map)
@@ -42,5 +43,5 @@ class JouleDigitalOutputs(ModuleMixin):
       output = output[0]
       self.gpio_modules[output['address']].output(output['index'], not output['value'])
       output['value'] = not output['value']
-
+      return output
 

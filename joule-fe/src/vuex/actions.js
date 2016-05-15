@@ -10,10 +10,14 @@ export const initDigitalOutputs = ({dispatch}, state) => {
   dispatch(types.RECEIVE_DIGITAL_OUTPUTS, state)
 }
 
+export const updateDigitalValueSilently = ({ dispatch }, id, value) => {
+  dispatch(types.UPDATE_OUTPUT, id, value)
+}
+
 export const updateDigitalValue = ({ dispatch }, e) => {
   var id = parseInt(e.target.id)
   var value = e.target.checked
-  dispatch(types.UPDATE_OUTPUTS, id, value)
+  dispatch(types.UPDATE_OUTPUT, id, value)
   api.setDigitalValue(id, value)
 }
 

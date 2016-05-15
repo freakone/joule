@@ -4,11 +4,12 @@ import hal.maps.digital_inputs_map as di_map
 import time
 
 class JouleState(object):
-  def __init__(self, leds, dinputs, modules):
+  def __init__(self, dinputs, modules):
     self.state_map = state_map.STATE
+    self.last_state = state.INITIALIZATION
     self.modules = modules
     self.digital_inputs = dinputs
-    self.leds = leds
+    self.leds = None
     self.emergency_queue = False
 
     for m in modules:
@@ -34,6 +35,10 @@ class JouleState(object):
       self.set_current_state(state.EMERGENCY_STOP)
       return
 
+    if self.last_state == state.ERROR:
+      self.set_current_state(state.ERROR)
+      return
+
     if self.digital_inputs.input_state(di_map.MANUAL_MODE):
       self.set_current_state(state.MANUAL)
       return
@@ -45,12 +50,21 @@ class JouleState(object):
     self.set_current_state(state.STOP)
 
   def set_current_state(self, state):
+    self.last_state = self.state_map['mode']
     self.state_map['mode'] = state
-    self.leds.set_blink(state)
+    if self.leds:
+      self.leds.set_blink(state)
 
   def current_state(self):
     return self.state_map['mode']
 
-  def status_changed_cb(self, source):
-    # if source.get_status() ==
-    print source.__class__.__name__
+  def set_leds(self, leds):
+    self.leds = leds
+    self.leds.set_blink(self.state_map['mode'])
+
+  def status_changed_cb(self, source, last_state):
+    if source.get_status() == state.ERROR:
+      self.state_map['error_source'] =  source.__class__.__name__
+      self.state_map['error'] = source.error_message
+      self.set_current_state(state.ERROR)
+      print self.state_map

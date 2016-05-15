@@ -40,5 +40,9 @@ export default {
     socket.on('temperature_changed', (data) => {
       actions.addTemperature(store, data)
     })
+
+    socket.on('digital_output_changed', (data) => {
+      actions.updateDigitalValueSilently(store, data.id, data.value)
+    })
   }
 }

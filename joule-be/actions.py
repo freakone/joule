@@ -1,9 +1,13 @@
+import inspect
+import globals.states as st
+
 class JouleActions(object):
-  def __init__(self, digital_outputs, jowenta, digital_inputs, temperatures):
+  def __init__(self, state, digital_outputs, jowenta, digital_inputs, temperatures):
     self.digital_outputs = digital_outputs
     self.digital_inputs = digital_inputs
     self.jowenta = jowenta
     self.temperatures = temperatures
+    self.state = state
 
     self.output_cb = []
     self.jowenta_cb = []
@@ -45,18 +49,17 @@ class JouleActions(object):
     self.cb_call(self.temperature_cb, temperature)
 
 # setters
+  def check_call_source(self, path):
+    return 'sockets' in path
+
   def set_output(self, id, value):
-    self.digital_outputs.set_output(id, value)
-    for cb in self.output_cb:
-      try:
-        cb(digital_outputs.map)
-      except Exception as e:
-        print "cb error", e
+    if self.check_call_source(inspect.stack()[1][1]) and self.state.current_state() == st.AUTO:
+      print "outputs change forbidden during automatic mode"
+      return
+
+    _map = self.digital_outputs.set_output(id, value)
+    self.cb_call(self.output_cb, _map)
 
   def toggle_output(self, id):
-    self.digital_outputs.toggle_output(id)
-    for cb in self.output_cb:
-      try:
-        cb(digital_outputs.map)
-      except Exception as e:
-        print "cb error", e
+    _map = self.digital_outputs.toggle_output(id)
+    self.cb_call(self.output_cb, _map)

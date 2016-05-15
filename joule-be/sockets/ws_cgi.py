@@ -18,18 +18,22 @@ class wscgi(object):
     actions.set_jowenta_cb(self.jowenta_changed)
     actions.set_dinput_cb(self.dinput_changed)
     actions.set_temperature_cb(self.temperature_changed)
+    actions.set_output_cb(self.doutput_changed)
 
   def start_server(self):
     self.sio = socketio.Server(logger=True, async_mode='eventlet')
     app = Flask(__name__)
     app.wsgi_app = socketio.Middleware(self.sio, app.wsgi_app)
-    app.config['SECRET_KEY'] = 'blablablab'
+    app.config['DEBUG'] = False
 
     protocol.protocol_init(self.sio, self.actions)
     eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
 
   def jowenta_changed(self, jowenta):
     self.sio.emit('jowenta_changed', jowenta, namespace='/msgbus')
+
+  def doutput_changed(self, doutput):
+    self.sio.emit('digital_output_changed', doutput, namespace='/msgbus')
 
   def dinput_changed(self, dinput):
     self.sio.emit('digital_input_changed', dinput, namespace='/msgbus')

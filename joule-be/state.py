@@ -14,6 +14,7 @@ class JouleState(object):
 
     for m in modules:
       m.set_status_cb(self.status_changed_cb)
+      self.status_changed_cb(m, m.get_status())
 
     self.digital_inputs.set_cb(self.di_changed)
     self.di_changed(None)

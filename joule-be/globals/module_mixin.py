@@ -7,6 +7,7 @@ class ModuleMixin(object):
     self.status_cb = None
     self.error_message = ''
     self.cb = []
+    self.error_counter = 0
 
   def set_cb(self, cb):
     self.cb.append(cb)
@@ -20,6 +21,16 @@ class ModuleMixin(object):
 
   def set_status_cb(self, cb):
     self.status_cb = cb
+
+  def zero_errors(self):
+    self.error_counter = 0
+
+  def error(self, message):
+    error_counter = error_counter + 1
+
+    if error_counter > 5:
+      self.error_message = message
+      self.set_status(state.ERROR)
 
   def set_status(self, status):
     last_status = self.status

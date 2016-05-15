@@ -8,8 +8,7 @@ class JouleJowenta(ModuleMixin):
   def __init__(self, analog_inputs):
     super(JouleJowenta, self).__init__()
 
-    # self.map = self.load_map('analog_inputs.map', ai_map.ANALOG_INPUTS)
-    self.map = j_map.JOWENTA
+    self.map = self.load_map('jowenta.map', j_map.JOWENTA)
 
     for m in analog_inputs.map:
       self.ainput_changed(m)
@@ -19,6 +18,8 @@ class JouleJowenta(ModuleMixin):
     self.th_run = Thread(target=self.regulation_loop)
     self.th_run.setDaemon(True)
     self.th_run.start()
+
+    m.set_status(state.OK)
 
   def ainput_changed(self, ainput):
     value = ainput['value'] - ainput['min']

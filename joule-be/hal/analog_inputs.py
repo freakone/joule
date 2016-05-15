@@ -6,13 +6,13 @@ import hal.lib.GPIO as GPIO
 import time
 from threading import Thread
 from math import fabs
+import globals.state as state
 
 class JouleAnalogInputs(ModuleMixin):
   def __init__(self):
     super(JouleAnalogInputs, self).__init__()
 
-    # self.map = self.load_map('analog_inputs.map', ai_map.ANALOG_INPUTS)
-    self.map = ai_map.ANALOG_INPUTS
+    self.map = self.load_map('analog_inputs.map', ai_map.ANALOG_INPUTS)
     self.bus = smbus.SMBus(1)
     self.adcs = []
 
@@ -22,6 +22,7 @@ class JouleAnalogInputs(ModuleMixin):
     self.th_run = Thread(target=self.measure_loop)
     self.th_run.setDaemon(True)
     self.th_run.start()
+    m.set_status(state.OK)
 
   def measure_loop(self):
     while True:
@@ -32,8 +33,10 @@ class JouleAnalogInputs(ModuleMixin):
           if fabs(result - self.map[i]['value']) > 0.01:
             self.map[i]['value'] = result
             self.cb_call(self.map[i])
+        self.zero_errors()
 
       except Exception as e:
         print "measure error", e
+        self.error(e.strerror)
 
       time.sleep(0.1)

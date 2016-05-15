@@ -10,8 +10,7 @@ class JouleTemperature(ModuleMixin):
   def __init__(self):
     super(JouleTemperature, self).__init__()
 
-    # self.map = self.load_map('analog_inputs.map', ai_map.ANALOG_INPUTS)
-    self.map = t_map.TEMPERATURE
+    self.map = self.load_map('temperature.map', t_map.TEMPERATURE)
 
     GPIO.setmode(GPIO.BCM)
     modbus.BAUDRATE = 9600
@@ -23,6 +22,8 @@ class JouleTemperature(ModuleMixin):
     self.th_run.setDaemon(True)
     self.th_run.start()
 
+    m.set_status(state.OK)
+
   def measure_loop(self):
     while True:
       try:
@@ -32,7 +33,9 @@ class JouleTemperature(ModuleMixin):
             t['currentValue'] = temp
             self.cb_call(t)
 
+        self.zero_errors()
       except Exception as e:
         print "measure error", e
+        self.error(e.strerror)
 
       time.sleep(5)

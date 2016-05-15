@@ -1,4 +1,4 @@
-import hal.maps.digital_inputs_map as do_map
+import hal.maps.digital_inputs_map as di_map
 from globals.module_mixin import ModuleMixin
 from hal.lib.MCP230xx import MCP23017
 import hal.lib.GPIO as GPIO
@@ -10,8 +10,7 @@ class JouleDigitalInputs(ModuleMixin):
     super(JouleDigitalInputs, self).__init__()
 
     #map of pins
-    # self.map = self.load_map('digital_outputs.map', do_map.DIGITAL_OUTPUTS)
-    self.map = do_map.DIGITAL_INPUTS
+    self.map = self.load_map('digital_inputs.map', di_map.DIGITAL_INPUTS)
     #get unique mcp addresses
     unique_addresses = set(map(lambda x: x['address'], self.map))
     self.gpio_modules = {}
@@ -26,6 +25,8 @@ class JouleDigitalInputs(ModuleMixin):
     self.th_run = Thread(target=self.measure_loop)
     self.th_run.setDaemon(True)
     self.th_run.start()
+
+    m.set_status(state.OK)
 
   def init_ports(self):
     for dinput in self.map:
@@ -49,8 +50,10 @@ class JouleDigitalInputs(ModuleMixin):
             self.map[i]['value'] = result
             self.cb_call(self.map[i])
 
+        self.zero_errors()
     except Exception as e:
       print "measure error", e
+      self.error(e.strerror)
 
   def measure_loop(self):
     while True:

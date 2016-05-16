@@ -28,11 +28,13 @@ class JouleController(ModuleMixin):
       if not self.actions == None and not self.state == None:
         if self.state.current_state() == state.AUTO:
           for i in range(9, 22):
-            self.actions.set_output(i, True)
-            time.sleep(2)
+            if self.state.current_state() == state.AUTO:
+              self.actions.set_output(i, True)
+              time.sleep(2)
 
           for i in range(9, 22):
-            self.actions.set_output(i, False)
-            time.sleep(2)
+            if self.state.current_state() == state.AUTO:
+              self.actions.set_output(i, False)
+              time.sleep(2)
 
       time.sleep(1)

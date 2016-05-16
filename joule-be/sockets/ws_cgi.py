@@ -22,7 +22,7 @@ class wscgi(object):
     actions.set_state_cb(self.state_changed)
 
   def start_server(self):
-    self.sio = socketio.Server(logger=True, async_mode='eventlet')
+    self.sio = socketio.Server(logger=False, async_mode='eventlet')
     app = Flask(__name__)
     app.wsgi_app = socketio.Middleware(self.sio, app.wsgi_app)
     app.config['DEBUG'] = False

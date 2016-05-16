@@ -171,10 +171,10 @@ export default {
     position: fixed
     z-index: 2000
     left: 0
-    top: 10%
+    top: 0
     width: 100%
-    height: 80%
-    background-color: rgba(221,75,57,0.9)
+    height: 100%
+    background-color: rgba(221,75,57,1)
     color: rgb(255, 255, 255)
 
     div, p, i, span
@@ -188,7 +188,10 @@ export default {
       font-size: 150px
       transform: translate(-50%, -100%)
     p
-      padding-top: 50px
+      margin-top: 5%
+      line-height: 1
+      text-align: center
+      font-size: 3em
 
     span
       width: 50%

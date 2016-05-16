@@ -22,7 +22,7 @@ export default {
     socket.emit('set_jowenta_value', {id: id, value: value})
   },
   initialize (store) {
-    socket = io('http://192.168.1.105:5000/msgbus')
+    socket = io('http://192.168.2.1:5000/msgbus')
 
     socket.on('connected', () => {
       console.log("I'm connected")

@@ -18,14 +18,13 @@
               h3.box-title {{ output.name }}
             .box-body
               knob(:id="output.id", :actual_value="output.actual_value")
-    .col-md-2
-      .row(v-for="di in digitalInputs")
+    .com-md-4
+      .col-md-2.col-xs-4(v-for="di in digitalInputs")
         .info-box
           span.info-box-icon(:class="{ 'bg-red' : di.value, 'bg-green' : !di.value }")
           .info-box-content
             span.info-box-text {{ di.name }}
-     .col-md-2
-      .row(v-for="do in digitalOutputs")
+      .col-md-2.col-xs-4(v-for="do in digitalOutputs")
         .info-box
           span.info-box-icon(:class="{ 'bg-red' : !do.value, 'bg-green' : do.value }")
           .info-box-content

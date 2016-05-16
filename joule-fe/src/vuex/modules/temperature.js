@@ -21,13 +21,14 @@ const mutations = {
   [ADD_TEMPERATURE] (state, itemId, value) {
     const record = state.items.find(p => p.id === itemId)
     if (record) {
-      var label = dateFormat(Date.now(), 'HH:MM:ss')
-      record.labels.push(label)
       var new_dataset = record.datasets.slice()
       if (new_dataset[0].data.length > 30) {
+        record.labels = record.labels.slice(-31)
         new_dataset[0].data = new_dataset[0].data.slice(-30)
       }
 
+      var label = dateFormat(Date.now(), 'HH:MM:ss')
+      record.labels.push(label)
       new_dataset[0].data.push(value)
       record.datasets = new_dataset
       record.currentValue = value

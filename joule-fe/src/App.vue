@@ -79,6 +79,11 @@ export default {
   },
   created () {
     api.initialize(this.$store)
+  },
+  ready () {
+    if (window.innerWidth < 991) {
+      document.getElementById('main').classList.add('sidebar-collapse')
+    }
   }
 }
 </script>

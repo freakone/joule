@@ -44,7 +44,7 @@ class JouleJowenta(ModuleMixin):
   def regulation_loop(self):
     while True:
       if not self.actions == None and not self.state == None:
-        if self.state.current_state() == state.AUTO:
+        if self.state.current_state() == state.AUTO or self.state.current_state() == state.MANUAL:
           for j in self.map:
             if fabs(j['value'] - j['actual_value']) > 5:
               if j['value'] > j['actual_value']:
@@ -64,3 +64,10 @@ class JouleJowenta(ModuleMixin):
     if len(output) == 1:
       output[0]['name'] = name
       self.save_map('jowenta.map', self.map)
+
+  def set_value(self, id, value):
+    output = filter(lambda out: out['id'] == id, self.map)
+    if len(output) == 1:
+      output[0]['value'] = value
+      self.save_map('jowenta.map', self.map)
+

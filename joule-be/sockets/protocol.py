@@ -31,3 +31,8 @@ def protocol_init(sio, actions):
     def set_name(sid, data):
         actions.set_temperature_name(data['id'], data['value'])
 
+    @sio.on('set_jowenta_value', namespace='/msgbus')
+    def set_name(sid, data):
+        actions.set_jowenta_value(data['id'], data['value'])
+
+

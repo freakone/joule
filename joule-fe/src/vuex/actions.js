@@ -77,7 +77,10 @@ export const updateAnalogActualValue = ({dispatch}, state) => {
 }
 
 export const updateAnalogValue = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_ANALOG, parseInt(e.target.id), parseInt(e.target.value))
+  var id = parseInt(e.target.id)
+  var value = parseInt(e.target.value)
+  dispatch(types.UPDATE_ANALOG, id, value)
+  api.updateJowentaValue(id, value)
 }
 
 export const updateAnalogOutputName = ({ dispatch }, e) => {

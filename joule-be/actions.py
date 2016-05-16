@@ -9,6 +9,8 @@ class JouleActions(object):
     self.temperatures = temperatures
     self.state = state
 
+    self.state.set_cb(self.status_changed)
+
     self.output_cb = []
 
 
@@ -23,6 +25,12 @@ class JouleActions(object):
     self.output_cb.append(cb)
 
 # callback handling
+
+  def status_changed(self, state):
+    if self.state.current_state() in [st.ERROR, st.STOP, st.EMERGENCY_STOP]:
+      for out in self.digital_outputs.map:
+        self.set_output(out['id'], False)
+
   def set_output_cb(self, cb):
     self.output_cb.append(cb)
 
@@ -54,6 +62,9 @@ class JouleActions(object):
 
   def set_jowenta_name(self, id, name):
     self.jowenta.set_name(id, name)
+
+  def set_jowenta_value(self, id, value):
+    self.jowenta.set_value(id, value)
 
   def check_call_source(self, path):
     return 'sockets' in path

@@ -12,7 +12,7 @@
             .box-body
                line-chart(:responsive='true', :labels='temp.labels', :datasets='temp.datasets')
       .row
-        .col-md-2.col-xs-6(v-for="output in analogOutputs")
+        .col-md-3.col-xs-6(v-for="output in analogOutputs")
           .box.box-primary
             .box-header.with-border
               h3.box-title {{ output.name }}

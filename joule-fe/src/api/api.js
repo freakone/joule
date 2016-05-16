@@ -18,6 +18,9 @@ export default {
   setJowentaName (id, value) {
     socket.emit('set_jowenta_name', {id: id, value: value})
   },
+  updateJowentaValue (id, value) {
+    socket.emit('set_jowenta_value', {id: id, value: value})
+  },
   initialize (store) {
     socket = io('http://192.168.1.105:5000/msgbus')
 

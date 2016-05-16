@@ -18,21 +18,28 @@ def protocol_init(sio, actions):
     @sio.on('set_name', namespace='/msgbus')
     def set_name(sid, name):
         actions.set_name(name)
+        sio.emit('app_name', name, namespace='/msgbus')
 
     @sio.on('set_digital_output_name', namespace='/msgbus')
     def set_name(sid, data):
         actions.set_digital_output_name(data['id'], data['value'])
+        sio.emit('digital_output_name', data, namespace='/msgbus')
 
     @sio.on('set_jowenta_name', namespace='/msgbus')
     def set_name(sid, data):
         actions.set_jowenta_name(data['id'], data['value'])
+        sio.emit('jowenta_name', data, namespace='/msgbus')
 
     @sio.on('set_temperature_name', namespace='/msgbus')
     def set_name(sid, data):
         actions.set_temperature_name(data['id'], data['value'])
+        sio.emit('temperature_name', data, namespace='/msgbus')
 
     @sio.on('set_jowenta_value', namespace='/msgbus')
     def set_name(sid, data):
         actions.set_jowenta_value(data['id'], data['value'])
 
-
+    @sio.on('set_digital_input_name', namespace='/msgbus')
+    def set_name(sid, data):
+        actions.set_digital_input_name(data['id'], data['value'])
+        sio.emit('digital_input_name', data, namespace='/msgbus')

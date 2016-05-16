@@ -57,6 +57,9 @@ class JouleActions(object):
   def set_temperature_name(self, id, name):
     self.temperatures.set_name(id, name)
 
+  def set_digital_input_name(self, id, name):
+    self.digital_inputs.set_name(id, name)
+
   def set_digital_output_name(self, id, name):
     self.digital_outputs.set_name(id, name)
 

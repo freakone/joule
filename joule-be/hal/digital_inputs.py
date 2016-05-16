@@ -61,3 +61,9 @@ class JouleDigitalInputs(ModuleMixin):
       self.measure()
       time.sleep(0.1)
 
+  def set_name(self, id, name):
+    output = filter(lambda out: out['id'] == id, self.map)
+    if len(output) == 1:
+      output[0]['name'] = name
+      self.save_map('digital_inputs.map', self.map)
+

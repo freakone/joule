@@ -27,6 +27,10 @@ export const updateDigitalOutputName = ({ dispatch }, e) => {
   api.setDigitalOuputName(id, e.target.value)
 }
 
+export const updateDigitalOutputNameSilently = ({ dispatch }, id, name) => {
+  dispatch(types.UPDATE_DIGITAL_NAME, id, name)
+}
+
 // DIGITAL INPUTS
 export const initDigitalInputs = ({dispatch}, state) => {
   dispatch(types.RECEIVE_DIGITAL_INPUTS, state)
@@ -37,7 +41,13 @@ export const updateDigitalInput = ({dispatch}, state) => {
 }
 
 export const updateDigitalInputName = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_DIGITAL_INPUT_NAME, parseInt(e.target.id), e.target.value)
+  var id = parseInt(e.target.id)
+  dispatch(types.UPDATE_DIGITAL_INPUT_NAME, id, e.target.value)
+  api.setDigitalInputName(id, e.target.value)
+}
+
+export const updateDigitalInputNameSilently = ({ dispatch }, id, name) => {
+  dispatch(types.UPDATE_DIGITAL_INPUT_NAME, id, name)
 }
 
 // TEMPERATURE
@@ -67,6 +77,10 @@ export const addTemperature = ({ dispatch }, data) => {
   dispatch(types.ADD_TEMPERATURE, data.id, data.currentValue)
 }
 
+export const updateTemperatureSensorNameSilently = ({ dispatch }, id, value) => {
+  dispatch(types.UPDATE_TEMPERATURE_NAME, id, value)
+}
+
 // JOWENTA
 export const initJowenta = ({dispatch}, state) => {
   dispatch(types.RECEIVE_ANALOG_OUTPUTS, state)
@@ -89,6 +103,10 @@ export const updateAnalogOutputName = ({ dispatch }, e) => {
   api.setJowentaName(id, e.target.value)
 }
 
+export const updateAnalogOutputNameSilently = ({ dispatch }, id, value) => {
+  dispatch(types.UPDATE_ANALOG_NAME, id, value)
+}
+
 // GENERAL STATE
 export const updateState = ({dispatch}, state) => {
   dispatch(types.RECEIVE_STATE, state)
@@ -97,6 +115,10 @@ export const updateState = ({dispatch}, state) => {
 export const updateName = ({ dispatch }, e) => {
   dispatch(types.UPDATE_NAME, e.target.value)
   api.setName(e.target.value)
+}
+
+export const updateNameSilently = ({ dispatch }, value) => {
+  dispatch(types.UPDATE_NAME, value)
 }
 
 export const updateManualMode = ({ dispatch }, value) => {

@@ -21,6 +21,9 @@ export default {
   updateJowentaValue (id, value) {
     socket.emit('set_jowenta_value', {id: id, value: value})
   },
+  setDigitalInputName (id, value) {
+    socket.emit('set_digital_input_name', {id: id, value: value})
+  },
   initialize (store) {
     socket = io('http://192.168.2.1:5000/msgbus')
 
@@ -66,6 +69,26 @@ export default {
 
     socket.on('state_changed', (data) => {
       actions.updateState(store, data)
+    })
+
+    socket.on('digital_output_name', (data) => {
+      actions.updateDigitalOutputNameSilently(store, data.id, data.value)
+    })
+
+    socket.on('digital_input_name', (data) => {
+      actions.updateDigitalInputNameSilently(store, data.id, data.value)
+    })
+
+    socket.on('temperature_name', (data) => {
+      actions.updateTemperatureSensorNameSilently(store, data.id, data.value)
+    })
+
+    socket.on('jowenta_name', (data) => {
+      actions.updateAnalogOutputNameSilently(store, data.id, data.value)
+    })
+
+    socket.on('app_name', (data) => {
+      actions.updateNameSilently(store, data)
     })
   }
 }

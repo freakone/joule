@@ -53,6 +53,10 @@ class JouleState(ModuleMixin):
     self.set_current_state(state.STOP)
 
   def set_current_state(self, state):
+
+    if self.state_map['mode'] == state:
+      return
+
     self.last_state = self.state_map['mode']
     self.state_map['mode'] = state
     if self.leds:

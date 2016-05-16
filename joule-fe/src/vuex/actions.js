@@ -87,7 +87,7 @@ export const initJowenta = ({dispatch}, state) => {
 }
 
 export const updateAnalogActualValue = ({dispatch}, state) => {
-  dispatch(types.UPDATE_ANALOG_ACTUAL_VALUE, state.id, state.actual_value)
+  dispatch(types.UPDATE_ANALOG_ACTUAL_VALUE, state.id, state.value, state.actual_value)
 }
 
 export const updateAnalogValue = ({ dispatch }, e) => {

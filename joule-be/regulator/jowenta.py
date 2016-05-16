@@ -69,5 +69,6 @@ class JouleJowenta(ModuleMixin):
     output = filter(lambda out: out['id'] == id, self.map)
     if len(output) == 1:
       output[0]['value'] = value
+      self.cb_call(output[0])
       self.save_map('jowenta.map', self.map)
 

@@ -16,10 +16,11 @@ const mutations = {
       record.value = value
     }
   },
-  [UPDATE_ANALOG_ACTUAL_VALUE] (state, itemId, value) {
+  [UPDATE_ANALOG_ACTUAL_VALUE] (state, itemId, value, actual_value) {
     const record = state.items.find(p => p.id === itemId)
     if (record) {
-      record.actual_value = value
+      record.actual_value = actual_value
+      record.value = value
     }
   },
   [UPDATE_ANALOG_NAME] (state, itemId, value) {

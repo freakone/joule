@@ -78,7 +78,7 @@ export default {
     }
   },
   created () {
-    api.initialize(this.$store)
+    api.mock(this.$store)
   },
   ready () {
     if (window.innerWidth < 991) {

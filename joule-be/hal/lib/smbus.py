@@ -19,7 +19,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 from ctypes import *
-from fcntl import ioctl
+import os
+if not os.environ["JOULELOCAL"] == "1":
+  from fcntl import ioctl
 import struct
 
 # I2C C API constants (from linux kernel headers)

@@ -1,5 +1,8 @@
 #!/usr/bin/python
 import time
+import os
+os.environ["JOULELOCAL"] = "1"
+
 from sockets.ws_cgi import wscgi
 from hal.digital_outputs import JouleDigitalOutputs
 from hal.analog_inputs import JouleAnalogInputs

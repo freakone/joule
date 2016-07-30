@@ -3,8 +3,10 @@ from globals.module_mixin import ModuleMixin
 import time
 from threading import Thread
 from math import fabs
-import hal.lib.minimalmodbus as modbus
-import RPi.GPIO as GPIO
+import os
+if not os.environ["JOULELOCAL"] == "1":
+  import hal.lib.minimalmodbus as modbus
+  import RPi.GPIO as GPIO
 import globals.state as state
 
 class JouleTemperature(ModuleMixin):

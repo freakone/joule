@@ -11,13 +11,11 @@
       .alert.alert-info.text-center(v-if="generalSettings.mode == 4")
         | Stan spoczynkowy
     .row(v-show="generalSettings.mode == 6")
-      .col-lg-3.col-md-6(v-for="output in digitalOutputs")
-        .box.box-primary
-          .box-header.with-border
-            h3.box-title {{output.name}}
-            .box-tools
-              mdl-switch(:checked="output.value", :id="output.id", @change="setDigitalOutput")
-      .col-lg-3.col-md-6(v-for="output in analogOutputs")
+      .col-sm-6.col-lg-3.col-md-6(v-for="output in digitalOutputs")
+        .box.box-primary(@click="setDigitalOutput(output.id, output.value)", v-bind:class="{'box-active': output.value}")
+          .box-button
+            .box-button-title {{output.name}}
+      .col-sm-12.col-lg-3.col-md-6(v-for="output in analogOutputs")
         .box.box-primary
           .box-header.with-border
             h3.box-title {{output.name}}
@@ -28,7 +26,7 @@
 
 <script>
 import { digitalOutputs, analogOutputs, generalSettings } from '../vuex/getters'
-import { updateAnalogValue, updateDigitalValue } from '../vuex/actions'
+import { updateAnalogValue, updateDigitalValue, updateDigitalValueFromComponent } from '../vuex/actions'
 
 export default {
   vuex: {
@@ -39,6 +37,7 @@ export default {
     },
     actions: {
       setAnalogOutput: updateAnalogValue,
+      setDigitalOutputByComponent: updateDigitalValueFromComponent,
       setDigitalOutput: updateDigitalValue
     }
   },
@@ -52,6 +51,29 @@ export default {
 </script>
 
 <style scoped>
+  .box-button-title {
+    display: inline-block;
+    font-size: 4em;
+    margin: 0;
+    line-height: 1;
+    text-align: center;
+    width: 100%;
+  }
+  .box-active {
+    background-color: #3c8dbc;
+    color: white;
+  }
+  .box-button {
+    padding: 10px;
+    position: relative;
+    display: table-cell;
+    vertical-align: middle;
+    height: 20vh;
+    width: 100vh;
+    border: 1px;
+    cursor: pointer;
+    font-size: 50%;
+  }
   .box-slider {
     position: absolute;
     top: 10px;

@@ -8,9 +8,10 @@
         .box.box-primary
           .box-header.with-border
             h3.box-title
-              select.form-control(:value="selectedSensor.id", @change="selectTemperature")
-                option(v-for="temp in temperatureSensors", :value="temp.id")
-                  | {{ temp.name }}
+              //- select.form-control(:value="selectedSensor.id", @change="selectTemperature")
+              //-   option(v-for="temp in temperatureSensors", :value="temp.id")
+              //-     | {{ temp.name }}
+              multiselect(:selected.sync="selected", :options="options")
             .box-tools
               mdl-switch(:checked.sync="liveChecked") Live
           .box-body
@@ -36,11 +37,13 @@ import moment from 'moment'
 import { selectTemperature } from '../vuex/actions'
 import { temperatureSensors, selectedSensor } from '../vuex/getters'
 import Datetime from 'vue-datetime-picker/src/vue-datetime-picker.js'
+import Multiselect from 'vue-multiselect'
 
 export default {
   components: {
     Datetime,
-    LineChart
+    LineChart,
+    Multiselect
   },
   methods: {
     onStartDatetimeChanged: function (newStart) {
@@ -65,7 +68,9 @@ export default {
     return {
       liveChecked: true,
       startDatetime: moment().subtract(7, 'days'),
-      endDatetime: null
+      endDatetime: null,
+      selected: null,
+      options: ['list', 'of', 'options']
     }
   }
 }

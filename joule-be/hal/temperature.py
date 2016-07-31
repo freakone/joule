@@ -15,17 +15,25 @@ class JouleTemperature(ModuleMixin):
 
     self.map = self.load_map('temperature.map', t_map.TEMPERATURE)
 
-    GPIO.setmode(GPIO.BCM)
-    modbus.BAUDRATE = 9600
-    modbus.TIMEOUT = 0.3
-    #GPIO18 as read/write modifier, module address = 1
-    self.module = modbus.Instrument('/dev/ttyAMA0', 1, 18)
+    if not os.environ["JOULELOCAL"] == "1":
+      GPIO.setmode(GPIO.BCM)
+      modbus.BAUDRATE = 9600
+      modbus.TIMEOUT = 0.3
+      #GPIO18 as read/write modifier, module address = 1
+      self.module = modbus.Instrument('/dev/ttyAMA0', 1, 18)
 
-    self.th_run = Thread(target=self.measure_loop)
+      self.th_run = Thread(target=self.measure_loop)
+    else:
+      self.th_run = Thread(target=self.mock_loop)
+
+
     self.th_run.setDaemon(True)
     self.th_run.start()
-
     self.set_status(state.OK)
+
+  def mock_loop(self):
+    while True:
+      time.sleep(1)
 
   def measure_loop(self):
     while True:

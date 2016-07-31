@@ -15,6 +15,7 @@ export const updateDigitalValueSilently = ({ dispatch }, id, value) => {
 }
 
 export const updateDigitalValue = ({ dispatch }, id, value) => {
+  console.log(id, value)
   dispatch(types.UPDATE_OUTPUT, id, value)
   api.setDigitalValue(id, value)
 }

@@ -13,17 +13,18 @@ from hal.status_leds import JouleLeds
 from regulator.jowenta import JouleJowenta
 from regulator.regulator import JouleController
 from state import JouleState
-import RPi.GPIO as GPIO
 import logging
 import log
 
 def restart_i2c_modules():
-  GPIO.setwarnings(False)
-  GPIO.setmode(GPIO.BCM)
-  GPIO.setup(17, GPIO.OUT)
-  GPIO.output(17, GPIO.HIGH)
-  time.sleep(0.5)
-  GPIO.output(17, GPIO.LOW)
+  if not os.environ["JOULELOCAL"] == "1":
+    import RPi.GPIO as GPIO
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(17, GPIO.OUT)
+    GPIO.output(17, GPIO.HIGH)
+    time.sleep(0.5)
+    GPIO.output(17, GPIO.LOW)
 
 if __name__ == '__main__':
   # logging.basicConfig(level=logging.DEBUG)

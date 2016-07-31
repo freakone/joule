@@ -1,10 +1,13 @@
+import os
 import hal.maps.digital_inputs_map as di_map
 from globals.module_mixin import ModuleMixin
-from hal.lib.MCP230xx import MCP23017
-import hal.lib.GPIO as GPIO
 from threading import Thread
 import time
 import globals.state as state
+if not os.environ["JOULELOCAL"] == "1":
+  from hal.lib.MCP230xx import MCP23017
+  import hal.lib.GPIO as GPIO
+
 
 class JouleDigitalInputs(ModuleMixin):
   def __init__(self):
@@ -16,14 +19,18 @@ class JouleDigitalInputs(ModuleMixin):
     unique_addresses = set(map(lambda x: x['address'], self.map))
     self.gpio_modules = {}
 
-    #init modules
-    for addr in unique_addresses:
-      self.gpio_modules[addr] = MCP23017(address=addr)
+    if not os.environ["JOULELOCAL"] == "1":
+      #init modules
+      for addr in unique_addresses:
+        self.gpio_modules[addr] = MCP23017(address=addr)
 
-    self.init_ports()
-    self.measure()
+      self.init_ports()
+      self.measure()
 
-    self.th_run = Thread(target=self.measure_loop)
+      self.th_run = Thread(target=self.measure_loop)
+    else:
+      self.th_run = Thread(target=self.mock_loop)
+
     self.th_run.setDaemon(True)
     self.th_run.start()
 
@@ -60,6 +67,14 @@ class JouleDigitalInputs(ModuleMixin):
     while True:
       self.measure()
       time.sleep(0.1)
+
+  def mock_loop(self):
+    while True:
+      for m in self.map:
+        if m['id'] == di_map.EMERGENCY_NO:
+          m['value'] = True
+
+      time.sleep(1)
 
   def set_name(self, id, name):
     output = filter(lambda out: out['id'] == id, self.map)

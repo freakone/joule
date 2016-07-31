@@ -11,8 +11,8 @@
       .alert.alert-info.text-center(v-if="generalSettings.mode == 4")
         | Stan spoczynkowy
     .row(v-show="generalSettings.mode == 6")
-      .col-sm-6.col-lg-3.col-md-6(v-for="output in digitalOutputs")
-        .box.box-primary(@click="setDigitalOutput(output.id, output.value)", v-bind:class="{'box-active': output.value}")
+      .col-sm-6.col-lg-3.col-md-6(v-for="output in digitalOutputs | filterBy true in 'control'")
+        .box.box-primary(@click="setDigitalOutput(output.id, !output.value)", v-bind:class="{'box-active': output.value}")
           .box-button
             .box-button-title {{output.name}}
       .col-sm-12.col-lg-3.col-md-6(v-for="output in analogOutputs")
@@ -26,7 +26,7 @@
 
 <script>
 import { digitalOutputs, analogOutputs, generalSettings } from '../vuex/getters'
-import { updateAnalogValue, updateDigitalValue, updateDigitalValueFromComponent } from '../vuex/actions'
+import { updateAnalogValue, updateDigitalValue } from '../vuex/actions'
 
 export default {
   vuex: {
@@ -37,7 +37,6 @@ export default {
     },
     actions: {
       setAnalogOutput: updateAnalogValue,
-      setDigitalOutputByComponent: updateDigitalValueFromComponent,
       setDigitalOutput: updateDigitalValue
     }
   },
@@ -63,12 +62,16 @@ export default {
     background-color: #3c8dbc;
     color: white;
   }
+  @media (max-width: 992px) {
+      .box-button {
+         height: 20vh;
+       }
+  }
   .box-button {
     padding: 10px;
     position: relative;
     display: table-cell;
     vertical-align: middle;
-    height: 20vh;
     width: 100vh;
     border: 1px;
     cursor: pointer;

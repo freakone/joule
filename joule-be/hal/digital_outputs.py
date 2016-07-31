@@ -1,7 +1,9 @@
+import os
 import hal.maps.digital_outputs_map as do_map
 from globals.module_mixin import ModuleMixin
-from hal.lib.MCP230xx import MCP23017
-import hal.lib.GPIO as GPIO
+if not os.environ["JOULELOCAL"] == "1":
+  from hal.lib.MCP230xx import MCP23017
+  import hal.lib.GPIO as GPIO
 import globals.state as state
 
 class JouleDigitalOutputs(ModuleMixin):
@@ -14,11 +16,13 @@ class JouleDigitalOutputs(ModuleMixin):
     unique_addresses = set(map(lambda x: x['address'], self.map))
     self.gpio_modules = {}
 
-    #init modules
-    for addr in unique_addresses:
-      self.gpio_modules[addr] = MCP23017(address=addr)
+    if not os.environ["JOULELOCAL"] == "1":
+      #init modules
+      for addr in unique_addresses:
+        self.gpio_modules[addr] = MCP23017(address=addr)
 
-    self.init_ports()
+      self.init_ports()
+
     self.set_status(state.OK)
 
   def init_ports(self):
@@ -33,6 +37,13 @@ class JouleDigitalOutputs(ModuleMixin):
       return doutput[0]['value']
 
   def set_output(self, id, value):
+
+    if os.environ["JOULELOCAL"] == "1":
+      print "wanna set some output", id, value
+      output = filter(lambda out: out['id'] == id, self.map)[0]
+      output['value'] = value
+      return output
+
     try:
       if type(value) is not bool:
         raise RuntimeError('Value must be boolean!')
@@ -49,6 +60,12 @@ class JouleDigitalOutputs(ModuleMixin):
       self.error(str(e))
 
   def toggle_output(self, id):
+    if os.environ["JOULELOCAL"] == "1":
+      # print "wanna toggle some output", id
+      output = filter(lambda out: out['id'] == id, self.map)[0]
+      output['value'] = not output['value']
+      return output
+
     try:
       output = filter(lambda out: out['id'] == id, self.map)
       if len(output) == 1:

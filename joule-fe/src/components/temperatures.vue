@@ -8,10 +8,9 @@
         .box.box-primary
           .box-header.with-border
             h3.box-title
-              //- select.form-control(:value="selectedSensor.id", @change="selectTemperature")
-              //-   option(v-for="temp in temperatureSensors", :value="temp.id")
-              //-     | {{ temp.name }}
-              multiselect(:selected.sync="selected", :options="options")
+              select.form-control(:value="selectedSensor.id", @change="selectTemperature")
+                option(v-for="temp in temperatureSensors", :value="temp.id")
+                  | {{ temp.name }}
             .box-tools
               mdl-switch(:checked.sync="liveChecked") Live
           .box-body

@@ -15,6 +15,10 @@
         .box.box-primary(@click="setDigitalOutput(output.id, !output.value)", v-bind:class="{'box-active': output.value}")
           .box-button
             .box-button-title {{output.name}}
+      .col-sm-6.col-lg-3.col-md-6(v-for="motor in motors")
+        .box.box-warning(@click="updateMotorValue(motor.id, !motor.value)", v-bind:class="{'box-disabled-motor': motor.starting, 'box-active-motor': motor.value}", :disabled="motor.starting")
+          .box-button
+            .box-button-title {{motor.name}}
       .col-sm-12.col-lg-3.col-md-6(v-for="output in analogOutputs")
         .box.box-primary
           .box-header.with-border
@@ -25,19 +29,21 @@
 </template>
 
 <script>
-import { digitalOutputs, analogOutputs, generalSettings } from '../vuex/getters'
-import { updateAnalogValue, updateDigitalValue } from '../vuex/actions'
+import { digitalOutputs, analogOutputs, generalSettings, motors } from '../vuex/getters'
+import { updateAnalogValue, updateDigitalValue, updateMotorValue } from '../vuex/actions'
 
 export default {
   vuex: {
     getters: {
       analogOutputs: analogOutputs,
       digitalOutputs: digitalOutputs,
-      generalSettings: generalSettings
+      generalSettings: generalSettings,
+      motors: motors
     },
     actions: {
       setAnalogOutput: updateAnalogValue,
-      setDigitalOutput: updateDigitalValue
+      setDigitalOutput: updateDigitalValue,
+      updateMotorValue: updateMotorValue
     }
   },
   data () {
@@ -60,6 +66,14 @@ export default {
   }
   .box-active {
     background-color: #3c8dbc;
+    color: white;
+  }
+  .box-active-motor {
+    background-color: #f39c12;
+    color: white;
+  }
+  .box-disabled-motor {
+    background-color: #919191;
     color: white;
   }
   @media (max-width: 992px) {

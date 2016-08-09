@@ -28,7 +28,7 @@ class ModuleMixin(object):
   def error(self, message):
     self.error_counter = self.error_counter + 1
 
-    if self.error_counter > 5:
+    if self.error_counter > 8:
       self.error_message = message
       self.set_status(state.ERROR)
 

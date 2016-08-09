@@ -864,7 +864,7 @@ class Instrument():
 
         GPIO.output(self.gpio, GPIO.HIGH) #DATA DIR
         self.serial.write(request)
-        time.sleep(0.008)
+        time.sleep(0.01)
         GPIO.output(self.gpio, GPIO.LOW)
 
 

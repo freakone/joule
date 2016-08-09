@@ -5,6 +5,20 @@ export const updateLoading = ({ dispatch }, value) => {
   dispatch(types.UPDATE_LOADING, value)
 }
 
+//  MOTORS
+export const initMotors = ({ dispatch }, state) => {
+  dispatch(types.RECEIVE_MOTORS, state)
+}
+
+export const updateMotorValueSilently = ({ dispatch }, id, value, starting) => {
+  dispatch(types.UPDATE_MOTORS_STARTING, id, starting)
+  dispatch(types.UPDATE_MOTORS, id, value)
+}
+
+export const updateMotorValue = ({ dispatch }, id, value) => {
+  api.setMotorValue(id, value)
+}
+
 // DIGITAL OUTPUTS
 export const initDigitalOutputs = ({ dispatch }, state) => {
   dispatch(types.RECEIVE_DIGITAL_OUTPUTS, state)
@@ -15,7 +29,6 @@ export const updateDigitalValueSilently = ({ dispatch }, id, value) => {
 }
 
 export const updateDigitalValue = ({ dispatch }, id, value) => {
-  console.log(id, value)
   dispatch(types.UPDATE_OUTPUT, id, value)
   api.setDigitalValue(id, value)
 }

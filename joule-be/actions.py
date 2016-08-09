@@ -2,11 +2,12 @@ import inspect
 import globals.states as st
 
 class JouleActions(object):
-  def __init__(self, state, digital_outputs, jowenta, digital_inputs, temperatures):
+  def __init__(self, state, digital_outputs, jowenta, digital_inputs, temperatures, motors):
     self.digital_outputs = digital_outputs
     self.digital_inputs = digital_inputs
     self.jowenta = jowenta
     self.temperatures = temperatures
+    self.motors = motors
     self.state = state
 
     self.state.set_cb(self.status_changed)
@@ -31,6 +32,9 @@ class JouleActions(object):
       for out in self.digital_outputs.map:
         self.set_output(out['id'], False)
 
+  def set_motor_cb(self, cb):
+    self.motors.set_cb(cb)
+
   def set_output_cb(self, cb):
     self.output_cb.append(cb)
 
@@ -49,6 +53,9 @@ class JouleActions(object):
 # getters
   def get_output_state(self, id):
     return self.digital_outputs.output_state(id)
+
+  def get_motor_state(self, id):
+    return self.motors.output_state(id)
 
 # setters
   def set_name(self, name):
@@ -71,6 +78,14 @@ class JouleActions(object):
 
   def check_call_source(self, path):
     return 'sockets' in path
+
+  def set_motor(self, id, value):
+    if self.check_call_source(inspect.stack()[1][1]) and self.state.current_state() == st.AUTO:
+      print "outputs change forbidden during automatic mode"
+      return
+
+    if not self.get_motor_state(id) == value:
+      _map = self.motors.set_output(id, value)
 
   def set_output(self, id, value):
     if self.check_call_source(inspect.stack()[1][1]) and self.state.current_state() == st.AUTO:

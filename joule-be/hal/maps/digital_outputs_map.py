@@ -1,6 +1,6 @@
 DIGITAL_OUTPUTS = [
-{'id': 1, 'address' : 0x23, 'index': 7, 'name': 'P0.1', 'value': False},
-{'id': 2, 'address' : 0x21, 'index': 4, 'name': 'P0.2', 'value': False},
+{'id': 1, 'address' : 0x23, 'index': 7, 'name': 'P0.1', 'value': False, 'control': True},
+{'id': 2, 'address' : 0x21, 'index': 4, 'name': 'P0.2', 'value': False, 'control': True},
 {'id': 3, 'address' : 0x21, 'index': 3, 'name': 'P1.1', 'value': False},
 {'id': 4, 'address' : 0x21, 'index': 2, 'name': 'P1.2', 'value': False},
 {'id': 5, 'address' : 0x21, 'index': 1, 'name': 'P2.1', 'value': False},
@@ -17,8 +17,8 @@ DIGITAL_OUTPUTS = [
 {'id': 16, 'address' : 0x23, 'index': 13, 'name': 'P13', 'value': False, 'control': True},
 {'id': 17, 'address' : 0x23, 'index': 12, 'name': 'P20', 'value': False, 'control': True},
 {'id': 18, 'address' : 0x23, 'index': 11, 'name': 'P21', 'value': False, 'control': True},
-{'id': 19, 'address' : 0x23, 'index': 10, 'name': 'P22', 'value': False, 'control': True},
-{'id': 20, 'address' : 0x23, 'index': 9, 'name': 'P23', 'value': False, 'control': True},
+{'id': 19, 'address' : 0x23, 'index': 10, 'name': 'P22', 'value': False, 'forbidden': True},
+{'id': 20, 'address' : 0x23, 'index': 9, 'name': 'P23', 'value': False, 'forbidden': True},
 {'id': 21, 'address' : 0x23, 'index': 8, 'name': 'P30', 'value': False, 'control': True},
 {'id': 22, 'address' : 0x21, 'index': 10, 'name': 'LED 1', 'value': False},
 {'id': 23, 'address' : 0x21, 'index': 11, 'name': 'LED 2', 'value': False}
@@ -26,3 +26,5 @@ DIGITAL_OUTPUTS = [
 
 LED_GREEN = 23
 LED_RED = 22
+MAIN_AIR_U1 = 20
+MAIN_AIR_U2 = 19

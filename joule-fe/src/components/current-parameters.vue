@@ -29,6 +29,11 @@
           span.info-box-icon(:class="{ 'bg-red' : !do.value, 'bg-green' : do.value }")
           .info-box-content
             span.info-box-text {{ do.name }}
+      .col-md-2.col-xs-4(v-for="mo in motors")
+        .info-box
+          span.info-box-icon(:class="{'bg-yellow': mo.starting, 'bg-red' : !mo.value, 'bg-green' : mo.value }")
+          .info-box-content
+            span.info-box-text {{ mo.name }}
 
 
 </template>
@@ -36,7 +41,7 @@
 <script>
 import Knob from './knob-vue'
 import { LineChart } from 'vue-chart.js'
-import { temperatureSensors, digitalOutputs, analogOutputs, digitalInputs } from '../vuex/getters'
+import { temperatureSensors, digitalOutputs, analogOutputs, digitalInputs, motors } from '../vuex/getters'
 
 export default {
   components: {
@@ -48,7 +53,8 @@ export default {
       analogOutputs: analogOutputs,
       temperatureSensors: temperatureSensors,
       digitalOutputs: digitalOutputs,
-      digitalInputs: digitalInputs
+      digitalInputs: digitalInputs,
+      motors: motors
     },
     actions: {
     }

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import time
 import os
-os.environ["JOULELOCAL"] = "1"
+os.environ["JOULELOCAL"] = "0"
 
 from sockets.ws_cgi import wscgi
 from hal.digital_outputs import JouleDigitalOutputs
@@ -10,6 +10,7 @@ from actions import JouleActions
 from hal.digital_inputs import JouleDigitalInputs
 from hal.temperature import JouleTemperature
 from hal.status_leds import JouleLeds
+from regulator.motor_starter import JouleMotor
 from regulator.jowenta import JouleJowenta
 from regulator.regulator import JouleController
 from state import JouleState
@@ -35,15 +36,18 @@ if __name__ == '__main__':
   temperature = JouleTemperature()
 
   jowenta = JouleJowenta(ainputs)
+  motor = JouleMotor()
   controller = JouleController()
 
-  state = JouleState(dinputs, [ainputs, dinputs, outputs, jowenta, temperature, controller])
-  actions = JouleActions(state, outputs, jowenta, dinputs, temperature)
+  state = JouleState(dinputs, [ainputs, dinputs, outputs, jowenta, temperature, controller, motor])
+  actions = JouleActions(state, outputs, jowenta, dinputs, temperature, motor)
   leds = JouleLeds(actions)
 
   state.set_leds(leds)
   jowenta.set_actions(actions)
   jowenta.set_state(state)
+  motor.set_actions(actions)
+  motor.set_state(state)
   controller.set_actions(actions)
   controller.set_state(state)
 

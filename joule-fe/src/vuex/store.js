@@ -7,6 +7,7 @@ import temperature from './modules/temperature'
 import output from './modules/digital-output'
 import general from './modules/general'
 import dinput from './modules/digital-input'
+import motors from './modules/motors'
 
 Vue.use(Vuex)
 Vue.config.debug = true
@@ -19,7 +20,8 @@ export default new Vuex.Store({
     temperature,
     output,
     general,
-    dinput
+    dinput,
+    motors
   },
   strict: debug,
   middlewares: debug ? [createLogger()] : []

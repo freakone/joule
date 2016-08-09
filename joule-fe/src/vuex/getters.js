@@ -28,3 +28,7 @@ export const digitalInputs = state => {
 export const generalSettings = state => {
   return state.general
 }
+
+export const motors = state => {
+  return state.motors.items
+}

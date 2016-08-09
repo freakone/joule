@@ -20,6 +20,7 @@ class wscgi(object):
     actions.set_temperature_cb(self.temperature_changed)
     actions.set_output_cb(self.doutput_changed)
     actions.set_state_cb(self.state_changed)
+    actions.set_motor_cb(self.motor_changed)
 
   def start_server(self):
     self.sio = socketio.Server(logger=False, async_mode='eventlet')
@@ -44,3 +45,6 @@ class wscgi(object):
 
   def state_changed(self, state):
     self.sio.emit('state_changed', state, namespace='/msgbus')
+
+  def motor_changed(self, state):
+    self.sio.emit('motor_changed', state, namespace='/msgbus')

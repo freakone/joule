@@ -6,6 +6,9 @@ export default {
   setDigitalValue (id, value) {
     socket.emit('set_digital', {id: id, value: value})
   },
+  setMotorValue (id, value) {
+    socket.emit('set_motor', {id: id, value: value})
+  },
   setName (name) {
     socket.emit('set_name', name)
   },
@@ -55,8 +58,8 @@ export default {
     actions.updateState(store, {name: 'BEM 123', mode: 6, error: '', error_source: ''})
   },
   initialize (store) {
-    // socket = io('http://192.168.2.1:5000/msgbus')
-    socket = io('http://127.0.0.1:5000/msgbus')
+    socket = io('http://192.168.2.1:5000/msgbus')
+    // socket = io('http://127.0.0.1:5000/msgbus')
 
     socket.on('connected', () => {
       console.log("I'm connected")
@@ -64,6 +67,14 @@ export default {
 
     socket.on('digital_output_init', (data) => {
       actions.initDigitalOutputs(store, data)
+    })
+
+    socket.on('motor_init', (data) => {
+      actions.initMotors(store, data)
+    })
+
+    socket.on('motor_changed', (data) => {
+      actions.updateMotorValueSilently(store, data.id, data.value, data.starting)
     })
 
     socket.on('digital_output_changed', (data) => {

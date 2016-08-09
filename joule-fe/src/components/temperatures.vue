@@ -36,13 +36,11 @@ import moment from 'moment'
 import { selectTemperature } from '../vuex/actions'
 import { temperatureSensors, selectedSensor } from '../vuex/getters'
 import Datetime from 'vue-datetime-picker/src/vue-datetime-picker.js'
-import Multiselect from 'vue-multiselect'
 
 export default {
   components: {
     Datetime,
-    LineChart,
-    Multiselect
+    LineChart
   },
   methods: {
     onStartDatetimeChanged: function (newStart) {

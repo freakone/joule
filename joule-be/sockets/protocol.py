@@ -10,6 +10,12 @@ def protocol_init(sio, actions):
         sio.emit('digital_input_init', actions.digital_inputs.map, room=sid, namespace='/msgbus')
         sio.emit('temperature_init', actions.temperatures.map, room=sid, namespace='/msgbus')
         sio.emit('state_init', actions.state.state_map, room=sid, namespace='/msgbus')
+        sio.emit('motor_init', actions.motors.map, room=sid, namespace='/msgbus')
+
+
+    @sio.on('set_motor', namespace='/msgbus')
+    def set_motor(sid, data):
+        actions.set_motor(data['id'], data['value'])
 
     @sio.on('set_digital', namespace='/msgbus')
     def set_digital(sid, data):

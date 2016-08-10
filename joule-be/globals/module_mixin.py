@@ -7,10 +7,17 @@ class ModuleMixin(object):
     self.status_cb = None
     self.error_message = ''
     self.cb = []
+    self.map = []
     self.error_counter = 0
 
   def set_cb(self, cb):
     self.cb.append(cb)
+
+    for m in self.map:
+      try:
+        cb(m)
+      except Exception as e:
+        print e
 
   def cb_call(self, *args):
     for cb in self.cb:

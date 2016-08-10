@@ -1,3 +1,3 @@
 import globals.states as state
 
-STATE = {'name': 'BEM 123', 'mode': state.INITIALIZATION, 'error': '', 'error_source': ''}
+STATE = {'name': 'BEM 123', 'mode': state.INITIALIZATION, 'error': '', 'error_source': '', 'regulator_mode': state.INITIALIZATION}

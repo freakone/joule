@@ -25,6 +25,17 @@ export const digitalInputs = state => {
   return state.dinput.items
 }
 
+export const regulatorMode = state => {
+  switch (state.general.regulator_mode) {
+    case 9:
+      return 'ROZPALANIE'
+    case 10:
+      return 'REGULACJA'
+    case 11:
+      return 'ZAŁADUNEK'
+  }
+}
+
 export const generalSettings = state => {
   return state.general
 }

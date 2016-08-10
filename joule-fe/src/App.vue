@@ -134,10 +134,18 @@ export default {
     height: 100%;
     width: 100%
 
-  .content-wrapper
-    height: calc(100% - 100px)
+  .content-header
+    padding: 15px;
+
+  .content
+    padding: 0 15px 0 15px;
+    height: calc(100% - 210px)
     overflow-y: auto;
-    min-height: 10% !important
+
+  // .content-wrapper
+  //   height: calc(100% - 100px)
+  //   overflow-y: auto;
+  //   min-height: 10% !important
 
   .info-box-icon
     width: 30px

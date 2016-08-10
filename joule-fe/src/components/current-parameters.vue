@@ -19,17 +19,17 @@
             .box-body
               knob(:id="output.id", :actual_value="output.actual_value")
     .com-md-4
-      .col-md-2.col-xs-4(v-for="di in digitalInputs")
+      .col-md-2.col-xs-6(v-for="di in digitalInputs")
         .info-box
           span.info-box-icon(:class="{ 'bg-red' : di.value, 'bg-green' : !di.value }")
           .info-box-content
             span.info-box-text {{ di.name }}
-      .col-md-2.col-xs-4(v-for="do in digitalOutputs")
+      .col-md-2.col-xs-6(v-for="do in digitalOutputs")
         .info-box
           span.info-box-icon(:class="{ 'bg-red' : !do.value, 'bg-green' : do.value }")
           .info-box-content
             span.info-box-text {{ do.name }}
-      .col-md-2.col-xs-4(v-for="mo in motors")
+      .col-md-2.col-xs-6(v-for="mo in motors")
         .info-box
           span.info-box-icon(:class="{'bg-yellow': mo.starting, 'bg-red' : !mo.value, 'bg-green' : mo.value }")
           .info-box-content

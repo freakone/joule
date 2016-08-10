@@ -15,7 +15,8 @@ const state = {
   error: false,
   error_text: '',
   error_source: '',
-  safety_switch: false
+  safety_switch: false,
+  regulator_mode: states.INITIALIZATION
 }
 
 // mutations
@@ -28,6 +29,7 @@ const mutations = {
     state.error = value.mode === states.ERROR
     state.error_text = value.error
     state.error_source = value.error_source
+    state.regulator_mode = value.regulator_mode
   },
   [UPDATE_NAME] (state, value) {
     state.name = value

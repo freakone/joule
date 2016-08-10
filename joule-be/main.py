@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import time
 import os
-os.environ["JOULELOCAL"] = "0"
+os.environ["JOULELOCAL"] = "1"
 
 from sockets.ws_cgi import wscgi
 from hal.digital_outputs import JouleDigitalOutputs
@@ -50,6 +50,7 @@ if __name__ == '__main__':
   motor.set_state(state)
   controller.set_actions(actions)
   controller.set_state(state)
+  controller.start_regulator()
 
   ws = wscgi(actions)
 

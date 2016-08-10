@@ -26,7 +26,6 @@ class JouleActions(object):
     self.output_cb.append(cb)
 
 # callback handling
-
   def status_changed(self, state):
     if self.state.current_state() in [st.ERROR, st.STOP, st.EMERGENCY_STOP]:
       for out in self.digital_outputs.map:

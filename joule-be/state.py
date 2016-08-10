@@ -3,6 +3,7 @@ import globals.states as state
 import hal.maps.digital_inputs_map as di_map
 import time
 from globals.module_mixin import ModuleMixin
+import os
 
 class JouleState(ModuleMixin):
   def __init__(self, dinputs, modules):
@@ -20,6 +21,8 @@ class JouleState(ModuleMixin):
 
     self.digital_inputs.set_cb(self.di_changed)
     self.di_changed(None)
+    if os.environ["JOULELOCAL"] == "1":
+      self.set_current_state(state.MANUAL)
 
   def di_changed(self, dinput):
     if dinput and (dinput['id'] == di_map.EMERGENCY_NO or dinput['id'] == di_map.EMERGENCY_NC):
@@ -53,7 +56,6 @@ class JouleState(ModuleMixin):
     self.set_current_state(state.STOP)
 
   def set_current_state(self, state):
-
     if self.state_map['mode'] == state:
       return
 
@@ -61,6 +63,13 @@ class JouleState(ModuleMixin):
     self.state_map['mode'] = state
     if self.leds:
       self.leds.set_blink(state)
+    self.cb_call(self.state_map)
+
+  def set_regulator_state(self, state):
+    if self.state_map['regulator_mode'] == state:
+      return
+
+    self.state_map['regulator_mode'] = state
     self.cb_call(self.state_map)
 
   def current_state(self):

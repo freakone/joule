@@ -2,6 +2,9 @@
   section.content-header
     h1
       | Sterowanie
+
+    .panic-button(v-if="generalSettings.mode == 6")
+      | ! OFF !
   section.content
     .row
       .alert.alert-danger.text-center(v-if="generalSettings.mode == 6")
@@ -10,16 +13,19 @@
         | Sterowanie automatyczne
       .alert.alert-info.text-center(v-if="generalSettings.mode == 4")
         | Stan spoczynkowy
+    .row(v-show="generalSettings.mode == 5")
+      .alert.alert-warning.text-center(v-if="generalSettings.mode == 5")
+        | {{regulatorMode}}
     .row(v-show="generalSettings.mode == 6")
-      .col-sm-6.col-lg-3.col-md-6(v-for="output in digitalOutputs | filterBy true in 'control'")
+      .col-sm-6.col-lg-3.col-md-6.col-xs-6(v-for="output in digitalOutputs | filterBy true in 'control'")
         .box.box-primary(@click="setDigitalOutput(output.id, !output.value)", v-bind:class="{'box-active': output.value}")
           .box-button
             .box-button-title {{output.name}}
-      .col-sm-6.col-lg-3.col-md-6(v-for="motor in motors")
+      .col-sm-6.col-lg-3.col-md-6.col-xs-6(v-for="motor in motors")
         .box.box-warning(@click="updateMotorValue(motor.id, !motor.value)", v-bind:class="{'box-disabled-motor': motor.starting, 'box-active-motor': motor.value}", :disabled="motor.starting")
           .box-button
             .box-button-title {{motor.name}}
-      .col-sm-12.col-lg-3.col-md-6(v-for="output in analogOutputs")
+      .col-sm-12.col-lg-3.col-md-6.col-xs-6(v-for="output in analogOutputs")
         .box.box-primary
           .box-header.with-border
             h3.box-title {{output.name}}
@@ -29,7 +35,7 @@
 </template>
 
 <script>
-import { digitalOutputs, analogOutputs, generalSettings, motors } from '../vuex/getters'
+import { digitalOutputs, analogOutputs, generalSettings, motors, regulatorMode } from '../vuex/getters'
 import { updateAnalogValue, updateDigitalValue, updateMotorValue } from '../vuex/actions'
 
 export default {
@@ -38,7 +44,8 @@ export default {
       analogOutputs: analogOutputs,
       digitalOutputs: digitalOutputs,
       generalSettings: generalSettings,
-      motors: motors
+      motors: motors,
+      regulatorMode: regulatorMode
     },
     actions: {
       setAnalogOutput: updateAnalogValue,
@@ -56,6 +63,24 @@ export default {
 </script>
 
 <style scoped>
+
+  .panic-button {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    width: 20%;
+    background-color: #f39c12;
+    justify-content: center;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 3px;
+    top: 0;
+    bottom: 0;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
   .box-button-title {
     display: inline-block;
     font-size: 4em;
@@ -77,9 +102,17 @@ export default {
     color: white;
   }
   @media (max-width: 992px) {
-      .box-button {
+    .box-button {
          height: 20vh;
        }
+  }
+  @media (max-width: 500px) {
+    .box-button {
+         height: 10vh;
+     }
+    .box-button-title {
+      font-size: 2em;
+    }
   }
   .box-button {
     padding: 10px;

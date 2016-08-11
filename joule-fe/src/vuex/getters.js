@@ -27,6 +27,10 @@ export const digitalInputs = state => {
 
 export const regulatorMode = state => {
   switch (state.general.regulator_mode) {
+    case 3:
+      return 'INICJALIZACJA'
+    case 8:
+      return 'PRZEKROCZENIE TEMPERATURY'
     case 9:
       return 'ROZPALANIE'
     case 10:

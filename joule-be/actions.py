@@ -60,6 +60,12 @@ class JouleActions(object):
   def set_name(self, name):
     self.state.set_name(name)
 
+  def set_temperature_minimum(self, id, name):
+    self.temperatures.set_temperature_minimum(id, name)
+
+  def set_temperature_maximum(self, id, name):
+     self.temperatures.set_temperature_maximum(id, name)
+
   def set_temperature_name(self, id, name):
     self.temperatures.set_name(id, name)
 
@@ -79,17 +85,17 @@ class JouleActions(object):
     return 'sockets' in path
 
   def set_motor(self, id, value):
-    if self.check_call_source(inspect.stack()[1][1]) and self.state.current_state() == st.AUTO:
-      print "outputs change forbidden during automatic mode"
-      return
+    # if self.check_call_source(inspect.stack()[1][1]) and self.state.current_state() == st.AUTO:
+    #   print "outputs change forbidden during automatic mode"
+    #   return
 
     if not self.get_motor_state(id) == value:
       _map = self.motors.set_output(id, value)
 
   def set_output(self, id, value):
-    if self.check_call_source(inspect.stack()[1][1]) and self.state.current_state() == st.AUTO:
-      print "outputs change forbidden during automatic mode"
-      return
+    # if self.check_call_source(inspect.stack()[1][1]) and self.state.current_state() == st.AUTO:
+    #   print "outputs change forbidden during automatic mode"
+    #   return
 
     if not self.get_output_state(id) == value:
       _map = self.digital_outputs.set_output(id, value)

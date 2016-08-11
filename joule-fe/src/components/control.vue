@@ -3,7 +3,7 @@
     h1
       | Sterowanie
 
-    .panic-button(v-if="generalSettings.mode == 6")
+    .panic-button(v-if="generalSettings.mode == 6", @click="panicButton(digitalOutputs)")
       | ! OFF !
   section.content
     .row
@@ -16,7 +16,7 @@
     .row(v-show="generalSettings.mode == 5")
       .alert.alert-warning.text-center(v-if="generalSettings.mode == 5")
         | {{regulatorMode}}
-    .row(v-show="generalSettings.mode == 6")
+    .row
       .col-sm-6.col-lg-3.col-md-6.col-xs-6(v-for="output in digitalOutputs | filterBy true in 'control'")
         .box.box-primary(@click="setDigitalOutput(output.id, !output.value)", v-bind:class="{'box-active': output.value}")
           .box-button
@@ -36,7 +36,7 @@
 
 <script>
 import { digitalOutputs, analogOutputs, generalSettings, motors, regulatorMode } from '../vuex/getters'
-import { updateAnalogValue, updateDigitalValue, updateMotorValue } from '../vuex/actions'
+import { updateAnalogValue, updateDigitalValue, updateMotorValue, panicButton } from '../vuex/actions'
 
 export default {
   vuex: {
@@ -50,7 +50,8 @@ export default {
     actions: {
       setAnalogOutput: updateAnalogValue,
       setDigitalOutput: updateDigitalValue,
-      updateMotorValue: updateMotorValue
+      updateMotorValue: updateMotorValue,
+      panicButton: panicButton
     }
   },
   data () {

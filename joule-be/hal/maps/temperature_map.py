@@ -41,6 +41,21 @@ TEMPERATURE = [
       'data': []
     }]
   },
+  {
+   'id': 4,
+   'register': 55,
+   'name': 'lambda',
+   'currentValue': 0.0,
+   'limitMin': 4,
+   'limitMax': 30,
+   'labels': [],
+   'datasets': [{
+      'backgroundColor': 'rgba(221,75,57,0.6)',
+      'borderColor': "rgba(220,75,57,1)",
+      'data': []
+    }]
+  },
 ]
 
 FUMES = 1
+WATER = 3

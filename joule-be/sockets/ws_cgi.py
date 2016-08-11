@@ -44,7 +44,6 @@ class wscgi(object):
     self.sio.emit('temperature_changed', temperature, namespace='/msgbus')
 
   def state_changed(self, state):
-    print state
     self.sio.emit('state_changed', state, namespace='/msgbus')
 
   def motor_changed(self, state):

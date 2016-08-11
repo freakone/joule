@@ -45,7 +45,17 @@ def protocol_init(sio, actions):
     def set_name(sid, data):
         actions.set_jowenta_value(data['id'], data['value'])
 
+    @sio.on('set_temperature_minimum', namespace='/msgbus')
+    def set_name(sid, data):
+        actions.set_temperature_minimum(data['id'], data['value'])
+        sio.emit('set_temperature_minimum', data, namespace='/msgbus')
+
+    @sio.on('set_temperature_maximum', namespace='/msgbus')
+    def set_name(sid, data):
+        actions.set_temperature_maximum(data['id'], data['value'])
+        sio.emit('set_temperature_maximum', data, namespace='/msgbus')
+
     @sio.on('set_digital_input_name', namespace='/msgbus')
     def set_name(sid, data):
-        actions.set_digital_input_name(data['id'], data['value'])
-        sio.emit('digital_input_name', data, namespace='/msgbus')
+      actions.set_digital_input_name(data['id'], data['value'])
+      sio.emit('digital_input_name', data, namespace='/msgbus')

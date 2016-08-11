@@ -16,6 +16,7 @@ class JouleController(ModuleMixin):
     self.process_status = None
 
     self.fumes_temp = None
+    self.water_temp = None
 
     self.jowenta_ton = 0
     self.jowenta_toff = 0
@@ -25,7 +26,12 @@ class JouleController(ModuleMixin):
 
 
   def set_process_status(self, status):
+    if self.process_status == status:
+      return
+
     self.process_status = status
+    self.jowenta_ton = 0
+    self.jowenta_toff = 0
     self.state.set_regulator_state(status)
 
   def set_state(self, state):
@@ -34,37 +40,48 @@ class JouleController(ModuleMixin):
   def set_actions(self, actions):
     self.actions = actions
     self.actions.set_temperature_cb(self.temperature_change)
+    self.actions.set_dinput_cb(self.dinput_cb)
 
   def temperature_change(self, cb):
     if cb['id'] == t_map.FUMES:
       self.fumes_temp = cb
 
-  def jowenta_open(self):
-    if self.jowenta_ton < 10:
-      self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, True)
-      self.actions.set_output(do_map.JOWENTA_AIR_MAIN_DIR, True)
-      self.jowenta_ton = self.jowenta_ton + 1
-    else:
-      self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, False)
-      self.jowenta_toff = self.jowenta_toff + 1
-      if self.jowenta_toff > 20:
-        self.jowenta_ton = 0
-        self.jowenta_toff = 0
+    if cb['id'] == t_map.WATER:
+      self.water_temp = cb
 
-  def jowenta_close(self):
-    if self.jowenta_ton < 10:
+  def jowenta_open(self):
+    # print "otwieranie"
+    if self.jowenta_ton < 5:
       self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, True)
       self.actions.set_output(do_map.JOWENTA_AIR_MAIN_DIR, False)
       self.jowenta_ton = self.jowenta_ton + 1
     else:
       self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, False)
       self.jowenta_toff = self.jowenta_toff + 1
-      if self.jowenta_toff > 20:
+      if self.jowenta_toff > 10:
+        self.jowenta_ton = 0
+        self.jowenta_toff = 0
+
+  def jowenta_close(self):
+    # print "zamykanie"
+    if self.jowenta_ton < 5:
+      self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, True)
+      self.actions.set_output(do_map.JOWENTA_AIR_MAIN_DIR, True)
+      self.jowenta_ton = self.jowenta_ton + 1
+    else:
+      self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, False)
+      self.jowenta_toff = self.jowenta_toff + 1
+      if self.jowenta_toff > 10:
         self.jowenta_ton = 0
         self.jowenta_toff = 0
 
   def jowenta_stop(self):
     self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, False)
+
+  def dinput_cb(self, cb):
+    if cb['id'] == di_map.BUTTON_LEFT and not self.process_status == None:
+      self.set_process_status(state.IGNITION)
+      self.loading_mock = 0
 
   def regulation_loop(self):
     while True:
@@ -76,6 +93,9 @@ class JouleController(ModuleMixin):
                 self.set_process_status(state.IGNITION)
               else:
                 self.set_process_status(state.NORMAL_OPERATION)
+          elif self.water_temp['currentValue'] > self.water_temp['limitMax']:
+            if not self.process_status == state.SOFTWARE_STOP:
+              self.set_process_status(state.SOFTWARE_STOP)
           else:
             if self.process_status == state.IGNITION: #rozpalanie, otwarcie jowenty, 10s on, 20s off
               self.jowenta_open()
@@ -92,12 +112,14 @@ class JouleController(ModuleMixin):
                 self.jowenta_stop()
 
               if self.fumes_temp['currentValue'] < self.fumes_temp['limitMin']:
-                sself.set_process_status(state.END_OF_FUEL)
+                self.set_process_status(state.END_OF_FUEL)
             elif self.process_status == state.END_OF_FUEL:
-              self.loading_mock = self.loading_mock + 1
-
-              if self.loading_mock > 10:
-                self.set_process_status(state.NORMAL_OPERATION)
+              if self.loading_mock > 45:
+                self.jowenta_stop()
+              else:
+                self.loading_mock = self.loading_mock + 1
+                self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, True)
+                self.actions.set_output(do_map.JOWENTA_AIR_MAIN_DIR, True)
 
       time.sleep(1)
 

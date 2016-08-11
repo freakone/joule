@@ -84,6 +84,8 @@ export default {
     if (window.innerWidth < 991) {
       document.getElementById('main').classList.add('sidebar-collapse')
     }
+    /*eslint-disable */
+    window.dispatchEvent(new Event('resize'))
   }
 }
 </script>
@@ -139,8 +141,14 @@ export default {
 
   .content
     padding: 0 15px 0 15px;
-    height: calc(100% - 210px)
+    height: calc(100% - 160px)
     overflow-y: auto;
+    min-height: 10px !important
+
+  @media (max-width: 767px)
+    .content
+      padding-bottom: 40px
+
 
   // .content-wrapper
   //   height: calc(100% - 100px)

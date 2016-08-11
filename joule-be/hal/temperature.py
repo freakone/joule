@@ -56,3 +56,18 @@ class JouleTemperature(ModuleMixin):
     if len(output) == 1:
       output[0]['name'] = name
       self.save_map('temperature.map', self.map)
+      self.cb_call(output[0])
+
+  def set_temperature_minimum(self, id, value):
+    output = filter(lambda out: out['id'] == id, self.map)
+    if len(output) == 1:
+      output[0]['limitMin'] = value
+      self.save_map('temperature.map', self.map)
+      self.cb_call(output[0])
+
+  def set_temperature_maximum(self, id, value):
+    output = filter(lambda out: out['id'] == id, self.map)
+    if len(output) == 1:
+      output[0]['limitMax'] = value
+      self.save_map('temperature.map', self.map)
+      self.cb_call(output[0])

@@ -18,6 +18,12 @@ export default {
   setTemperatureName (id, value) {
     socket.emit('set_temperature_name', {id: id, value: value})
   },
+  updateTemperatureMinimum (id, value) {
+    socket.emit('set_temperature_minimum', {id: id, value: value})
+  },
+  updateTemperatureMaximum (id, value) {
+    socket.emit('set_temperature_maximum', {id: id, value: value})
+  },
   setJowentaName (id, value) {
     socket.emit('set_jowenta_name', {id: id, value: value})
   },
@@ -58,8 +64,8 @@ export default {
     actions.updateState(store, {name: 'BEM 123', mode: 6, error: '', error_source: ''})
   },
   initialize (store) {
-    // socket = io('http://192.168.2.1:5000/msgbus')
-    socket = io('http://127.0.0.1:5000/msgbus')
+    socket = io('http://192.168.2.1:5000/msgbus')
+    // socket = io('http://127.0.0.1:5000/msgbus')
 
     socket.on('connected', () => {
       console.log("I'm connected")
@@ -99,6 +105,14 @@ export default {
 
     socket.on('temperature_init', (data) => {
       actions.initTemperature(store, data)
+    })
+
+    socket.on('set_temperature_minimum', (data) => {
+      actions.updateTemperatureSensorMinimumSilently(store, data.id, data.value)
+    })
+
+    socket.on('set_temperature_maximum', (data) => {
+      actions.updateTemperatureSensorMaxmimumSilently(store, data.id, data.value)
     })
 
     socket.on('temperature_changed', (data) => {

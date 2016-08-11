@@ -50,6 +50,14 @@ export const updateDigitalOutputNameSilently = ({ dispatch }, id, name) => {
   dispatch(types.UPDATE_DIGITAL_NAME, id, name)
 }
 
+export const panicButton = ({ dispatch }, digital) => {
+  digital.forEach(function (element, index) {
+    if (element.value && element.control) {
+      api.setDigitalValue(element.id, false)
+    }
+  })
+}
+
 // DIGITAL INPUTS
 export const initDigitalInputs = ({dispatch}, state) => {
   dispatch(types.RECEIVE_DIGITAL_INPUTS, state)
@@ -77,11 +85,17 @@ export const updateTemperatureSensorName = ({ dispatch }, e) => {
 }
 
 export const updateTemperatureMinimum = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_TEMPERATURE_MINIMUM, parseInt(e.target.id), parseInt(e.target.value))
+  var id = parseInt(e.target.id)
+  var val = parseInt(e.target.value)
+  dispatch(types.UPDATE_TEMPERATURE_MINIMUM, id, val)
+  api.updateTemperatureMinimum(id, val)
 }
 
 export const updateTemperatureMaximum = ({ dispatch }, e) => {
-  dispatch(types.UPDATE_TEMPERATURE_MAXIMUM, parseInt(e.target.id), parseInt(e.target.value))
+  var id = parseInt(e.target.id)
+  var val = parseInt(e.target.value)
+  dispatch(types.UPDATE_TEMPERATURE_MAXIMUM, id, val)
+  api.updateTemperatureMaximum(id, val)
 }
 
 export const selectTemperature = ({ dispatch }, e) => {
@@ -98,6 +112,14 @@ export const addTemperature = ({ dispatch }, data) => {
 
 export const updateTemperatureSensorNameSilently = ({ dispatch }, id, value) => {
   dispatch(types.UPDATE_TEMPERATURE_NAME, id, value)
+}
+
+export const updateTemperatureSensorMinimumSilently = ({ dispatch }, id, value) => {
+  dispatch(types.UPDATE_TEMPERATURE_MINIMUM, id, value)
+}
+
+export const updateTemperatureSensorMaxmimumSilently = ({ dispatch }, id, value) => {
+  dispatch(types.UPDATE_TEMPERATURE_MAXIMUM, id, value)
 }
 
 // JOWENTA

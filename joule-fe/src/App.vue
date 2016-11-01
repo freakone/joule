@@ -102,7 +102,6 @@ export default {
     .metalerg
       background-size: 100%
 
-
   .synergia-logo
     background-image: url('assets/synergia.png')
     height: 20px
@@ -161,12 +160,6 @@ export default {
   @media (max-width: 767px)
     .content
       padding-bottom: 40px
-
-
-  // .content-wrapper
-  //   height: calc(100% - 100px)
-  //   overflow-y: auto;
-  //   min-height: 10% !important
 
   .info-box-icon
     width: 30px

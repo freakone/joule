@@ -4,7 +4,7 @@ import logging.handlers
 import argparse
 import sys
 
-LOG_FILENAME = "joule.log"
+LOG_FILENAME = "/var/log/joule.log"
 LOG_LEVEL = logging.INFO
 
 parser = argparse.ArgumentParser(description="joule service")

@@ -55,7 +55,8 @@
     p Aplikacja zatrzymana, błąd modułu sterującego!
     span {{ generalSettings.error_source }}  {{ generalSettings.error_text }}
   footer.main-footer
-    strong Copyright © 2016 Synergia.
+    strong Copyright © 2016 
+    span.synergia-logo
     |  All rights reserved.
 </template>
 
@@ -100,6 +101,18 @@ export default {
   @media (min-width: 767px)
     .metalerg
       background-size: 100%
+
+
+  .synergia-logo
+    background-image: url('assets/synergia.png')
+    height: 20px
+    background-repeat: no-repeat
+    min-width: 90px
+    background-size: contain
+    display: inline-block
+    position: static
+    transform: translateY(8px)
+
 
   .metalerg
     background-image: url('assets/metalerg.png')
@@ -194,26 +207,25 @@ export default {
     color: rgb(255, 255, 255)
 
     div, p, i, span
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin-right: -50%;
-      transform: translate(-50%, -50%)
       font-size: 30px
+      width: 100%
+      display: block;
+      word-wrap: break-word;
+      margin-left: auto
+      margin-right: auto
+      text-align: center
     i
+      margin-top: 20%;
       font-size: 150px
-      transform: translate(-50%, -100%)
     p
-      margin-top: 5%
       line-height: 1
-      text-align: center
       font-size: 3em
-
     span
-      width: 50%
       font-size: 15px
-      text-align: center
-      word-wrap: break-word
-      padding-top: 15%
       font-style: italic
+      max-height: 10%
+      width: 60%
+      overflow: auto
+      margin-top: 20px
+      color: #670C00
 </style>

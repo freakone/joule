@@ -66,7 +66,7 @@ class JouleDigitalInputs(ModuleMixin):
   def measure_loop(self):
     while True:
       self.measure()
-      time.sleep(0.1)
+      time.sleep(0.2)
 
   def mock_loop(self):
     while True:

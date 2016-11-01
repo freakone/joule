@@ -25,9 +25,9 @@ class JouleMotor(ModuleMixin):
     motor['starting'] = True
     self.cb_call(motor)
     self.actions.set_output(motor['gpio_u1'], True)
-    time.sleep(8)
+    time.sleep(15)
     self.actions.set_output(motor['gpio_u1'], False)
-    time.sleep(0.1)
+    time.sleep(0.065)
     self.actions.set_output(motor['gpio_u2'], True)
     self.actions.set_output(motor['gpio_u1'], True)
     motor['starting'] = False

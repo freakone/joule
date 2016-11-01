@@ -64,7 +64,8 @@ export default {
     actions.updateState(store, {name: 'BEM 123', mode: 6, error: '', error_source: ''})
   },
   initialize (store) {
-    socket = io('http://192.168.2.1:5000/msgbus')
+    // socket = io('http://192.168.2.1:5000/msgbus')
+    socket = io('http://192.168.0.90:5000/msgbus')
     // socket = io('http://127.0.0.1:5000/msgbus')
 
     socket.on('connected', () => {

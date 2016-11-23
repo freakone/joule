@@ -6,6 +6,7 @@ import globals.states as state
 import hal.maps.temperature_map as t_map
 import hal.maps.digital_inputs_map as di_map
 import hal.maps.digital_outputs_map as do_map
+import hal.maps.motor_starter_map as ms_map
 
 class JouleController(ModuleMixin):
   def __init__(self):
@@ -33,6 +34,20 @@ class JouleController(ModuleMixin):
     self.jowenta_ton = 0
     self.jowenta_toff = 0
     self.state.set_regulator_state(status)
+
+    if self.process_status in [state.IGNITION, state.NORMAL_OPERATION]:
+      self.actions.set_output(do_map.SMALL_FANS, True)
+      time.sleep(0.3)
+      self.actions.set_output(do_map.LEFT_FAN, True)
+      time.sleep(0.3)
+      self.actions.set_output(do_map.RIGHT_FAN, True)
+      time.sleep(0.3)
+      self.actions.set_motor(ms_map.MAIN_FAN, True)
+    elif self.process_status == state.END_OF_FUEL:
+      self.actions.set_output(do_map.SMALL_FANS, False)
+      self.actions.set_output(do_map.LEFT_FAN, False)
+      self.actions.set_output(do_map.RIGHT_FAN, False)
+      self.actions.set_motor(ms_map.MAIN_FAN, False)
 
   def set_state(self, state):
     self.state = state
@@ -114,12 +129,7 @@ class JouleController(ModuleMixin):
               if self.fumes_temp['currentValue'] < self.fumes_temp['limitMin']:
                 self.set_process_status(state.END_OF_FUEL)
             elif self.process_status == state.END_OF_FUEL:
-              if self.loading_mock > 45:
                 self.jowenta_stop()
-              else:
-                self.loading_mock = self.loading_mock + 1
-                self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, True)
-                self.actions.set_output(do_map.JOWENTA_AIR_MAIN_DIR, True)
 
       time.sleep(1)
 

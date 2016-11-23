@@ -64,8 +64,10 @@ export default {
     actions.updateState(store, {name: 'BEM 123', mode: 6, error: '', error_source: ''})
   },
   initialize (store) {
-    socket = io('http://#{window.location.hostname}:5000/msgbus')
-
+    var location = window.location.hostname + ':5000/msgbus'
+    // console.log(location)
+    socket = io.connect(location, {transports: ['websocket']})
+    // socket = io.connect('http://192.168.0.90:5000/msgbus', {transports: ['websocket']})
     socket.on('connected', () => {
       console.log("I'm connected")
     })

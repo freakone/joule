@@ -1,6 +1,6 @@
 from globals.module_mixin import ModuleMixin
 import time
-from threading import Thread
+from threading import Thread, Lock
 from math import fabs
 import globals.states as state
 import hal.maps.temperature_map as t_map
@@ -21,7 +21,7 @@ class JouleController(ModuleMixin):
 
     self.jowenta_ton = 0
     self.jowenta_toff = 0
-    self.loading_mock = 0
+    self.mutex = Lock()
 
     self.set_status(state.OK)
 
@@ -30,27 +30,34 @@ class JouleController(ModuleMixin):
     if self.process_status == status:
       return
 
-    self.process_status = status
-    self.jowenta_ton = 0
-    self.jowenta_toff = 0
-    self.state.set_regulator_state(status)
+    self.mutex.acquire()
 
-    if self.process_status in [state.IGNITION, state.NORMAL_OPERATION]:
-      self.actions.set_output(do_map.SMALL_FANS, True)
-      time.sleep(0.3)
-      self.actions.set_output(do_map.LEFT_FAN, True)
-      time.sleep(0.3)
-      self.actions.set_output(do_map.RIGHT_FAN, True)
-      time.sleep(0.3)
-      self.actions.set_motor(ms_map.MAIN_FAN, True)
-    elif self.process_status == state.END_OF_FUEL:
-      self.actions.set_output(do_map.SMALL_FANS, False)
-      self.actions.set_output(do_map.LEFT_FAN, False)
-      self.actions.set_output(do_map.RIGHT_FAN, False)
-      self.actions.set_motor(ms_map.MAIN_FAN, False)
+    try:
+      self.process_status = status
+      self.jowenta_ton = 0
+      self.jowenta_toff = 0
+      self.state.set_regulator_state(status)
+      print status
 
-  def set_state(self, state):
-    self.state = state
+      if self.process_status in [state.IGNITION]:
+        self.actions.set_output(do_map.SMALL_FANS, True)
+        time.sleep(0.3)
+        self.actions.set_output(do_map.LEFT_FAN, True)
+        time.sleep(0.3)
+        self.actions.set_output(do_map.RIGHT_FAN, True)
+        time.sleep(0.3)
+        self.actions.set_motor(ms_map.MAIN_FAN, True)
+      elif self.process_status in [state.END_OF_FUEL, state.STOP, state.SOFTWARE_STOP]:
+        self.actions.set_output(do_map.SMALL_FANS, False)
+        self.actions.set_output(do_map.LEFT_FAN, False)
+        self.actions.set_output(do_map.RIGHT_FAN, False)
+        self.actions.set_motor(ms_map.MAIN_FAN, False)
+    finally:
+        self.mutex.release()
+
+  def set_state(self, stat):
+    self.state = stat
+    self.state.set_regulator_state(state.STOP)
 
   def set_actions(self, actions):
     self.actions = actions
@@ -94,21 +101,20 @@ class JouleController(ModuleMixin):
     self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, False)
 
   def dinput_cb(self, cb):
-    if cb['id'] == di_map.BUTTON_LEFT and not self.process_status == None:
+    if cb['id'] == di_map.BUTTON_LEFT and cb['value'] == False and self.process_status in [None, state.STOP]:
       self.set_process_status(state.IGNITION)
-      self.loading_mock = 0
+    elif cb['id'] == di_map.BUTTON_RIGHT and cb['value'] == False:
+      self.set_process_status(state.STOP)
 
   def regulation_loop(self):
     while True:
       if not self.actions == None and not self.state == None:
         if self.state.current_state() == state.AUTO:
-          if self.process_status == None: # start apeczki
-            if not self.fumes_temp == None:
-              if self.fumes_temp['currentValue'] < self.fumes_temp['limitMin']:
-                self.set_process_status(state.IGNITION)
-              else:
-                self.set_process_status(state.NORMAL_OPERATION)
+          if self.process_status in [None, state.STOP]: # start apeczki
+            time.sleep(0.5)
           elif self.water_temp['currentValue'] > self.water_temp['limitMax']:
+            print "#WATER TEMP", self.water_temp['currentValue'], self.water_temp['limitMax']
+
             if not self.process_status == state.SOFTWARE_STOP:
               self.set_process_status(state.SOFTWARE_STOP)
           else:

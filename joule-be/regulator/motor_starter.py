@@ -15,6 +15,8 @@ class JouleMotor(ModuleMixin):
     self.state = None
     self.set_status(state.OK)
 
+    self.stop_during_start = False
+
   def set_state(self, state):
     self.state = state
 
@@ -27,11 +29,20 @@ class JouleMotor(ModuleMixin):
     self.actions.set_output(motor['gpio_u1'], True)
     time.sleep(15)
     self.actions.set_output(motor['gpio_u1'], False)
-    time.sleep(0.065)
+    time.sleep(0.050)
     self.actions.set_output(motor['gpio_u2'], True)
     self.actions.set_output(motor['gpio_u1'], True)
     motor['starting'] = False
     motor['value'] = True
+
+    if self.stop_during_start:
+      self.actions.set_output(motor['gpio_u2'], False)
+      self.actions.set_output(motor['gpio_u1'], False)
+      motor['starting'] = False
+      motor['value'] = False
+      self.stop_during_start = False
+
+
     self.cb_call(motor)
 
   def output_state(self, id):
@@ -54,15 +65,18 @@ class JouleMotor(ModuleMixin):
       if len(output) == 1:
         output = output[0]
 
-        if not output['starting'] and not output["value"]:
-          th_run = Thread(target=self.star_routine, args=[output])
-          th_run.start()
-        elif output["value"] and not output["starting"]:
-          self.actions.set_output(output['gpio_u2'], False)
-          self.actions.set_output(output['gpio_u1'], False)
-          output['starting'] = False
-          output['value'] = False
-          self.cb_call(output)
+        if not self.stop_during_start:
+          if not output['starting'] and not output["value"] and value:
+            th_run = Thread(target=self.star_routine, args=[output])
+            th_run.start()
+          elif output["value"] and not output["starting"] and not value:
+            self.actions.set_output(output['gpio_u2'], False)
+            self.actions.set_output(output['gpio_u1'], False)
+            output['starting'] = False
+            output['value'] = False
+            self.cb_call(output)
+          elif output["starting"] and not value:
+            self.stop_during_start = True        
 
         self.zero_errors()
         return output

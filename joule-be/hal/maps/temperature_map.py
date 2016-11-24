@@ -6,6 +6,7 @@ TEMPERATURE = [
    'currentValue': 0.0,
    'limitMin': 4,
    'limitMax': 30,
+   'maximumValue': 1000,
    'labels': [],
    'datasets': [{
       'backgroundColor': 'rgba(221,75,57,0.6)',
@@ -20,6 +21,7 @@ TEMPERATURE = [
    'currentValue': 0.0,
    'limitMin': 4,
    'limitMax': 30,
+   'maximumValue': 120,
    'labels': [],
    'datasets': [{
       'backgroundColor': 'rgba(221,75,57,0.6)',
@@ -34,6 +36,7 @@ TEMPERATURE = [
    'currentValue': 0.0,
    'limitMin': 4,
    'limitMax': 30,
+   'maximumValue': 120,
    'labels': [],
    'datasets': [{
       'backgroundColor': 'rgba(221,75,57,0.6)',
@@ -48,6 +51,7 @@ TEMPERATURE = [
    'currentValue': 0.0,
    'limitMin': 4,
    'limitMax': 30,
+   'maximumValue': 500,
    'labels': [],
    'datasets': [{
       'backgroundColor': 'rgba(221,75,57,0.6)',

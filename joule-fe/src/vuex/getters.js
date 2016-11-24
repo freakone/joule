@@ -29,6 +29,8 @@ export const regulatorMode = state => {
   switch (state.general.regulator_mode) {
     case 3:
       return 'INICJALIZACJA'
+    case 4:
+      return 'STOP'
     case 8:
       return 'PRZEKROCZENIE TEMPERATURY'
     case 9:
@@ -36,7 +38,7 @@ export const regulatorMode = state => {
     case 10:
       return 'REGULACJA'
     case 11:
-      return 'ZAŁADUNEK'
+      return 'KONIEC PALIWA'
   }
 }
 

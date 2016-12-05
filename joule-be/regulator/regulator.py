@@ -40,6 +40,8 @@ class JouleController(ModuleMixin):
       print status
 
       if self.process_status in [state.IGNITION]:
+        self.actions.set_output(do_map.PUMP, True)
+        time.sleep(10)
         self.actions.set_output(do_map.SMALL_FANS, True)
         time.sleep(0.3)
         self.actions.set_output(do_map.LEFT_FAN, True)
@@ -93,7 +95,7 @@ class JouleController(ModuleMixin):
     else:
       self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, False)
       self.jowenta_toff = self.jowenta_toff + 1
-      if self.jowenta_toff > 10:
+      if self.jowenta_toff > 30:
         self.jowenta_ton = 0
         self.jowenta_toff = 0
 
@@ -125,9 +127,9 @@ class JouleController(ModuleMixin):
                 self.jowenta_stop()
             elif self.process_status == state.NORMAL_OPERATION:
               #normalna operacja za malo = otworz jowente, dobrze = stoj, za duzo = przymknij
-              if self.fumes_temp['currentValue'] < self.fumes_temp['limitMax'] * 0.95:
+              if self.fumes_temp['currentValue'] < self.fumes_temp['limitMax'] * 0.90:
                 self.jowenta_open()
-              elif self.fumes_temp['currentValue'] > self.fumes_temp['limitMax'] * 1.05:
+              elif self.fumes_temp['currentValue'] > self.fumes_temp['limitMax'] * 1.10:
                 self.jowenta_close()
               else:
                 self.jowenta_stop()
@@ -136,6 +138,11 @@ class JouleController(ModuleMixin):
                 self.set_process_status(state.END_OF_FUEL)
             elif self.process_status == state.END_OF_FUEL:
                 self.jowenta_stop()
+        
+        # if self.water_temp['currentValue'] > 90:
+        #   self.actions.set_output(do_map.PUMP, True)
+        # else:
+        #   self.actions.set_output(do_map.PUMP, False)
 
       time.sleep(1)
 

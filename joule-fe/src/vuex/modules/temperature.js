@@ -22,9 +22,9 @@ const mutations = {
     const record = state.items.find(p => p.id === itemId)
     if (record) {
       var newDataset = record.datasets.slice()
-      if (newDataset[0].data.length > 30) {
-        record.labels = record.labels.slice(-31)
-        newDataset[0].data = newDataset[0].data.slice(-30)
+      if (newDataset[0].data.length > 60) {
+        record.labels = record.labels.slice(-61)
+        newDataset[0].data = newDataset[0].data.slice(-60)
       }
 
       var label = dateFormat(Date.now(), 'HH:MM:ss')

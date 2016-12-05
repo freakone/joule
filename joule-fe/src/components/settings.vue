@@ -22,19 +22,23 @@
               .row
                 | &nbsp;
               .row
-                  .col-xs-2
+                  .col-xs-4
                     | Minimum
-                  .col-xs-6
-                    mdl-slider(:value="item.limitMin", :id="item.id", @change="updateTemperatureMinimum" min="0" max="1000")
                   .col-xs-4
-                    input.form-control(type="text", :value="item.limitMin", disabled)
-              .row
+                    input.form-control(type="number", :value="item.limitMin", :id="item.id", @change.prevent="temperatureMinimum($event, item)")
                   .col-xs-2
-                    | Maximum
-                  .col-xs-6
-                    mdl-slider(:value="item.limitMax", :id="item.id", @change="updateTemperatureMaximum" min="0" max="1000")
+                    button(style="width:100%;", @click="minimumIncrement(item)") +10
+                  .col-xs-2
+                    button(style="width:100%;", @click="minimumDecrement(item)") -10
+              .row
                   .col-xs-4
-                    input.form-control(type="text", :value="item.limitMax", disabled)
+                    | Maximum
+                  .col-xs-4
+                    input.form-control(type="number", :value="item.limitMax", :id="item.id", @change="temperatureMaximum($event, item)")
+                  .col-xs-2
+                    button(style="width:100%;", @click="maximumIncrement(item)") +10
+                  .col-xs-2
+                    button(style="width:100%;", @click="maximumDecrement(item)") -10
     .col-md-6
       .box.box-primary
         .box-header.with-border
@@ -50,11 +54,16 @@
               | Wyjście analogowe {{$index+1}}
             .col-xs-9
               input.form-control(type="text", :value="output.name", :id="output.id", @change="updateAnalogOutputName")
-</template>
+          .row(v-for="motor in motors")
+            .col-xs-3
+              | Silnik {{$index+1}}
+            .col-xs-9
+              input.form-control(type="text", :value="motor.name", :id="motor.id", @change="updateMotorName")
+    </template>
 
 <script>
-import { digitalOutputs, analogOutputs, temperatureSensors, generalSettings } from '../vuex/getters'
-import { updateName, updateAnalogOutputName, updateDigitalOutputName, updateTemperatureMaximum, updateTemperatureMinimum, updateTemperatureSensorName } from '../vuex/actions'
+import { digitalOutputs, analogOutputs, temperatureSensors, generalSettings, motors } from '../vuex/getters'
+import { updateName, updateAnalogOutputName, updateDigitalOutputName, updateTemperatureMaximum, updateTemperatureMinimum, updateTemperatureSensorName, updateMotorName } from '../vuex/actions'
 
 export default {
   vuex: {
@@ -62,7 +71,8 @@ export default {
       analogOutputs: analogOutputs,
       digitalOutputs: digitalOutputs,
       temperatureSensors: temperatureSensors,
-      generalSettings: generalSettings
+      generalSettings: generalSettings,
+      motors: motors
     },
     actions: {
       updateName,
@@ -70,7 +80,48 @@ export default {
       updateDigitalOutputName,
       updateTemperatureMaximum,
       updateTemperatureSensorName,
-      updateTemperatureMinimum
+      updateTemperatureMinimum,
+      updateMotorName
+    }
+  },
+  methods: {
+    temperatureMinimum: function (input, item) {
+      if (input.target.valueAsNumber < 0 || input.target.valueAsNumber > item.maximumValue) {
+        input.target.valueAsNumber = item.limitMin
+        return
+      }
+      updateTemperatureMinimum(this.$store, input)
+    },
+    temperatureMaximum: function (input, item) {
+      if (input.target.valueAsNumber < 0 || input.target.valueAsNumber > item.maximumValue) {
+        input.target.valueAsNumber = item.limitMax
+        return
+      }
+      updateTemperatureMaximum(this.$store, input)
+    },
+    minimumIncrement: function (item) {
+      if (item.limitMin > item.maximumValue - 10) {
+        return
+      }
+      updateTemperatureMinimum(this.$store, {target: {id: item.id, value: item.limitMin + 10}})
+    },
+    minimumDecrement: function (item) {
+      if (item.limitMin < 10) {
+        return
+      }
+      updateTemperatureMinimum(this.$store, {target: {id: item.id, value: item.limitMin - 10}})
+    },
+    maximumIncrement: function (item) {
+      if (item.limitMax > item.maximumValue - 10) {
+        return
+      }
+      updateTemperatureMaximum(this.$store, {target: {id: item.id, value: item.limitMax + 10}})
+    },
+    maximumDecrement: function (item) {
+      if (item.limitMax < 10) {
+        return
+      }
+      updateTemperatureMaximum(this.$store, {target: {id: item.id, value: item.limitMax - 10}})
     }
   }
 }

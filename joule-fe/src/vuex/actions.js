@@ -19,6 +19,16 @@ export const updateMotorValue = ({ dispatch }, id, value) => {
   api.setMotorValue(id, value)
 }
 
+export const updateMotorName = ({ dispatch }, e) => {
+  var id = parseInt(e.target.id)
+  dispatch(types.UPDATE_MOTOR_NAME, id, e.target.value)
+  api.setMotorName(id, e.target.value)
+}
+
+export const updateMotorNameSilently = ({ dispatch }, id, name) => {
+  dispatch(types.UPDATE_MOTOR_NAME, id, name)
+}
+
 // DIGITAL OUTPUTS
 export const initDigitalOutputs = ({ dispatch }, state) => {
   dispatch(types.RECEIVE_DIGITAL_OUTPUTS, state)

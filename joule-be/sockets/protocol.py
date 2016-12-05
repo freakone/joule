@@ -59,3 +59,8 @@ def protocol_init(sio, actions):
     def set_name(sid, data):
       actions.set_digital_input_name(data['id'], data['value'])
       sio.emit('digital_input_name', data, namespace='/msgbus')
+
+    @sio.on('set_motor_name', namespace='/msgbus')
+    def set_name(sid, data):
+      actions.set_motor_name(data['id'], data['value'])
+      sio.emit('motor_name', data, namespace='/msgbus')

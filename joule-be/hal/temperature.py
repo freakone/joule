@@ -40,8 +40,8 @@ class JouleTemperature(ModuleMixin):
       try:
         for t in self.map:
           temp = self.module.read_register(t['register'], 1)
-          if fabs(temp - t['currentValue']) > 0.2:
-            t['currentValue'] = temp
+          if fabs(temp - t['currentValue']) > 0.5:
+            t['currentValue'] = round(temp)
             self.cb_call(t)
 
           time.sleep(1)

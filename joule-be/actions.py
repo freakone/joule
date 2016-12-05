@@ -81,6 +81,9 @@ class JouleActions(object):
   def set_jowenta_value(self, id, value):
     self.jowenta.set_value(id, value)
 
+  def set_motor_name(self, id, name):
+    self.motors.set_name(id, name)
+
   def check_call_source(self, path):
     return 'sockets' in path
 

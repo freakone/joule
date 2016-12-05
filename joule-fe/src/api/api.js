@@ -9,6 +9,9 @@ export default {
   setMotorValue (id, value) {
     socket.emit('set_motor', {id: id, value: value})
   },
+  setMotorName (id, value) {
+    socket.emit('set_motor_name', {id: id, value: value})
+  },
   setName (name) {
     socket.emit('set_name', name)
   },
@@ -53,6 +56,7 @@ export default {
       currentValue: 0.0,
       limitMin: 4,
       limitMax: 30,
+      maximumValue: 50,
       labels: ['1', '2', '3', '4'],
       datasets: [{
         backgroundColor: 'rgba(221,75,57,0.6)',
@@ -65,7 +69,6 @@ export default {
   },
   initialize (store) {
     var location = window.location.hostname + ':5000/msgbus'
-    // console.log(location)
     socket = io.connect(location, {transports: ['websocket']})
     // socket = io.connect('http://192.168.0.90:5000/msgbus', {transports: ['websocket']})
     socket.on('connected', () => {
@@ -130,6 +133,10 @@ export default {
 
     socket.on('digital_output_name', (data) => {
       actions.updateDigitalOutputNameSilently(store, data.id, data.value)
+    })
+
+    socket.on('motor_name', (data) => {
+      actions.updateMotorNameSilently(store, data.id, data.value)
     })
 
     socket.on('digital_input_name', (data) => {

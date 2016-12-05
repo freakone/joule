@@ -79,6 +79,7 @@ export default {
     }
   },
   created () {
+    // api.mock(this.$store)
     api.initialize(this.$store)
   },
   ready () {

@@ -43,7 +43,7 @@ class JouleController(ModuleMixin):
 
       if self.process_status in [state.IGNITION]:
         self.actions.set_output(do_map.PUMP, True)
-        time.sleep(10)
+        time.sleep(5)
         self.actions.set_output(do_map.SMALL_FANS, True)
         time.sleep(1)
         self.actions.set_output(do_map.LEFT_FAN, True)
@@ -51,11 +51,13 @@ class JouleController(ModuleMixin):
         self.actions.set_output(do_map.RIGHT_FAN, True)
         time.sleep(1)
         self.actions.set_motor(ms_map.MAIN_FAN, True)
+        time.sleep(5)
       elif self.process_status in [state.END_OF_FUEL, state.STOP, state.SOFTWARE_STOP]:
         self.actions.set_output(do_map.SMALL_FANS, False)
         self.actions.set_output(do_map.LEFT_FAN, False)
         self.actions.set_output(do_map.RIGHT_FAN, False)
         self.actions.set_motor(ms_map.MAIN_FAN, False)
+          
     finally:
         self.mutex.release()
 
@@ -138,7 +140,8 @@ class JouleController(ModuleMixin):
                 self.set_process_status(state.END_OF_FUEL)
             elif self.process_status == state.END_OF_FUEL:
                 self.jowenta_stop()
-        else:
+        
+        if self.state.current_state() == state.STOP or (self.process_status == state.STOP and self.state.current_state() == state.AUTO):
           if self.water_temp['currentValue'] > 90:
             self.actions.set_output(do_map.PUMP, True)
           elif self.repumping > 0:

@@ -19,6 +19,8 @@ class JouleController(ModuleMixin):
     self.fumes_temp = None
     self.water_temp = None
 
+    self.repumping = 0
+
     self.jowenta_ton = 0
     self.jowenta_toff = 0
     self.mutex = Lock()
@@ -43,11 +45,11 @@ class JouleController(ModuleMixin):
         self.actions.set_output(do_map.PUMP, True)
         time.sleep(10)
         self.actions.set_output(do_map.SMALL_FANS, True)
-        time.sleep(0.3)
+        time.sleep(1)
         self.actions.set_output(do_map.LEFT_FAN, True)
-        time.sleep(0.3)
+        time.sleep(1)
         self.actions.set_output(do_map.RIGHT_FAN, True)
-        time.sleep(0.3)
+        time.sleep(1)
         self.actions.set_motor(ms_map.MAIN_FAN, True)
       elif self.process_status in [state.END_OF_FUEL, state.STOP, state.SOFTWARE_STOP]:
         self.actions.set_output(do_map.SMALL_FANS, False)
@@ -115,14 +117,12 @@ class JouleController(ModuleMixin):
           if self.process_status in [None, state.STOP]: # start apeczki
             time.sleep(0.5)
           elif self.water_temp['currentValue'] > self.water_temp['limitMax']:
-            print "#WATER TEMP", self.water_temp['currentValue'], self.water_temp['limitMax']
-
-            if not self.process_status == state.SOFTWARE_STOP:
-              self.set_process_status(state.SOFTWARE_STOP)
+            #print "#WATER TEMP", self.water_temp['currentValue'], self.water_temp['limitMax']
+            self.set_process_status(state.SOFTWARE_STOP)
           else:
             if self.process_status == state.IGNITION: #rozpalanie, otwarcie jowenty, 10s on, 20s off
               self.jowenta_open()
-              if self.fumes_temp['currentValue'] >= self.fumes_temp['limitMax']:
+              if self.fumes_temp['currentValue'] >= self.fumes_temp['limitMin']:
                 self.set_process_status(state.NORMAL_OPERATION)
                 self.jowenta_stop()
             elif self.process_status == state.NORMAL_OPERATION:
@@ -138,11 +138,19 @@ class JouleController(ModuleMixin):
                 self.set_process_status(state.END_OF_FUEL)
             elif self.process_status == state.END_OF_FUEL:
                 self.jowenta_stop()
-        
-        # if self.water_temp['currentValue'] > 90:
-        #   self.actions.set_output(do_map.PUMP, True)
-        # else:
-        #   self.actions.set_output(do_map.PUMP, False)
+        else:
+          if self.water_temp['currentValue'] > 90:
+            self.actions.set_output(do_map.PUMP, True)
+          elif self.repumping > 0:
+            self.actions.set_output(do_map.PUMP, True)
+            self.repumping = self.repumping + 1
+            if self.repumping > 120:
+              self.repumping = 0
+              self.actions.set_output(do_map.PUMP, False)
+          elif self.water_temp['currentValue'] < 5:
+            self.repumping = 1
+          elif self.water_temp['currentValue'] < 85:
+            self.actions.set_output(do_map.PUMP, False)
 
       time.sleep(1)
 

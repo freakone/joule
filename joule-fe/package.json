@@ -33,7 +33,6 @@
     "vue-spinner": "^1.0.2",
     "vue-datetime-picker": "^0.2.1",
     "chart.js": "^2.3.0"
-
   },
   "devDependencies": {
     "babel-core": "^6.0.0",

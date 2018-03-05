@@ -71,7 +71,7 @@ class JouleDigitalInputs(ModuleMixin):
   def mock_loop(self):
     while True:
       for m in self.map:
-        if m['id'] == di_map.EMERGENCY_NO:
+        if m['id'] == di_map.EMERGENCY_NC:
           m['value'] = True
 
       time.sleep(1)

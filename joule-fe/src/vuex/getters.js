@@ -39,6 +39,8 @@ export const regulatorMode = state => {
       return 'REGULACJA'
     case 11:
       return 'KONIEC PALIWA'
+    case 12:
+      return 'LADOWANIE PALIWA'
   }
 }
 

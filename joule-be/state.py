@@ -25,19 +25,14 @@ class JouleState(ModuleMixin):
       self.set_current_state(state.MANUAL)
 
   def di_changed(self, dinput):
-    if dinput and (dinput['id'] == di_map.EMERGENCY_NO or dinput['id'] == di_map.EMERGENCY_NC):
+    if dinput and (dinput['id'] == di_map.EMERGENCY_NC):
       if not self.emergency_queue:
         self.emergency_queue = True
         return
       else:
         self.emergency_queue = False
 
-    if self.digital_inputs.input_state(di_map.EMERGENCY_NO) == self.digital_inputs.input_state(di_map.EMERGENCY_NC):
-      self.set_current_state(state.EMERGENCY_STOP)
-      print "EMERGENCY BUTTON signal error"
-      return
-
-    if self.digital_inputs.input_state(di_map.EMERGENCY_NO):
+    if not self.digital_inputs.input_state(di_map.EMERGENCY_NC):
       self.set_current_state(state.EMERGENCY_STOP)
       return
 

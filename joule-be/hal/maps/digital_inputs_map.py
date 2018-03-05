@@ -7,13 +7,22 @@ DIGITAL_INPUTS = [
 {'id': 7, 'address' : 0x27, 'index': 5, 'name': 'manual mode', 'value': False},
 {'id': 8, 'address' : 0x27, 'index': 6, 'name': 'button left', 'value': False},
 {'id': 9, 'address' : 0x27, 'index': 7, 'name': 'button right', 'value': False},
-{'id': 10, 'address' : 0x27, 'index': 8, 'name': 'grzyb no', 'value': False},
-{'id': 11, 'address' : 0x27, 'index': 9, 'name': 'grzyb nc', 'value': False}
+{'id': 10, 'address' : 0x27, 'index': 8, 'name': 'switch S5', 'value': False},
+{'id': 11, 'address' : 0x27, 'index': 9, 'name': 'grzyb nc', 'value': False},
+{'id': 12, 'address' : 0x27, 'index': 10, 'name': 'switch S6', 'value': False},
+{'id': 13, 'address' : 0x27, 'index': 11, 'name': 'switch S7', 'value': False}
 ]
 
 AUTO_MODE = 6
 MANUAL_MODE = 7
 BUTTON_RIGHT = 8
 BUTTON_LEFT = 9
-EMERGENCY_NO = 10
 EMERGENCY_NC = 11
+
+STOL_DOLNY_OTWARTY = 1
+STOL_DOLNY_ZAMKNIETY = 2
+STOL_GORNY_OTWARTY = 1
+STOL_GORNY_ZAMKNIETY = 2
+DRZWI_ZAMKNIETE = 4
+DRZWI_OTWARTE = 3
+BALOT_OBECNY = 13

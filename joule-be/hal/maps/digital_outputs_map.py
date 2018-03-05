@@ -4,9 +4,9 @@ DIGITAL_OUTPUTS = [
 {'id': 3, 'address' : 0x21, 'index': 3, 'name': 'P1.1', 'value': False},
 {'id': 4, 'address' : 0x21, 'index': 2, 'name': 'P1.2', 'value': False},
 {'id': 5, 'address' : 0x21, 'index': 1, 'name': 'P2.1', 'value': False},
-{'id': 6, 'address' : 0x21, 'index': 0, 'name': 'P2.2', 'value': False},
+{'id': 6, 'address' : 0x21, 'index': 0, 'name': 'P2.2', 'value': False, 'control': True},
 {'id': 7, 'address' : 0x23, 'index': 15, 'name': 'P3.1', 'value': False},
-{'id': 8, 'address' : 0x23, 'index': 14, 'name': 'P3.2', 'value': False},
+{'id': 8, 'address' : 0x23, 'index': 14, 'name': 'P3.2', 'value': False, 'control': True},
 {'id': 9, 'address' : 0x23, 'index': 6, 'name': 'P00', 'value': False, 'control': True},
 {'id': 10, 'address' : 0x23, 'index': 5, 'name': 'P01', 'value': False, 'control': True},
 {'id': 11, 'address' : 0x23, 'index': 4, 'name': 'P02', 'value': False, 'control': True},
@@ -34,3 +34,11 @@ RIGHT_FAN = 9
 LEFT_FAN = 10
 SMALL_FANS = 11
 PUMP = 15
+
+STOL_DOLNY_OPEN = 12
+STOL_DOLNY_CLOSE = 13
+STOL_GORNY_OPEN = 14
+STOL_GORNY_CLOSE = 16
+STOL_PODAWCZY = 17
+DRZWI_OTWORZ = 6
+DRZWI_ZAMKNIJ = 8

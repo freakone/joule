@@ -53,6 +53,9 @@ class JouleActions(object):
   def get_output_state(self, id):
     return self.digital_outputs.output_state(id)
 
+  def get_input_state(self, id):
+    return self.digital_inputs.input_state(id)
+
   def get_motor_state(self, id):
     return self.motors.output_state(id)
 

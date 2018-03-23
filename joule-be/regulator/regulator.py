@@ -37,9 +37,6 @@ class JouleController(ModuleMixin):
 
     try:
 
-      if self.process_status == states.FUEL_LOADING and not self.fuel_loading_status == None:
-        return #the loading process must finish!
-
       self.process_status = status
       self.jowenta_ton = 0
       self.jowenta_toff = 0
@@ -132,7 +129,9 @@ class JouleController(ModuleMixin):
     if self.actions.get_input_state(di_map.STOL_GORNY_ZAMKNIETY):
       self.actions.set_output(do_map.STOL_GORNY_CLOSE, False)
 
-  def fuel_loading(self):
+  def fuel_loading_check(self):
+
+    prev_state = self.fuel_loading_status
 
     if self.fuel_loading_status in [states.FUEL_LOADING_PRELOADING, None]:
       self.actions.set_output(do_map.STOL_PODAWCZY, True)
@@ -159,23 +158,29 @@ class JouleController(ModuleMixin):
       if self.actions.get_input_state(di_map.STOL_DOLNY_OTWARTY):
         self.fuel_loading_status = states.FUEL_LOADING_TOP_TABLE
 
+        self.actions.set_output(do_map.STOL_DOLNY_OPEN, False)
         self.actions.set_output(do_map.STOL_GORNY_CLOSE, False)
         time.sleep(0.5)
         self.actions.set_output(do_map.STOL_GORNY_OPEN, True)
 
-    elif self.fuel_loading_status == states.FUEL_LOADING_TOP_TABLE:
-      
+    elif self.fuel_loading_status == states.FUEL_LOADING_TOP_TABLE:      
       if self.actions.get_input_state(di_map.STOL_GORNY_OTWARTY):
-        self.fuel_loading_status = states.FUEL_LOADING_TABLES_BACK
-       
         self.actions.set_output(do_map.STOL_GORNY_OPEN, False)
-        self.actions.set_output(do_map.STOL_DOLNY_OPEN, False)
-        time.sleep(0.5)
-        self.actions.set_output(do_map.STOL_GORNY_CLOSE, True)
-        self.actions.set_output(do_map.STOL_DOLNY_CLOSE, True)        
+        time.sleep(4)
+        self.fuel_loading_status = states.FUEL_LOADING_BOTTOM_TABLE_BACK
+        self.actions.set_output(do_map.STOL_DOLNY_CLOSE, True)     
       
-    elif self.fuel_loading_status == states.FUEL_LOADING_TABLES_BACK:
-      if self.actions.get_input_state(di_map.STOL_DOLNY_ZAMKNIETY) and self.actions.get_input_state(di_map.STOL_GORNY_ZAMKNIETY):
+    elif self.fuel_loading_status == states.FUEL_LOADING_BOTTOM_TABLE_BACK:
+      if self.actions.get_input_state(di_map.STOL_DOLNY_ZAMKNIETY):
+        self.actions.set_output(do_map.STOL_DOLNY_CLOSE, False)
+
+        self.actions.set_output(do_map.STOL_GORNY_OPEN, False)
+        time.sleep(0.5)
+        self.actions.set_output(do_map.STOL_GORNY_CLOSE, True)  
+        self.fuel_loading_status = states.FUEL_LOADING_TOP_TABLE_BACK
+
+    elif self.fuel_loading_status == states.FUEL_LOADING_TOP_TABLE_BACK:
+      if self.actions.get_input_state(di_map.STOL_GORNY_ZAMKNIETY):
         self.fuel_loading_status = states.FUEL_LOADING_CLOSE_DOORS
 
         self.actions.set_output(do_map.DRZWI_ZAMKNIJ, True)
@@ -184,9 +189,12 @@ class JouleController(ModuleMixin):
 
     elif self.fuel_loading_status == states.FUEL_LOADING_CLOSE_DOORS:
       if self.actions.get_input_state(di_map.DRZWI_ZAMKNIETE):
-        self.fuel_loading = None
+        self.fuel_loading_status = None
+        self.process_status = states.INITIALIZATION
         self.set_process_status(states.STOP)
       
+    if self.fuel_loading_status != prev_state:
+      print "STATUS ZALADUNKU:", self.fuel_loading_status
 
   def regulation_loop(self):
     while True:
@@ -196,9 +204,9 @@ class JouleController(ModuleMixin):
         if self.state.current_state() == states.AUTO:
           if self.process_status in [None, states.STOP]: # start apeczki
             time.sleep(0.5)
-          elif self.water_temp['currentValue'] > self.water_temp['limitMax']:
+        #  elif self.water_temp['currentValue'] > self.water_temp['limitMax']:
             #print "#WATER TEMP", self.water_temp['currentValue'], self.water_temp['limitMax']
-            self.set_process_status(states.SOFTWARE_STOP)
+        #    self.set_process_status(states.SOFTWARE_STOP)
           else:
             if self.process_status == states.IGNITION: #rozpalanie, otwarcie jowenty, 10s on, 20s off
               self.jowenta_open()
@@ -221,7 +229,7 @@ class JouleController(ModuleMixin):
             self.jowenta_close()
           
           if self.process_status == states.FUEL_LOADING:
-            self.fuel_loading()
+            self.fuel_loading_check()
 
         
         if self.state.current_state() == states.STOP or (self.process_status == states.STOP and self.state.current_state() == states.AUTO):

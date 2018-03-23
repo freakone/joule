@@ -40,15 +40,11 @@ class JouleState(ModuleMixin):
       self.set_current_state(state.ERROR)
       return
 
-    if self.digital_inputs.input_state(di_map.MANUAL_MODE):
-      self.set_current_state(state.MANUAL)
-      return
-
     if self.digital_inputs.input_state(di_map.AUTO_MODE):
       self.set_current_state(state.AUTO)
       return
 
-    self.set_current_state(state.STOP)
+    self.set_current_state(state.MANUAL)
 
   def set_current_state(self, state):
     if self.state_map['mode'] == state:

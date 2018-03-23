@@ -44,7 +44,7 @@ class JouleTemperature(ModuleMixin):
             t['currentValue'] = round(temp)
             self.cb_call(t)
 
-          time.sleep(1)
+          time.sleep(10)
 
         self.zero_errors()
       except Exception as e:

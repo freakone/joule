@@ -129,7 +129,19 @@ class JouleController(ModuleMixin):
     if self.actions.get_input_state(di_map.STOL_GORNY_ZAMKNIETY):
       self.actions.set_output(do_map.STOL_GORNY_CLOSE, False)
 
+  def check_doors(self):
+    if (not self.actions.get_input_state(di_map.STOL_GORNY_ZAMKNIETY) or not self.actions.get_input_state(di_map.STOL_DOLNY_ZAMKNIETY)) and not self.actions.get_input_state(di_map.DRZWI_OTWARTE):
+      self.actions.set_output(do_map.STOL_GORNY_OPEN, False)
+      self.actions.set_output(do_map.STOL_DOLNY_CLOSE, False)
+      self.actions.set_output(do_map.STOL_GORNY_CLOSE, False)
+      self.actions.set_output(do_map.STOL_DOLNY_OPEN, False)
+
+      self.fuel_loading_status = states.FUEL_LOADING_BOTTOM_TABLE_BACK
+
+
   def fuel_loading_check(self):
+
+    self.check_doors()
 
     prev_state = self.fuel_loading_status
 
@@ -178,6 +190,8 @@ class JouleController(ModuleMixin):
         time.sleep(0.5)
         self.actions.set_output(do_map.STOL_GORNY_CLOSE, True)  
         self.fuel_loading_status = states.FUEL_LOADING_TOP_TABLE_BACK
+      else:
+        self.actions.set_output(do_map.STOL_DOLNY_CLOSE, True)     
 
     elif self.fuel_loading_status == states.FUEL_LOADING_TOP_TABLE_BACK:
       if self.actions.get_input_state(di_map.STOL_GORNY_ZAMKNIETY):
@@ -230,6 +244,10 @@ class JouleController(ModuleMixin):
           
           if self.process_status == states.FUEL_LOADING:
             self.fuel_loading_check()
+        
+        elif self.state.current_state() == states.EMERGENCY_STOP:
+          self.process_status = states.STOP
+          self.fuel_loading_status = None
 
         
         if self.state.current_state() == states.STOP or (self.process_status == states.STOP and self.state.current_state() == states.AUTO):

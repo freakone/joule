@@ -51,7 +51,7 @@ class JouleTemperature(ModuleMixin):
         print "measure error", e
         self.error(str(e))
 
-      time.sleep(1)
+      time.sleep(10)
 
   def set_name(self, id, name):
     output = filter(lambda out: out['id'] == id, self.map)

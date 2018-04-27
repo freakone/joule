@@ -7,6 +7,7 @@ import hal.maps.temperature_map as t_map
 import hal.maps.digital_inputs_map as di_map
 import hal.maps.digital_outputs_map as do_map
 import hal.maps.motor_starter_map as ms_map
+import datetime 
 
 class JouleController(ModuleMixin):
   def __init__(self):
@@ -22,8 +23,10 @@ class JouleController(ModuleMixin):
 
     self.repumping = 0
 
-    self.jowenta_ton = 0
-    self.jowenta_toff = 0
+    self.slimak_ton = datetime.datetime.now()
+    self.slimak_toff = datetime.datetime.now()
+    self.jowenta_ton = datetime.datetime.now()
+    self.jowenta_toff = datetime.datetime.now()
     self.mutex = Lock()
 
     self.set_status(states.OK)
@@ -38,8 +41,6 @@ class JouleController(ModuleMixin):
     try:
 
       self.process_status = status
-      self.jowenta_ton = 0
-      self.jowenta_toff = 0
       self.state.set_regulator_state(status)
       print status
 
@@ -79,31 +80,39 @@ class JouleController(ModuleMixin):
     if cb['id'] == t_map.WATER:
       self.water_temp = cb
 
+  def slimak(self):
+    if  (datetime.datetime.now() - self.slimak_ton).seconds < 10:
+      self.actions.set_output(do_map.SLIMAK, True)
+      self.slimak_toff = datetime.datetime.now()
+    else:
+      self.actions.set_output(do_map.SLIMAK, False)
+      if (datetime.datetime.now() - self.slimak_toff).seconds > 10:
+        self.slimak_ton = datetime.datetime.now()
+        self.slimak_toff = datetime.datetime.now()
+
   def jowenta_open(self):
     # print "otwieranie"
-    if self.jowenta_ton < 5:
+    if  (datetime.datetime.now() - self.jowenta_ton).seconds < 5:
       self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, True)
       self.actions.set_output(do_map.JOWENTA_AIR_MAIN_DIR, False)
-      self.jowenta_ton = self.jowenta_ton + 1
+      self.jowenta_toff = datetime.datetime.now()
     else:
       self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, False)
-      self.jowenta_toff = self.jowenta_toff + 1
-      if self.jowenta_toff > 10:
-        self.jowenta_ton = 0
-        self.jowenta_toff = 0
+      if (datetime.datetime.now() - self.jowenta_toff).seconds > 10:
+        self.jowenta_ton = datetime.datetime.now()
+        self.jowenta_toff = datetime.datetime.now()
 
   def jowenta_close(self):
     # print "zamykanie"
-    if self.jowenta_ton < 5:
+    if  (datetime.datetime.now() - self.jowenta_ton).seconds < 5:
       self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, True)
       self.actions.set_output(do_map.JOWENTA_AIR_MAIN_DIR, True)
-      self.jowenta_ton = self.jowenta_ton + 1
+      self.jowenta_toff = datetime.datetime.now()
     else:
       self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, False)
-      self.jowenta_toff = self.jowenta_toff + 1
-      if self.jowenta_toff > 30:
-        self.jowenta_ton = 0
-        self.jowenta_toff = 0
+      if (datetime.datetime.now() - self.jowenta_toff).seconds > 30:
+        self.jowenta_ton = datetime.datetime.now()
+        self.jowenta_toff = datetime.datetime.now()
 
   def jowenta_stop(self):
     self.actions.set_output(do_map.JOWENTA_AIR_MAIN_ON, False)
@@ -141,7 +150,7 @@ class JouleController(ModuleMixin):
 
   def fuel_loading_check(self):
 
-    self.check_doors()
+    #self.check_doors()
 
     prev_state = self.fuel_loading_status
 
@@ -155,6 +164,7 @@ class JouleController(ModuleMixin):
     elif self.fuel_loading_status == states.FUEL_LOADING_WAITING_FOR_FUEL:      
       if self.actions.get_input_state(di_map.BALOT_OBECNY):
         self.actions.set_output(do_map.STOL_PODAWCZY, False)
+        time.sleep(1)
         self.fuel_loading_status = states.FUEL_LOADING_WAITING_FOR_DOORS
 
     elif self.fuel_loading_status == states.FUEL_LOADING_WAITING_FOR_DOORS:
@@ -178,7 +188,7 @@ class JouleController(ModuleMixin):
     elif self.fuel_loading_status == states.FUEL_LOADING_TOP_TABLE:      
       if self.actions.get_input_state(di_map.STOL_GORNY_OTWARTY):
         self.actions.set_output(do_map.STOL_GORNY_OPEN, False)
-        time.sleep(4)
+        time.sleep(1)
         self.fuel_loading_status = states.FUEL_LOADING_BOTTOM_TABLE_BACK
         self.actions.set_output(do_map.STOL_DOLNY_CLOSE, True)     
       
@@ -189,17 +199,19 @@ class JouleController(ModuleMixin):
         self.actions.set_output(do_map.STOL_GORNY_OPEN, False)
         time.sleep(0.5)
         self.actions.set_output(do_map.STOL_GORNY_CLOSE, True)  
+
+        self.actions.set_output(do_map.DRZWI_ZAMKNIJ, True)
+        time.sleep(2)
+        self.actions.set_output(do_map.DRZWI_ZAMKNIJ, False)
+
         self.fuel_loading_status = states.FUEL_LOADING_TOP_TABLE_BACK
       else:
         self.actions.set_output(do_map.STOL_DOLNY_CLOSE, True)     
 
     elif self.fuel_loading_status == states.FUEL_LOADING_TOP_TABLE_BACK:
       if self.actions.get_input_state(di_map.STOL_GORNY_ZAMKNIETY):
-        self.fuel_loading_status = states.FUEL_LOADING_CLOSE_DOORS
-
-        self.actions.set_output(do_map.DRZWI_ZAMKNIJ, True)
-        time.sleep(2)
-        self.actions.set_output(do_map.DRZWI_ZAMKNIJ, False)
+        self.fuel_loading_status = states.FUEL_LOADING_CLOSE_DOORS  
+        self.actions.set_output(do_map.STOL_GORNY_CLOSE, False)      
 
     elif self.fuel_loading_status == states.FUEL_LOADING_CLOSE_DOORS:
       if self.actions.get_input_state(di_map.DRZWI_ZAMKNIETE):
@@ -239,6 +251,8 @@ class JouleController(ModuleMixin):
               if self.fumes_temp['currentValue'] < self.fumes_temp['limitMin']:
                 self.set_process_status(states.END_OF_FUEL)
           
+          self.slimak()
+          
           if self.process_status in [states.END_OF_FUEL, states.FUEL_LOADING, states.STOP]:
             self.jowenta_close()
           
@@ -264,7 +278,7 @@ class JouleController(ModuleMixin):
           elif self.water_temp['currentValue'] < 85:
             self.actions.set_output(do_map.PUMP, False)
 
-      time.sleep(0.2)
+      time.sleep(0.1)
 
   def start_regulator(self):
     self.th_run = Thread(target=self.regulation_loop)
